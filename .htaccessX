@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{HTTP_HOST} ^chineseffect\.com/index\.html$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.chineseffect\.com/index\.html$
+RewriteRule (.*)$ https://linktr.ee/chineseffect/$1 [R=301,L]
