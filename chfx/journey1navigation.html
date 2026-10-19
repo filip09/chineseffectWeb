@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey 1 Navigation</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #000000; /* Set background to black */
+        }
+
+        /* Container for title */
+        .title-container {
+            width: 100%; /* Full width for mobile */
+            max-width: 470px; /* Match the width of the grid on desktop */
+        }
+
+        .title-container img {
+            width: 100%; /* Make the title image take full width */
+            height: auto; /* Keep aspect ratio */
+        }
+
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+            grid-gap: 8px;
+            justify-items: center; /* Center the items horizontally */
+            width: 100%;
+            max-width: 470px; /* Set maximum width for larger screens */
+            padding: 10px;
+            box-sizing: border-box; /* Ensures padding is included in width calculations */
+            margin-top: 20px; /* Add a 20px gap between title and navigation grid */
+        }
+
+        .nav-item img {
+            width: 100%; /* Make the images take full width of their grid cell */
+            height: auto; /* Keep aspect ratio */
+            max-width: 150px; /* Set maximum size for larger screens */
+            transition: transform 0.3s ease; /* Smooth transition on hover */
+        }
+
+        .nav-item img:hover {
+            transform: scale(1.15); /* Enlarge by 15% on hover */
+        }
+
+        @media (max-width: 600px) {
+            /* On smaller screens, reduce the image size */
+            .nav-item img {
+                max-width: 100px; /* Smaller size for mobile while still maintaining 3 columns */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Title image container -->
+    <div class="title-container">
+        <img src="https://chineseffect.com/images/journeyNavigationTitle.webp" alt="Journey Navigation Title">
+    </div>
+
+    <!-- Navigation grid -->
+    <div class="navigation-grid" id="navigationGrid">
+        <!-- JavaScript will dynamically load images here -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        const csvFilePath = 'https://chineseffect.com/chfx/chfxWeb.csv';
+        const imagesPath = 'https://chineseffect.com/images/';
+
+        // Function to dynamically create navigation items
+        function createNavigationItem(pageNumber) {
+            const navItem = document.createElement('div');
+            navItem.classList.add('nav-item');
+            
+            const img = document.createElement('img');
+            img.src = `${imagesPath}navigation${pageNumber}.webp`;
+            img.alt = `Navigation ${pageNumber}`;
+            
+            // Use parent.location to navigate the parent window (not just the iframe)
+            img.onclick = function() {
+                parent.location.href = `https://chineseffect.com/journey-1/?chfxpage=page${pageNumber}`;
+            };
+
+            navItem.appendChild(img);
+            document.getElementById('navigationGrid').appendChild(navItem);
+        }
+
+        // Function to load CSV and create navigation grid
+        function loadNavigation() {
+            Papa.parse(csvFilePath, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    const rows = results.data;
+                    const numberOfPages = rows.length;  // Number of pages based on CSV
+
+                    // Dynamically create navigation items based on the number of pages
+                    for (let i = 1; i <= numberOfPages; i++) {
+                        createNavigationItem(i);
+                    }
+                }
+            });
+        }
+
+        // Load navigation when the page is ready
+        loadNavigation();
+    </script>
+
+</body>
+</html>

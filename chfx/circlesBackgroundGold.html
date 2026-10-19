@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calm Floating Circles – Gold & Orange Theme</title>
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; background: #fafafa; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <script>
+  (function() {
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+
+    const CONFIG = {
+      shapeCount: 35,
+      minSize: 30,
+      maxSize: 90,
+      baseSpeed: 15,
+      speedJitter: 40,
+      lineWidth: 1.5,
+      wallBounce: 0.7,
+      hueSpeed: 0.0005,
+      bgCircleCount: 6,
+      shapeHueSpeed: 0.05,
+      bgMoveSpeed: 5
+    };
+
+    let dpr = 1;
+    function resize() {
+      dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
+      const { innerWidth: w, innerHeight: h } = window;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    function makeCircle() {
+      const size = rand(CONFIG.minSize, CONFIG.maxSize);
+      const angle = rand(0, Math.PI * 2);
+      const speed = CONFIG.baseSpeed + Math.random() * CONFIG.speedJitter;
+      const vel = { x: Math.cos(angle) * speed, y: Math.sin(angle) * speed };
+      return {
+        pos: { x: rand(0, canvas.clientWidth), y: rand(0, canvas.clientHeight) },
+        vel,
+        size,
+        opacity: rand(0.1, 0.4)
+      };
+    }
+
+    const shapes = Array.from({ length: CONFIG.shapeCount }, makeCircle);
+
+    // background circles with gold, orange, and yellow colors + motion
+    const bgCircles = Array.from({ length: CONFIG.bgCircleCount }, () => {
+      const angle = rand(0, Math.PI * 2);
+      const speed = CONFIG.bgMoveSpeed * (0.5 + Math.random());
+      return {
+        x: rand(0, canvas.clientWidth),
+        y: rand(0, canvas.clientHeight),
+        r: rand(canvas.clientWidth * 0.25, canvas.clientWidth * 0.7),
+        hueOffset: rand(0, 30),
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed
+      };
+    });
+
+    let last = performance.now();
+    function step(now) {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      // Background: big circles in gold, orange, and yellow shifting hues and drifting
+      ctx.globalCompositeOperation = 'source-over';
+      for (let i = 0; i < bgCircles.length; i++) {
+        const c = bgCircles[i];
+        c.x += c.vx * dt;
+        c.y += c.vy * dt;
+
+        // bounce softly on edges
+        if (c.x < -c.r || c.x > w + c.r) c.vx *= -1;
+        if (c.y < -c.r || c.y > h + c.r) c.vy *= -1;
+
+        // Hue range: 35-50 (rich gold to amber) - smooth continuous shift
+        const hueShift = Math.sin(now * CONFIG.hueSpeed + c.hueOffset) * 7;
+        const baseHue = 42 + hueShift;
+        const grad = ctx.createRadialGradient(c.x, c.y, c.r * 0.1, c.x, c.y, c.r);
+        grad.addColorStop(0, `hsla(${baseHue}, 85%, 65%, 0.85)`);
+        grad.addColorStop(1, `hsla(${baseHue + 5}, 75%, 50%, 0.45)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      // Foreground circles - white with varying opacity (10-40%)
+      ctx.lineWidth = CONFIG.lineWidth;
+      ctx.globalCompositeOperation = 'lighter';
+      for (const s of shapes) {
+        s.vel.x += rand(-10, 10) * dt;
+        s.vel.y += rand(-10, 10) * dt;
+
+        s.pos.x += s.vel.x * dt;
+        s.pos.y += s.vel.y * dt;
+
+        const r = s.size * 0.5;
+        if (s.pos.x < r && s.vel.x < 0) s.vel.x *= -CONFIG.wallBounce;
+        if (s.pos.x > w - r && s.vel.x > 0) s.vel.x *= -CONFIG.wallBounce;
+        if (s.pos.y < r && s.vel.y < 0) s.vel.y *= -CONFIG.wallBounce;
+        if (s.pos.y > h - r && s.vel.y > 0) s.vel.y *= -CONFIG.wallBounce;
+
+        ctx.strokeStyle = `rgba(255, 255, 255, ${s.opacity})`;
+        ctx.beginPath();
+        ctx.arc(s.pos.x, s.pos.y, r, 0, Math.PI*2);
+        ctx.stroke();
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  })();
+  </script>
+</body>
+</html>

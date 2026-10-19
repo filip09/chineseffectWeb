@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Missing Entries Checker</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Courier New', monospace; background: #0f0f0f; color: #e0e0e0; min-height: 100vh; padding: 2rem; }
+  h1 { font-size: 1.1rem; font-weight: normal; color: #888; margin-bottom: 2rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  h1 span { color: #fff; }
+  button { background: #fff; color: #000; border: none; padding: 0.6rem 1.4rem; font-family: inherit; font-size: 0.9rem; cursor: pointer; letter-spacing: 0.05em; text-transform: uppercase; transition: opacity 0.15s; }
+  button:hover { opacity: 0.8; }
+  button:disabled { opacity: 0.3; cursor: not-allowed; }
+  #status { margin-top: 1rem; font-size: 0.8rem; color: #666; min-height: 1.2em; white-space: pre-wrap; line-height: 1.8; }
+  #results { margin-top: 2rem; display: none; gap: 2rem; grid-template-columns: 1fr 1fr; }
+  .col-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 0.5rem; }
+  .col-sub { font-size: 0.7rem; color: #555; margin-bottom: 1rem; }
+  .badge-ok   { display: inline-block; font-size: 0.75rem; color: #4caf50; margin-bottom: 0.5rem; }
+  .badge-miss { display: inline-block; font-size: 0.75rem; color: #ff5252; margin-bottom: 0.75rem; }
+  .list-box { border: 1px solid #2a2a2a; max-height: 480px; overflow-y: auto; }
+  .list-box div { padding: 5px 10px; font-size: 0.8rem; border-bottom: 1px solid #1a1a1a; color: #ccc; }
+  .list-box div:last-child { border-bottom: none; }
+  .list-box div:hover { background: #1a1a1a; }
+  .divider { border: none; border-top: 1px solid #222; margin: 1.5rem 0; }
+  @media (max-width: 600px) { #results { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>Chinese Effect — <span>Missing Entries Checker</span></h1>
+
+<button id="runBtn" onclick="runAnalysis()">Run analysis</button>
+<div id="status"></div>
+<hr class="divider" style="margin-top:1.5rem;">
+<div id="results">
+  <div>
+    <div class="col-title">Sentence Decomposed</div>
+    <div class="col-sub">Links with sentenceDecomposed.html?page=XXX not found in sentenceCode column</div>
+    <div id="sdMissing"></div>
+  </div>
+  <div>
+    <div class="col-title">Say Compare</div>
+    <div class="col-sub">Links with saycompare.html?page=XXX not found in sentenceCode column</div>
+    <div id="scMissing"></div>
+  </div>
+</div>
+
+<script>
+const MAIN_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=0&single=true&output=csv';
+const SD_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=1786045565&single=true&output=csv';
+const SC_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=1926340863&single=true&output=csv';
+
+const SD_PATTERN = 'chineseffect.com/chfx/sentenceDecomposed.html?page=';
+const SC_PATTERN = 'chineseffect.com/chfx/saycompare.html?page=';
+
+function log(msg) {
+  document.getElementById('status').textContent += msg + '\n';
+}
+
+function parseCSV(text) {
+  const lines = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
+  if (!lines.length) return [];
+  function parseLine(line) {
+    const res = []; let cur = ''; let inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { if (inQ && line[i+1]==='"') { cur+='"'; i++; } else inQ=!inQ; }
+      else if (c === ',' && !inQ) { res.push(cur.trim()); cur = ''; }
+      else cur += c;
+    }
+    res.push(cur.trim());
+    return res;
+  }
+  const headers = parseLine(lines[0]);
+  const result = [];
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const vals = parseLine(lines[i]);
+    const obj = {};
+    headers.forEach((h, j) => obj[h] = vals[j] || '');
+    result.push(obj);
+  }
+  return result;
+}
+
+async function fetchCSV(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return parseCSV(await r.text());
+}
+
+// Scan every cell in every row for a URL pattern and extract the page= value
+function extractPageCodes(rows, pattern) {
+  const found = new Set();
+  // Escape the pattern for use in regex, then capture everything after page=
+  // until end of string or a non-word character (space, quote, &, etc.)
+  const escaped = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(escaped + '([^&\\s"\',<>]+)', 'g');
+
+  rows.forEach(row => {
+    Object.values(row).forEach(cell => {
+      let m;
+      re.lastIndex = 0;
+      while ((m = re.exec(cell)) !== null) {
+        found.add(m[1].trim());
+      }
+    });
+  });
+  return found;
+}
+
+// Get all values from a specific column by name (exact or partial match)
+function getColumnValues(rows, colName) {
+  if (!rows.length) return new Set();
+  const headers = Object.keys(rows[0]);
+  // Try exact match first, then case-insensitive
+  let key = headers.find(h => h === colName)
+         || headers.find(h => h.toLowerCase() === colName.toLowerCase())
+         || headers.find(h => h.toLowerCase().includes(colName.toLowerCase()));
+  if (!key) return { values: new Set(), key: null };
+  const values = new Set(rows.map(r => (r[key] || '').trim()).filter(Boolean));
+  return { values, key };
+}
+
+function renderResult(containerId, missing) {
+  const el = document.getElementById(containerId);
+  if (missing.length === 0) {
+    el.innerHTML = '<div class="badge-ok">\u2713 No missing entries</div>';
+    return;
+  }
+  el.innerHTML = '<div class="badge-miss">\u2717 ' + missing.length + ' missing</div>' +
+    '<div class="list-box">' + missing.map(m => '<div>' + m + '</div>').join('') + '</div>';
+}
+
+async function runAnalysis() {
+  const btn     = document.getElementById('runBtn');
+  const results = document.getElementById('results');
+  document.getElementById('status').textContent = '';
+  btn.disabled = true;
+  results.style.display = 'none';
+
+  try {
+    log('Fetching main table...');
+    const main = await fetchCSV(MAIN_CSV);
+    log('Main table: ' + main.length + ' rows, columns: ' + Object.keys(main[0] || {}).join(' | '));
+
+    // --- Sentence Decomposed ---
+    log('\nScanning for sentenceDecomposed.html?page= links...');
+    const sdPages = extractPageCodes(main, SD_PATTERN);
+    log('Found ' + sdPages.size + ' unique page codes. Examples: ' + [...sdPages].slice(0,3).join(', '));
+
+    log('\nFetching Sentence Decomposed sheet...');
+    const sdSheet = await fetchCSV(SD_CSV);
+    log('SD sheet: ' + sdSheet.length + ' rows, columns: ' + Object.keys(sdSheet[0] || {}).join(' | '));
+
+    const { values: sdCodes, key: sdKey } = getColumnValues(sdSheet, 'sentenceCode');
+    log('Using column "' + sdKey + '" — ' + sdCodes.size + ' entries. Examples: ' + [...sdCodes].slice(0,3).join(', '));
+
+    const sdMissing = [...sdPages].filter(p => !sdCodes.has(p)).sort();
+    log('Missing from SD sheet: ' + sdMissing.length);
+
+    // --- Say Compare ---
+    log('\nScanning for saycompare.html?page= links...');
+    const scPages = extractPageCodes(main, SC_PATTERN);
+    log('Found ' + scPages.size + ' unique page codes. Examples: ' + [...scPages].slice(0,3).join(', '));
+
+    log('\nFetching Speech Recognition sheet...');
+    const scSheet = await fetchCSV(SC_CSV);
+    log('SC sheet: ' + scSheet.length + ' rows, columns: ' + Object.keys(scSheet[0] || {}).join(' | '));
+
+    const { values: scCodes, key: scKey } = getColumnValues(scSheet, 'nameOfSite');
+    log('Using column "' + scKey + '" — ' + scCodes.size + ' entries. Examples: ' + [...scCodes].slice(0,3).join(', '));
+
+    const scMissing = [...scPages].filter(p => !scCodes.has(p)).sort();
+    log('Missing from SC sheet: ' + scMissing.length);
+
+    results.style.display = 'grid';
+    renderResult('sdMissing', sdMissing);
+    renderResult('scMissing', scMissing);
+
+  } catch (e) {
+    log('Error: ' + e.message);
+  }
+
+  btn.disabled = false;
+}
+</script>
+</body>
+</html>

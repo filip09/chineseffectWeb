@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Chineseffect – Word</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            color: #fff;
+            background: transparent;
+        }
+
+        /* ── MAIN LAYOUT ── */
+        .page {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px 20px calc(48px + env(safe-area-inset-bottom, 0px));
+            gap: 0;
+        }
+
+        /* ── CHARACTER STAGE ── */
+        #char-stage {
+            position: relative;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: visible;
+        }
+
+        /* The row that holds all character pieces */
+        #char-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            width: 100%;
+            overflow: visible;
+        }
+
+        /* Each character slot — holds either an img or a text fallback */
+        .char-slot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: visible;
+        }
+
+        .char-slot img {
+            display: block;
+            object-fit: contain;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Text fallback for characters without images */
+        .char-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: rgba(255,255,255,0.92);
+            letter-spacing: -0.02em;
+            line-height: 1;
+            /* Size set dynamically */
+        }
+
+        /* ── ANIMATIONS ── */
+
+        /* 1-char: zoom in elastic */
+        @keyframes zoomIn {
+            0%   { transform: scale(0.05); opacity: 0; }
+            60%  { transform: scale(1.12); opacity: 1; }
+            80%  { transform: scale(0.94); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* From left */
+        @keyframes slideFromLeft {
+            0%   { transform: translateX(-120vw) scale(0.7); opacity: 0; }
+            55%  { transform: translateX(6vw) scale(1.05); opacity: 1; }
+            72%  { transform: translateX(-3vw) scale(0.97); }
+            85%  { transform: translateX(2vw) scale(1.01); }
+            100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+
+        /* From right */
+        @keyframes slideFromRight {
+            0%   { transform: translateX(120vw) scale(0.7); opacity: 0; }
+            55%  { transform: translateX(-6vw) scale(1.05); opacity: 1; }
+            72%  { transform: translateX(3vw) scale(0.97); }
+            85%  { transform: translateX(-2vw) scale(1.01); }
+            100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+
+        /* From top */
+        @keyframes slideFromTop {
+            0%   { transform: translateY(-120vh) scale(0.7); opacity: 0; }
+            55%  { transform: translateY(6vh) scale(1.05); opacity: 1; }
+            72%  { transform: translateY(-3vh) scale(0.97); }
+            85%  { transform: translateY(2vh) scale(1.01); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        /* From bottom */
+        @keyframes slideFromBottom {
+            0%   { transform: translateY(120vh) scale(0.7); opacity: 0; }
+            55%  { transform: translateY(-6vh) scale(1.05); opacity: 1; }
+            72%  { transform: translateY(3vh) scale(0.97); }
+            85%  { transform: translateY(-2vh) scale(1.01); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .anim-zoom      { animation: zoomIn        0.9s cubic-bezier(.34,1.56,.64,1) both; }
+        .anim-from-left { animation: slideFromLeft  1.05s cubic-bezier(.34,1.56,.64,1) both; }
+        .anim-from-right{ animation: slideFromRight 1.05s cubic-bezier(.34,1.56,.64,1) both; }
+        .anim-from-top  { animation: slideFromTop   1.05s cubic-bezier(.34,1.56,.64,1) both; }
+        .anim-from-bot  { animation: slideFromBottom 1.05s cubic-bezier(.34,1.56,.64,1) both; }
+
+        /* ── INFO PANEL ── */
+        #info-panel {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 20px;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.34,1.56,.64,1);
+        }
+        #info-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #pinyin-text {
+            font-size: 20px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 0.04em;
+            text-align: center;
+        }
+
+        #meaning-text {
+            font-size: 17px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.92);
+            text-align: center;
+            letter-spacing: 0.01em;
+            line-height: 1.4;
+        }
+
+        .divider-line {
+            width: 40px;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 1px;
+        }
+
+        /* ── PLAY BUTTON ── */
+        #play-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 26px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(.34,1.56,.64,1);
+            font-family: inherit;
+        }
+        #play-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.38);
+            transform: scale(1.04);
+        }
+        #play-btn:active { transform: scale(0.97); }
+
+        /* Wave icon inside button */
+        #synth-wave rect { transition: height 0.1s, y 0.1s; }
+
+        /* ── LOADING / ERROR ── */
+        #loader {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .loader-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            margin: 0 4px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        .loader-dot:nth-child(2) { animation-delay: 0.15s; }
+        .loader-dot:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(0.7); opacity: 0.4; }
+            50%       { transform: scale(1.2); opacity: 1; }
+        }
+
+        #error-msg {
+            display: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 16px;
+            text-align: center;
+            padding: 40px;
+        }
+
+        audio { display: none; }
+
+        /* Mobile tweaks */
+        @media (max-width: 480px) {
+            .page { padding: 16px 12px 24px; }
+            #pinyin-text { font-size: 17px; }
+            #meaning-text { font-size: 15px; }
+            #play-btn { font-size: 13px; padding: 10px 20px; }
+            #info-panel { padding: 16px 18px; gap: 8px; margin-top: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="loader">
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+</div>
+
+<div class="page" id="page" style="display:none;">
+    <div id="char-stage">
+        <div id="char-row"></div>
+    </div>
+
+    <div id="info-panel">
+        <div id="pinyin-text"></div>
+        <div class="divider-line"></div>
+        <div id="meaning-text"></div>
+        <button id="play-btn">
+            <svg id="synth-wave" width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+                <rect x="2"  y="14" width="5" height="12" rx="2.5" fill="currentColor"/>
+                <rect x="10" y="10" width="5" height="16" rx="2.5" fill="currentColor"/>
+                <rect x="18" y="6"  width="5" height="24" rx="2.5" fill="currentColor"/>
+                <rect x="26" y="10" width="5" height="16" rx="2.5" fill="currentColor"/>
+            </svg>
+            Play Audio
+        </button>
+    </div>
+</div>
+
+<div id="error-msg">Word not found.</div>
+<audio id="audio-el"></audio>
+
+<script>
+// ─── CSV parser (no dependency) ───────────────────────────────────────────────
+function parseCSV(text) {
+    const lines = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
+    if (!lines.length) return [];
+    function parseLine(line) {
+        const res = []; let cur = ''; let inQ = false;
+        for (let i = 0; i < line.length; i++) {
+            const c = line[i];
+            if (c === '"') { if (inQ && line[i+1]==='"') { cur+='"'; i++; } else inQ=!inQ; }
+            else if (c===',' && !inQ) { res.push(cur.trim()); cur=''; }
+            else cur += c;
+        }
+        res.push(cur.trim());
+        return res;
+    }
+    const headers = parseLine(lines[0]);
+    const result = [];
+    for (let i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const vals = parseLine(lines[i]);
+        const obj = {};
+        headers.forEach((h,j) => obj[h] = vals[j] || '');
+        result.push(obj);
+    }
+    return result;
+}
+
+async function fetchCSV(url) {
+    const r = await fetch(url);
+    return parseCSV(await r.text());
+}
+
+function imageExists(url) {
+    return new Promise(res => {
+        const i = new Image();
+        i.onload = () => res(true);
+        i.onerror = () => res(false);
+        i.src = url;
+    });
+}
+
+function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name);
+}
+
+// ─── Data sources ─────────────────────────────────────────────────────────────
+const WORDS_CSV     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=1317258846&single=true&output=csv';
+const CHARS_CSV     = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=2127647417&single=true&output=csv';
+const WORD_IMG_BASE = 'https://chineseffect.com/images/wordsTiles/';
+const CHAR_IMG_BASE = 'https://chineseffect.com/images/characters/';
+
+// ─── Animation direction logic ────────────────────────────────────────────────
+//  1-char  → zoom
+//  2-chars → left, right
+//  3-chars → left, top/bottom alternating, right
+//  4-chars → left, top, bottom, right
+function getDirections(count) {
+    if (count === 1) return ['zoom'];
+    if (count === 2) return ['left','right'];
+    if (count === 3) return ['left','top','right'];
+    if (count === 4) return ['left','top','bottom','right'];
+    // 5+ → left for first, right for last, alternating top/bottom for middle
+    const dirs = ['left'];
+    for (let i = 1; i < count - 1; i++) dirs.push(i % 2 === 0 ? 'bottom' : 'top');
+    dirs.push('right');
+    return dirs;
+}
+
+function animClass(dir) {
+    return {
+        zoom:   'anim-zoom',
+        left:   'anim-from-left',
+        right:  'anim-from-right',
+        top:    'anim-from-top',
+        bottom: 'anim-from-bot',
+    }[dir] || 'anim-zoom';
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+async function render(wordEntry, charsMap) {
+    const charRow   = document.getElementById('char-row');
+    const stage     = document.getElementById('char-stage');
+    const infoPanel = document.getElementById('info-panel');
+
+    // Populate info
+    document.getElementById('pinyin-text').textContent  = wordEntry.pinyin      || '';
+    document.getElementById('meaning-text').textContent = wordEntry.description || wordEntry.meaning || '';
+
+    // Audio — try audioSource field first, fall back to nameOfSite
+    const audioEl = document.getElementById('audio-el');
+    const audioFile = wordEntry.audioSource || wordEntry.nameOfSite || '';
+    if (audioFile) {
+        audioEl.src = `https://chineseffect.com/audio/random/${audioFile}.mp3`;
+        audioEl.load(); // explicitly trigger load so errors surface early
+    }
+
+    // ── Figure out character slots ──
+    const characters = (wordEntry.characters || '').split('').filter(Boolean);
+    const charCount  = characters.length;
+
+    // Decide: try word-level image first (covers 1-char or whole-word art)
+    const wordImgUrl = `${WORD_IMG_BASE}${wordEntry.nameOfSite}.webp`;
+    const hasWordImg = await imageExists(wordImgUrl);
+
+    let slots = []; // { element, dir }
+
+    if (hasWordImg) {
+        // Single visual for the whole word
+        const img = document.createElement('img');
+        img.src = wordImgUrl;
+        img.alt = wordEntry.characters || '';
+        slots.push({ element: img, dir: 'zoom' });
+    } else {
+        // Try per-character images
+        const dirs = getDirections(charCount || 1);
+
+        if (charCount > 0) {
+            let allOk = true;
+            const pending = [];
+            for (let i = 0; i < characters.length; i++) {
+                const ch  = characters[i];
+                const entry = charsMap[ch];
+                if (entry && entry.visualFile) {
+                    const url = `${CHAR_IMG_BASE}${entry.visualFile}.webp`;
+                    if (await imageExists(url)) {
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.alt = ch;
+                        pending.push({ element: img, dir: dirs[i] || 'zoom' });
+                    } else { allOk = false; break; }
+                } else { allOk = false; break; }
+            }
+
+            if (allOk && pending.length === charCount) {
+                slots = pending;
+            }
+        }
+
+        // Fallback: text glyphs
+        if (slots.length === 0) {
+            const dirs2 = getDirections(charCount || 1);
+            if (charCount > 0) {
+                characters.forEach((ch, i) => {
+                    const el = document.createElement('div');
+                    el.className = 'char-text';
+                    el.textContent = ch;
+                    slots.push({ element: el, dir: dirs2[i] || 'zoom' });
+                });
+            } else {
+                // No characters at all — show nameOfSite as text
+                const el = document.createElement('div');
+                el.className = 'char-text';
+                el.textContent = wordEntry.characters || wordEntry.nameOfSite || '?';
+                slots.push({ element: el, dir: 'zoom' });
+            }
+        }
+    }
+
+    // ── Size calculation ──
+    // We want the characters to fill as much horizontal space as possible.
+    const vw        = window.innerWidth;
+    const vh        = window.innerHeight;
+    // Extra bottom clearance accounts for browser chrome (home indicator, nav bar)
+    const infoH     = 300; // approx info panel + margin + browser chrome
+    const slotCount = slots.length;
+    // Use actual character count for stage/size decisions so a whole-word image
+    // (slots.length === 1) still gets the same sizing as per-char slots for the same word length.
+    const effectiveCount = charCount > 0 ? charCount : slotCount;
+    const isTrueSingleChar = effectiveCount === 1;
+    // Single true char gets a tighter stage; multi-char (even as one image) gets full stage
+    const stageHMax = isTrueSingleChar ? vh * 0.50 : vh * 0.55;
+    const stageH    = Math.min(vh - infoH - 20, stageHMax);
+    const gap       = Math.round(vw * 0.03);
+    // A whole-word image (one slot, multiple chars) should span the full multi-char width
+    const isWordImage = hasWordImg && slotCount === 1 && effectiveCount > 1;
+    const layoutCount = isWordImage ? effectiveCount : slotCount;
+    const totalGap  = gap * (layoutCount - 1);
+    const slotSizeCap = isTrueSingleChar ? 0.80 : 0.95;
+    const slotSize  = Math.min(
+        Math.floor((vw * 0.90 - totalGap) / layoutCount),
+        Math.floor(stageH * slotSizeCap)
+    );
+
+    stage.style.height = stageH + 'px';
+    charRow.style.gap  = gap + 'px';
+
+    // ── Build DOM ──
+    // Stagger delays so chars arrive a bit after each other
+    const DELAYS = [0, 80, 160, 240, 320]; // ms
+
+    slots.forEach(({ element, dir }, idx) => {
+        const slot = document.createElement('div');
+        slot.className = 'char-slot';
+
+        if (isWordImage) {
+            // Word-level image: give it the full combined width of all characters
+            const imgW = slotSize * effectiveCount + gap * (effectiveCount - 1);
+            const imgH = slotSize;
+            slot.style.width  = imgW + 'px';
+            slot.style.height = imgH + 'px';
+            element.style.width     = imgW + 'px';
+            element.style.height    = imgH + 'px';
+            element.style.objectFit = 'contain';
+        } else {
+            slot.style.width  = slotSize + 'px';
+            slot.style.height = slotSize + 'px';
+            if (element.tagName === 'IMG') {
+                element.style.width  = slotSize + 'px';
+                element.style.height = slotSize + 'px';
+                element.style.objectFit = 'contain';
+            } else if (element.classList.contains('char-text')) {
+                element.style.fontSize = Math.round(slotSize * 0.82) + 'px';
+                element.style.width  = slotSize + 'px';
+                element.style.height = slotSize + 'px';
+            }
+        }
+
+        element.style.animationDelay    = DELAYS[idx] + 'ms';
+        element.style.animationFillMode = 'both';
+        element.classList.add(animClass(dir));
+
+        slot.appendChild(element);
+        charRow.appendChild(slot);
+    });
+
+    // ── Show page, animate panel in after chars arrive ──
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('page').style.display   = 'flex';
+
+    const panelDelay = 700 + (slots.length * 80);
+    setTimeout(() => infoPanel.classList.add('visible'), panelDelay);
+}
+
+// ─── Audio playback ───────────────────────────────────────────────────────────
+let waveAnimId = null;
+
+function setupAudio(characters) {
+    const audioEl = document.getElementById('audio-el');
+    const btn     = document.getElementById('play-btn');
+    const bars    = document.querySelectorAll('#synth-wave rect');
+
+    const baseY = [14,10,6,10];
+    const baseH = [12,16,24,16];
+
+    function animWave() {
+        bars.forEach((bar, i) => {
+            const amp = [4,6,10,6][i];
+            const t   = Date.now()/250 + i*0.7;
+            const y   = baseY[i] - Math.abs(Math.sin(t)) * amp;
+            const h   = baseH[i] + Math.abs(Math.sin(t)) * amp * 2;
+            bar.setAttribute('y', y);
+            bar.setAttribute('height', h);
+        });
+        if (!audioEl.paused && !audioEl.ended) waveAnimId = requestAnimationFrame(animWave);
+    }
+
+    function resetBars() {
+        bars.forEach((bar,i) => {
+            bar.setAttribute('y', baseY[i]);
+            bar.setAttribute('height', baseH[i]);
+        });
+    }
+
+    audioEl.addEventListener('play',  () => { if(waveAnimId) cancelAnimationFrame(waveAnimId); animWave(); });
+    audioEl.addEventListener('pause', () => { if(waveAnimId) cancelAnimationFrame(waveAnimId); resetBars(); });
+    audioEl.addEventListener('ended', () => { if(waveAnimId) cancelAnimationFrame(waveAnimId); resetBars(); });
+
+    function playFallback() {
+        if ('speechSynthesis' in window && characters) {
+            const utt = new SpeechSynthesisUtterance(characters);
+            utt.lang = 'zh-CN';
+            // Voices may not be loaded yet — wait if needed
+            function speak() {
+                const voices = window.speechSynthesis.getVoices();
+                const zh = voices.find(v => v.lang.includes('zh') || v.name.includes('Chinese'));
+                if (zh) utt.voice = zh;
+                window.speechSynthesis.speak(utt);
+            }
+            if (window.speechSynthesis.getVoices().length) {
+                speak();
+            } else {
+                window.speechSynthesis.onvoiceschanged = speak;
+            }
+        }
+    }
+
+    btn.addEventListener('click', () => {
+        // If no src was set at all, go straight to fallback
+        if (!audioEl.src) { playFallback(); return; }
+
+        // Reset so we can replay if already ended
+        if (audioEl.ended || audioEl.error) {
+            audioEl.load();
+        }
+
+        const playPromise = audioEl.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => playFallback());
+        }
+    });
+
+    // Pre-attach error handler so load failures are caught even before click
+    audioEl.addEventListener('error', () => {
+        // Only invoke fallback if user has already tried to play
+        // (don't auto-speak on page load)
+    });
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+async function init() {
+    try {
+        const page = getParam('page');
+        if (!page) { throw new Error('No page parameter'); }
+
+        const [wordsData, charsData] = await Promise.all([
+            fetchCSV(WORDS_CSV),
+            fetchCSV(CHARS_CSV).catch(() => [])
+        ]);
+
+        const wordEntry = wordsData.find(r => r.nameOfSite === page);
+        if (!wordEntry) { throw new Error('Word not found'); }
+
+        const charsMap = {};
+        charsData.forEach(e => { if (e.chineseCharacter) charsMap[e.chineseCharacter] = e; });
+
+        await render(wordEntry, charsMap);
+        setupAudio(wordEntry.characters || '');
+
+    } catch (err) {
+        document.getElementById('loader').style.display  = 'none';
+        document.getElementById('error-msg').style.display = 'block';
+        document.getElementById('error-msg').textContent   = err.message || 'Something went wrong.';
+        console.error(err);
+    }
+}
+
+window.addEventListener('load', init);
+</script>
+</body>
+</html>

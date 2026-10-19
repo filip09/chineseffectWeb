@@ -1,0 +1,54 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#grid-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 20px);
+    grid-template-rows: repeat(auto-fill, 20px);
+    pointer-events: none; /* Ensure the grid does not interfere with other elements */
+}
+
+.character {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 2s ease-out, opacity 2s ease-out;
+}
+
+#sentence-container {
+    position: absolute;
+    top: 8%; /* Adjusted top margin */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Gap between elements */
+    color: white;
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+}
+
+#sentence-container h1, #sentence-container h2, #sentence-container p {
+    margin: 5px;
+}
+
+#sentence-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

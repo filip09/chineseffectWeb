@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Missing .webp Checker</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    button { padding: 10px 20px; font-size: 16px; }
+    pre { background: #f3f3f3; padding: 10px; white-space: pre-wrap; border: 1px solid #ccc; }
+    h3 { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Check for Missing .webp Files</h2>
+  <button onclick="runCheck()">RUN</button>
+  <h3>MISSING VISUAL FILES (.webp)</h3>
+  <pre id="output">Press RUN to start...</pre>
+  <h3>EXTRA .webp FILES (NO CSV ENTRY)</h3>
+  <pre id="extraOutput">Press RUN to start...</pre>
+
+  <script>
+    async function fetchCSV(url) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Error fetching CSV: ${response.status}`);
+        const text = await response.text();
+        return text.split('\n').map(line => line.split(',').map(cell => cell.trim()));
+      } catch (err) {
+        document.getElementById('output').textContent = 'Failed to load words.csv: ' + err.message;
+        throw err;
+      }
+    }
+
+    async function listWebpFiles() {
+      const response = await fetch('getWebpList.php');
+      if (!response.ok) throw new Error(`Error getting file list: ${response.status}`);
+      return await response.json();
+    }
+
+    async function runCheck() {
+      const csvUrl = 'https://chineseffect.com/chfx/words.csv';
+      const output = document.getElementById('output');
+      const extraOutput = document.getElementById('extraOutput');
+      output.textContent = 'Checking...';
+      extraOutput.textContent = 'Checking...';
+
+      try {
+        const rows = await fetchCSV(csvUrl);
+        const headers = rows[0];
+        const nameOfSiteIndex = headers.indexOf('nameOfSite');
+        if (nameOfSiteIndex === -1) {
+          output.textContent = 'CSV does not contain "nameOfSite" column.';
+          extraOutput.textContent = 'CSV does not contain "nameOfSite" column.';
+          return;
+        }
+
+        const expectedFiles = new Set(
+          rows.slice(1)
+              .map(row => row[nameOfSiteIndex]?.trim())
+              .filter(Boolean)
+              .map(name => name + '.webp')
+        );
+
+        const actualFiles = await listWebpFiles();
+        const actualSet = new Set(actualFiles.map(file => file.trim()));
+
+        const missing = [...expectedFiles].filter(file => !actualSet.has(file));
+        output.textContent = missing.length === 0
+          ? '✅ All webp files are present.'
+          : missing.join('\n');
+
+        const extra = [...actualSet].filter(file => !expectedFiles.has(file));
+        extraOutput.textContent = extra.length === 0
+          ? '✅ No extra webp files found.'
+          : extra.join('\n');
+      } catch (err) {
+        output.textContent = '❌ Error: ' + err.message;
+        extraOutput.textContent = '❌ Error: ' + err.message;
+        console.error(err);
+      }
+    }
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9365d1862b05e58e',t:'MTc0NTY2Nzc2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>

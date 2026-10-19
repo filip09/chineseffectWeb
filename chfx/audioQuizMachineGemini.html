@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Audio Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    /* --- PASTE ALL YOUR ORIGINAL CSS HERE --- */
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+    body {
+    font-family: 'Lato', sans-serif;
+    overflow: hidden;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    }
+
+    #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    }
+
+    .container {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+
+    .quiz-area {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin-bottom: 1rem;
+    overflow-y: auto;
+    max-height: 90vh;
+    }
+
+    h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    .play-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    height: 80px;
+    position: relative;
+    }
+
+    #play-button {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    #play-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    #play-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 15px 30px;
+    border-color: transparent transparent transparent #333;
+    margin-left: 5px;
+    position: absolute;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+    }
+
+    #waveform {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    }
+
+    /* Hint field styles */
+    .hint-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    }
+
+    .hint-field {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    min-height: 3.5rem;
+    box-sizing: border-box;
+    }
+
+    .hint-field:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hint-text {
+    transition: opacity 0.3s ease;
+    }
+
+    .hint-content {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    }
+
+    .hint-content.show {
+    opacity: 1;
+    }
+
+    .hint-chinese {
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    margin-bottom: 0.25rem;
+    }
+
+    .hint-pinyin {
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
+    font-style: italic;
+    opacity: 0.8;
+    }
+
+    .options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    transition: opacity 0.5s ease;
+    }
+
+    .option {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;
+    }
+
+    .option:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .option-letter {
+    font-weight: bold;
+    margin-right: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    }
+
+    .option-text {
+    flex-grow: 1;
+    }
+
+    .feedback {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    height: 2rem;
+    font-weight: bold;
+    }
+
+    .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    color: #333;
+    text-align: center;
+    padding: 1rem;
+    }
+
+    .score-display {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    color: #333;
+    font-weight: bold;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 768px) {
+    .container {
+    padding: 2rem;
+    }
+
+    .quiz-area {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    }
+
+    .play-button-container {
+    height: 100px;
+    margin-bottom: 2rem;
+    }
+
+    #play-button {
+    width: 100px;
+    height: 100px;
+    }
+
+    #play-icon {
+    border-width: 18px 0 18px 36px;
+    }
+
+    .options-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    }
+
+    .option {
+    padding: 1rem;
+    font-size: 1.2rem;
+    }
+
+    .option-letter {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 1rem;
+    }
+
+    .hint-field {
+    padding: 1rem;
+    font-size: 1.2rem;
+    }
+
+    .hint-chinese {
+    font-size: 1.3rem;
+    }
+
+    .hint-pinyin {
+    font-size: 1.1rem;
+    }
+    }
+
+    /* Make sure we don't run off the page on small screens */
+    @media (max-height: 700px) and (max-width: 767px) {
+    .play-button-container {
+    height: 60px;
+    margin-bottom: 1rem;
+    }
+
+    #play-button {
+    width: 60px;
+    height: 60px;
+    }
+
+    #play-icon {
+    border-width: 12px 0 12px 24px;
+    }
+
+    .option {
+    padding: 0.5rem;
+    min-height: 2.75rem;
+    }
+
+    .option-letter {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-right: 0.5rem;
+    }
+
+    .feedback {
+    height: 1.5rem;
+    margin-top: 0.5rem;
+    }
+
+    .hint-field {
+    padding: 0.5rem;
+    min-height: 2.75rem;
+    }
+    }
+    </style>
+</head>
+<body>
+    <canvas id="background"></canvas>
+
+    <div id="loader" class="loader">Loading quiz...</div>
+
+    <div id="quiz-container" class="container" style="display: none;">
+    <div class="quiz-area" id="quiz-area">
+    <h1>Listen and Choose the Translation</h1>
+
+    <div class="play-button-container">
+    <div id="play-button">
+    <div id="play-icon"></div>
+    <canvas id="waveform"></canvas>
+    </div>
+    </div>
+
+    <!-- Hint field -->
+    <div class="hint-container">
+    <div class="hint-field" id="hint-field">
+    <div class="hint-text" id="hint-text">SHOW HINT</div>
+    <div class="hint-content" id="hint-content">
+    <div class="hint-chinese" id="hint-chinese"></div>
+    <div class="hint-pinyin" id="hint-pinyin"></div>
+    </div>
+    </div>
+    </div>
+
+    <div class="options-container" id="options"></div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <div class="score-display" id="score-display">Score: 0</div>
+    </div>
+    </div>
+
+    <script>
+    // --- Background Animation Code ---
+    const canvas = document.getElementById('background');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let circles = [];
+
+    function resizeCanvas() { 
+        width = window.innerWidth; 
+        height = window.innerHeight; 
+        canvas.width = width; 
+        canvas.height = height; 
+        initCircles(); 
+    }
+
+    function initCircles() { 
+        circles = []; 
+        const numCircles = 15; 
+        for (let i = 0; i < numCircles; i++) { 
+            circles.push({ 
+                x: Math.random() * width, 
+                y: Math.random() * height, 
+                radius: Math.random() * 250 + 150, 
+                hue: Math.random() * 360, 
+                saturation: Math.random() * 60 + 40, 
+                lightness: Math.random() * 30 + 65, 
+                alpha: Math.random() * 0.4 + 0.2, 
+                vx: Math.random() * 0.5 - 0.25, 
+                vy: Math.random() * 0.5 - 0.25, 
+                hueChange: Math.random() * 0.5 - 0.25 
+            }); 
+        } 
+    }
+
+    function drawBackground() { 
+        ctx.clearRect(0, 0, width, height); 
+        for (let circle of circles) { 
+            circle.x += circle.vx; 
+            circle.y += circle.vy; 
+            if (circle.x < -circle.radius) circle.x = width + circle.radius; 
+            if (circle.x > width + circle.radius) circle.x = -circle.radius; 
+            if (circle.y < -circle.radius) circle.y = height + circle.radius; 
+            if (circle.y > height + circle.radius) circle.y = -circle.radius; 
+            circle.hue += circle.hueChange; 
+            if (circle.hue > 360) circle.hue -= 360; 
+            if (circle.hue < 0) circle.hue += 360; 
+            ctx.beginPath(); 
+            const gradient = ctx.createRadialGradient( 
+                circle.x, circle.y, 0, 
+                circle.x, circle.y, circle.radius 
+            ); 
+            gradient.addColorStop(0, `hsla(${circle.hue}, ${circle.saturation}%, ${circle.lightness}%, ${circle.alpha})`); 
+            gradient.addColorStop(1, `hsla(${circle.hue}, ${circle.saturation}%, ${circle.lightness}%, 0)`); 
+            ctx.fillStyle = gradient; 
+            ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2); 
+            ctx.fill(); 
+        } 
+        requestAnimationFrame(drawBackground); 
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawBackground();
+
+    // --- Audio Quiz Implementation ---
+
+    // Global variables
+    let currentSentence = null;
+    let allSentences = [];
+    let audioElement = null;
+    let correctOptionSelected = false;
+    let isPlaying = false;
+    let audioContext = null;
+    let audioAnalyser = null;
+    let audioDataArray = null;
+    let audioSourceNode = null; // Keep track of source node
+    let animationFrame;
+    let score = 0;
+    let hintShown = false;
+
+    // DOM Elements
+    const loader = document.getElementById('loader');
+    const quizContainer = document.getElementById('quiz-container');
+    const playButton = document.getElementById('play-button');
+    const playIcon = document.getElementById('play-icon');
+    const waveformCanvas = document.getElementById('waveform');
+    const waveCtx = waveformCanvas.getContext('2d');
+    const optionsContainer = document.getElementById('options');
+    const feedbackDisplay = document.getElementById('feedback');
+    const scoreDisplay = document.getElementById('score-display');
+
+    // Hint elements
+    const hintField = document.getElementById('hint-field');
+    const hintText = document.getElementById('hint-text');
+    const hintContent = document.getElementById('hint-content');
+    const hintChinese = document.getElementById('hint-chinese');
+    const hintPinyin = document.getElementById('hint-pinyin');
+
+    // --- Hint functionality ---
+    function setupHint() {
+        hintField.addEventListener('click', toggleHint);
+    }
+
+    function toggleHint() {
+        if (!hintShown) {
+            hintText.style.opacity = '0';
+            setTimeout(() => {
+                hintContent.classList.add('show');
+                hintShown = true;
+            }, 300);
+        }
+    }
+
+    function resetHint() {
+        hintShown = false;
+        hintText.style.opacity = '1';
+        hintContent.classList.remove('show');
+
+        if (currentSentence) {
+            hintChinese.textContent = currentSentence.chineseVersion || '';
+            hintPinyin.textContent = currentSentence.chinesePinyin || '';
+        }
+    }
+
+    // --- Waveform Visualization Functions ---
+    function initWaveform() {
+        const buttonElement = document.getElementById('play-button');
+        if (buttonElement) {
+            const buttonSize = buttonElement.offsetWidth;
+            waveformCanvas.width = Math.floor(buttonSize);
+            waveformCanvas.height = Math.floor(buttonSize);
+            console.log(`Waveform canvas initialized to: ${waveformCanvas.width}x${waveformCanvas.height}`);
+        } else {
+            console.error("#play-button element not found for waveform init.");
+        }
+    }
+
+    function drawWaveform() {
+        if (!isPlaying || !audioDataArray || !audioAnalyser) {
+            cancelAnimationFrame(animationFrame);
+            return;
+        }
+
+        animationFrame = requestAnimationFrame(drawWaveform);
+
+        waveCtx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+        audioAnalyser.getByteFrequencyData(audioDataArray);
+
+        const barWidth = 2;
+        const barGap = 2;
+        const centerY = waveformCanvas.height / 2;
+        const maxBarHeight = waveformCanvas.height * 0.5;
+        const barCount = waveformCanvas.width > 0 ? Math.floor(waveformCanvas.width * 0.7 / (barWidth + barGap)) : 0;
+        if (barCount <= 0) return;
+
+        const totalWidth = barCount * (barWidth + barGap) - barGap;
+        const startX = (waveformCanvas.width - totalWidth) / 2;
+
+        waveCtx.fillStyle = '#333';
+        const step = Math.max(1, Math.floor(audioDataArray.length / barCount));
+
+        for (let i = 0; i < barCount; i++) {
+            const dataIndex = Math.min(i * step, audioDataArray.length - 1);
+            const value = audioDataArray[dataIndex] / 256;
+            const barHeight = Math.max(1, value * maxBarHeight);
+            const x = startX + i * (barWidth + barGap);
+            waveCtx.fillRect(x, centerY - barHeight / 2, barWidth, barHeight);
+        }
+    }
+
+    // --- CSV Loading and Parsing ---
+    async function loadCSVData() {
+        console.log("Starting CSV load...");
+        try {
+            const response = await fetch('/chfx/speechRecognition.csv');
+            console.log("Fetch response status:", response.status);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const csvText = await response.text();
+            console.log("CSV text length:", csvText.length);
+            console.log("First 200 chars:", csvText.substring(0, 200));
+
+            parseCSV(csvText);
+        } catch (error) {
+            console.error("Error in loadCSVData:", error);
+            showError(`Error loading CSV: ${error.message}`);
+        }
+    }
+
+    function parseCSV(text) {
+        console.log("Starting CSV parse...");
+
+        const lines = text.split('\n').filter(line => line.trim() !== '');
+        console.log("Number of lines:", lines.length);
+
+        if (lines.length < 2) {
+            showError("CSV file is empty or has no data rows.");
+            return;
+        }
+
+        const headers = lines[0].split(',').map(h => h.trim());
+        console.log("Headers:", headers);
+
+        const soundFileIndex = headers.indexOf('soundFile');
+        const englishTranslationIndex = headers.indexOf('englishTranslation');
+        const chineseVersionIndex = headers.indexOf('chineseVersion');
+        const chinesePinyinIndex = headers.indexOf('chinesePinyin');
+
+        console.log("Column indices:", {
+            soundFile: soundFileIndex,
+            englishTranslation: englishTranslationIndex,
+            chineseVersion: chineseVersionIndex,
+            chinesePinyin: chinesePinyinIndex
+        });
+
+        if (soundFileIndex === -1 || englishTranslationIndex === -1) {
+            showError("CSV file missing required columns (soundFile, englishTranslation)");
+            return;
+        }
+
+        allSentences = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',').map(v => v.trim());
+
+            if (values.length > Math.max(soundFileIndex, englishTranslationIndex) && 
+                values[soundFileIndex] && values[englishTranslationIndex]) {
+
+                const sentence = {
+                    soundFile: values[soundFileIndex],
+                    englishTranslation: values[englishTranslationIndex],
+                    chineseVersion: chineseVersionIndex !== -1 ? (values[chineseVersionIndex] || '') : '',
+                    chinesePinyin: chinesePinyinIndex !== -1 ? (values[chinesePinyinIndex] || '') : ''
+                };
+                allSentences.push(sentence);
+            }
+        }
+
+        console.log(`Parsed ${allSentences.length} sentences`);
+        console.log("First sentence:", allSentences[0]);
+
+        if (allSentences.length === 0) {
+            showError("No valid sentences found in CSV file.");
+            return;
+        }
+
+        initQuiz();
+    }
+
+    function selectRandomSentence() {
+        if (allSentences.length === 0) {
+            console.error("No sentences available to select from.");
+            return null;
+        }
+        const randomIndex = Math.floor(Math.random() * allSentences.length);
+        currentSentence = allSentences[randomIndex];
+        console.log("Selected sentence:", currentSentence.soundFile);
+        return currentSentence;
+    }
+
+    function initQuiz() {
+        console.log("Initializing quiz...");
+        loader.style.display = 'none';
+        quizContainer.style.display = 'flex';
+
+        try {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioContext.state === 'suspended') {
+                console.log("AudioContext suspended. Will resume on first interaction.");
+            }
+        } catch (e) {
+            showError("Web Audio API is not supported in this browser.");
+            console.error("AudioContext creation failed:", e);
+            return;
+        }
+
+        initWaveform();
+        setupHint();
+        playButton.addEventListener('click', playAudio);
+        window.addEventListener('resize', initWaveform);
+
+        selectRandomSentence();
+        if (currentSentence) {
+            loadNextQuestion();
+        } else {
+            showError("Failed to select initial sentence.");
+        }
+    }
+
+    function loadNextQuestion() {
+        console.log("Loading next question...");
+        correctOptionSelected = false;
+        feedbackDisplay.textContent = '';
+        feedbackDisplay.style.color = '#333';
+        optionsContainer.style.opacity = '0';
+
+        if (audioElement) {
+            audioElement.pause();
+            cancelAnimationFrame(animationFrame);
+            isPlaying = false;
+            playIcon.style.opacity = '1';
+            waveformCanvas.style.opacity = '0';
+        }
+
+        resetHint();
+
+        const audioUrl = `/audio/random/${currentSentence.soundFile}.mp3`;
+        console.log("Loading audio:", audioUrl);
+
+        if (!audioElement) {
+            audioElement = new Audio();
+            setupAudioAnalyser();
+
+            audioElement.addEventListener('ended', () => {
+                isPlaying = false;
+                playIcon.style.opacity = '1';
+                waveformCanvas.style.opacity = '0';
+                cancelAnimationFrame(animationFrame);
+            });
+
+            audioElement.addEventListener('error', (e) => {
+                console.error('Audio Error:', audioElement.error);
+                showError(`Error loading audio file: ${currentSentence.soundFile}.mp3`);
+            });
+        }
+
+        audioElement.src = audioUrl;
+        audioElement.load();
+
+        setTimeout(() => {
+            generateOptions();
+            optionsContainer.style.opacity = '1';
+        }, 300);
+
+        scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    function setupAudioAnalyser() {
+        if (!audioElement || !audioContext || audioSourceNode) return;
+
+        try {
+            audioSourceNode = audioContext.createMediaElementSource(audioElement);
+            audioAnalyser = audioContext.createAnalyser();
+            audioAnalyser.fftSize = 64;
+            audioSourceNode.connect(audioAnalyser);
+            audioAnalyser.connect(audioContext.destination);
+            audioDataArray = new Uint8Array(audioAnalyser.frequencyBinCount);
+            console.log("Audio analyser setup complete");
+        } catch (e) {
+            console.error("Error setting up audio analyser:", e);
+        }
+    }
+
+    function playAudio() {
+        if (!audioElement) {
+            console.error("Play button clicked, but audioElement is null.");
+            return;
+        }
+
+        if (isPlaying) {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+            isPlaying = false;
+            playIcon.style.opacity = '1';
+            waveformCanvas.style.opacity = '0';
+            cancelAnimationFrame(animationFrame);
+        } else {
+            if (audioContext && audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                    console.log("AudioContext resumed");
+                    attemptPlayback();
+                }).catch(err => {
+                    console.error("Failed to resume AudioContext:", err);
+                    alert("Could not start audio. Please interact with the page.");
+                });
+            } else {
+                attemptPlayback();
+            }
+        }
+    }
+
+    function attemptPlayback() {
+        if (audioElement.readyState >= 2) {
+            audioElement.play().then(() => {
+                isPlaying = true;
+                playIcon.style.opacity = '0';
+                waveformCanvas.style.opacity = '1';
+                if (audioAnalyser && audioDataArray) {
+                    drawWaveform();
+                }
+            }).catch(err => {
+                console.error("Error playing audio:", err);
+                alert("Could not play audio. Error: " + err.message);
+                isPlaying = false;
+                playIcon.style.opacity = '1';
+                waveformCanvas.style.opacity = '0';
+            });
+        } else {
+            console.warn("Audio not ready, readyState:", audioElement.readyState);
+            feedbackDisplay.textContent = "Audio still loading...";
+        }
+    }
+
+    function generateOptions() {
+        optionsContainer.innerHTML = '';
+        if (!currentSentence) return;
+
+        const correctAnswer = currentSentence.englishTranslation;
+        const wrongOptions = findSimilarSentences(correctAnswer, 3);
+        const options = [correctAnswer, ...wrongOptions];
+        shuffleArray(options);
+
+        const letters = ['A', 'B', 'C', 'D'];
+        options.forEach((option, index) => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'option';
+            optionElement.innerHTML = `<span class="option-letter">${letters[index]}</span><span class="option-text">${option}</span>`;
+            optionElement.addEventListener('click', () => handleOptionClick(optionElement, option, correctAnswer));
+            optionsContainer.appendChild(optionElement);
+        });
+    }
+
+    function handleOptionClick(element, selectedOption, correctOption) {
+        if (correctOptionSelected) return;
+
+        if (selectedOption === correctOption) {
+            element.style.backgroundColor = '#00D17A';
+            correctOptionSelected = true;
+            feedbackDisplay.textContent = 'Correct!';
+            feedbackDisplay.style.color = '#00D17A';
+            score++;
+
+            setTimeout(() => {
+                optionsContainer.style.opacity = '0';
+                setTimeout(() => {
+                    selectRandomSentence();
+                    if (currentSentence) {
+                        loadNextQuestion();
+                        optionsContainer.style.opacity = '1';
+                    } else {
+                        showError("Failed to select a new sentence.");
+                    }
+                }, 500);
+            }, 2000);
+        } else {
+            element.style.backgroundColor = '#EA0070';
+            feedbackDisplay.textContent = 'Incorrect!';
+            feedbackDisplay.style.color = '#EA0070';
+            score = 0;
+
+            setTimeout(() => {
+                if (!correctOptionSelected) {
+                    element.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                    feedbackDisplay.textContent = '';
+                }
+            }, 2000);
+        }
+        scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    function findSimilarSentences(correctSentenceText, count) {
+        const potentialDistractors = allSentences.filter(s => s.englishTranslation !== correctSentenceText);
+        shuffleArray(potentialDistractors);
+        const numToTake = Math.min(count, potentialDistractors.length);
+        return potentialDistractors.slice(0, numToTake).map(s => s.englishTranslation);
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function showError(message) {
+        console.error("Quiz Error:", message);
+        loader.innerHTML = `Error: ${message}`;
+        loader.style.color = '#EA0070';
+        loader.style.display = 'flex';
+        quizContainer.style.display = 'none';
+    }
+
+    // Start the application
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log("DOM loaded, starting app...");
+        initWaveform();
+        loadCSVData();
+    });
+    </script>
+</body>
+</html>

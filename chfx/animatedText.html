@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Text</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000000; /* Black background */
+            color: #44A7E7; /* Warm blue color */
+            font-family: 'Lato', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .row1 {
+            font-size: 24px;
+            font-weight: 600; /* Demi Bold */
+            color: #66C2FF; /* Slightly brighter blue */
+            margin-bottom: 40px; /* Increased space between rows */
+        }
+
+        .row2 {
+            font-size: 18px;
+            font-weight: 400; /* Regular */
+            margin-bottom: 40px; /* Increased space between rows */
+        }
+
+        .row3 {
+            font-size: 14px;
+            font-weight: 400; /* Regular */
+            margin-bottom: 40px; /* Increased space between rows */
+        }
+
+        .char {
+            display: inline-block;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .char.animate {
+            animation: zoomFadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes zoomFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            70% {
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="contentContainer">
+        <div class="row1" id="row1"></div>
+        <div class="row2" id="row2"></div>
+        <div class="row3" id="row3"></div>
+    </div>
+
+    <script>
+        const csvUrl = 'https://chineseffect.com/chfx/animatedText.csv';
+        const urlParams = new URLSearchParams(window.location.search);
+        const pageName = urlParams.get('page');
+
+        async function loadCSV(url) {
+            const response = await fetch(url);
+            const text = await response.text();
+            return text;
+        }
+
+        function parseCSV(csvText) {
+            const rows = csvText.split('\n').map(row => row.split(','));
+            const headers = rows[0];
+            const data = rows.slice(1).map(row => Object.fromEntries(row.map((value, index) => [headers[index], value])));
+            return data;
+        }
+
+        function findPageData(data, pageName) {
+            return data.find(row => row.nameOfSite === pageName);
+        }
+
+        function animateText(text, container) {
+            container.innerHTML = '';
+            Array.from(text).forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char; // Use non-breaking space to keep spaces intact
+                span.classList.add('char');
+                container.appendChild(span);
+
+                setTimeout(() => {
+                    span.classList.add('animate');
+                }, index * 100); // 0.1 second gap per character
+            });
+        }
+
+        async function init() {
+            try {
+                const csvText = await loadCSV(csvUrl);
+                const data = parseCSV(csvText);
+                const pageData = findPageData(data, pageName);
+
+                if (!pageData) {
+                    document.getElementById('contentContainer').innerHTML = '<p style="color: #fff;">Page not found</p>';
+                    return;
+                }
+
+                if (pageData.row1) animateText(pageData.row1, document.getElementById('row1'));
+                if (pageData.row2) animateText(pageData.row2, document.getElementById('row2'));
+                if (pageData.row3) animateText(pageData.row3, document.getElementById('row3'));
+            } catch (error) {
+                console.error('Error loading or parsing CSV:', error);
+                document.getElementById('contentContainer').innerHTML = '<p style="color: #fff;">Error loading content</p>';
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Word Quiz Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+    *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Arial, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* ── Container ── */
+    .container {
+        max-width: 860px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 56px 24px 72px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* ── Quiz card ── */
+    .quiz-area {
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 24px;
+        padding: 40px 36px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        overflow-y: auto;
+        max-height: 92vh;
+    }
+
+    /* ── Section label ── */
+    .quiz-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    /* ── Question ── */
+    .question-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 32px;
+    }
+
+    .question-text {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        padding: 14px 28px;
+        border-radius: 100px;
+        font-size: clamp(1rem, 3.5vw, 1.4rem);
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: -0.2px;
+        text-align: center;
+        transition: opacity 0.4s ease;
+        opacity: 1;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* ── Options grid — 2×2 ── */
+    .options-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        max-width: 360px;
+        margin: 0 auto;
+        transition: opacity 0.4s ease;
+        opacity: 1;
+    }
+
+    /* ── Individual square ── */
+    .option {
+        aspect-ratio: 1;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 16px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 8px;
+        position: relative;
+        overflow: hidden;
+        user-select: none;
+        min-height: 0;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        animation: float var(--float-dur, 5s) ease-in-out infinite;
+        animation-delay: var(--float-delay, 0s);
+        transition: background 0.25s ease, border-color 0.25s ease,
+                    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .option:nth-child(1) { --float-dur: 5.2s; --float-delay: 0s; }
+    .option:nth-child(2) { --float-dur: 6.1s; --float-delay: -1.4s; }
+    .option:nth-child(3) { --float-dur: 5.7s; --float-delay: -2.8s; }
+    .option:nth-child(4) { --float-dur: 6.5s; --float-delay: -0.9s; }
+
+    @keyframes float {
+        0%   { transform: translateY(0px); }
+        50%  { transform: translateY(-5px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .option:hover {
+        background: rgba(255,255,255,0.14);
+        border-color: rgba(255,255,255,0.28);
+        animation-play-state: paused;
+        transform: translateY(-4px) scale(1.04);
+    }
+
+    .option:active {
+        transform: scale(0.97);
+    }
+
+    .option.correct,
+    .option.incorrect {
+        animation: none;
+        transform: translateY(0) scale(1);
+    }
+
+    .option.correct {
+        background: rgba(0, 209, 122, 0.22);
+        border-color: rgba(0, 209, 122, 0.55);
+    }
+
+    .option.incorrect {
+        background: rgba(234, 0, 112, 0.22);
+        border-color: rgba(234, 0, 112, 0.55);
+    }
+
+    /* ── Letter badge ── */
+    .option-letter {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        color: rgba(255,255,255,0.4);
+        position: absolute;
+        top: 8px;
+        left: 10px;
+    }
+
+    /* ── Image / character inside square ── */
+    .option-image-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .word-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 6px;
+        display: block;
+    }
+
+    .character-image {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 4px;
+        margin: 0 1px;
+    }
+
+    .character-fallback {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: -1px;
+        text-align: center;
+        line-height: 1;
+    }
+
+    .character-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    /* ── Feedback ── */
+    .feedback {
+        text-align: center;
+        margin-top: 18px;
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+        font-weight: 500;
+        height: 1.6rem;
+        letter-spacing: 0.01em;
+    }
+
+    /* ── Score ── */
+    .score-display {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255,255,255,0.35);
+        letter-spacing: 0.04em;
+    }
+
+    /* ── Loader ── */
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse-fade {
+        0%, 100% { opacity: 0.4; }
+        50%       { opacity: 1; }
+    }
+
+    .loader-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255,255,255,0.15);
+        border-top-color: rgba(255,255,255,0.75);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-bottom: 20px;
+        flex-shrink: 0;
+    }
+
+    .loader-text {
+        animation: pulse-fade 1.8s ease-in-out infinite;
+    }
+
+    .loader {
+        flex-direction: column;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-size: clamp(1rem, 4vw, 1.4rem);
+        color: rgba(255,255,255,0.6);
+        text-align: center;
+        padding: 1rem;
+        font-weight: 300;
+        letter-spacing: 0.01em;
+    }
+
+    /* ── Completion ── */
+    #completion-screen {
+        text-align: center;
+        padding: 32px 0;
+        display: none;
+    }
+
+    #completion-message {
+        font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: -0.3px;
+        margin-bottom: 24px;
+    }
+
+    #replay-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 13px 28px;
+        background: rgba(255,255,255,0.12);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.22);
+        border-radius: 100px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        font-family: inherit;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    }
+
+    #replay-button:hover {
+        background: rgba(255,255,255,0.2);
+        border-color: rgba(255,255,255,0.38);
+        transform: translateY(-1px);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+        .container { padding: 40px 16px 56px; }
+        .quiz-area { padding: 28px 18px; border-radius: 20px; }
+        .options-container { gap: 8px; }
+    }
+    </style>
+</head>
+<body>
+
+    <div id="loader" class="loader">
+        <div class="loader-spinner"></div>
+        <span class="loader-text">Loading word quiz…</span>
+    </div>
+
+    <div id="quiz-container" class="container" style="display: none;">
+        <div class="quiz-area" id="quiz-area">
+            <div id="quiz-content">
+
+                <div class="quiz-label">Word Challenge</div>
+
+                <div class="question-container">
+                    <div class="question-text" id="question-text">Pick the character(s) for: LOADING…</div>
+                </div>
+
+                <div class="options-container" id="options"></div>
+                <div class="feedback" id="feedback"></div>
+                <div class="score-display" id="score-display">Score: 0</div>
+            </div>
+
+            <div id="completion-screen">
+                <div id="completion-message">Great job! There's nothing more here.</div>
+                <button id="replay-button">↺ &nbsp;Replay</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+    // ── State ──
+    let currentPageId = null;
+    let allWordsData = [];
+    let webCsvData = [];
+    let currentQuizWords = [];
+    let currentWordIndex = 0;
+    let score = 0;
+    let selectionLocked = false;
+    const imageCache = new Map();
+
+    // ── DOM ──
+    const loader          = document.getElementById('loader');
+    const quizContainer   = document.getElementById('quiz-container');
+    const quizContent     = document.getElementById('quiz-content');
+    const questionText    = document.getElementById('question-text');
+    const optionsContainer= document.getElementById('options');
+    const feedbackDisplay = document.getElementById('feedback');
+    const scoreDisplay    = document.getElementById('score-display');
+    const completionScreen= document.getElementById('completion-screen');
+    const replayButton    = document.getElementById('replay-button');
+
+    // ── CSV helpers ──
+    async function loadCsvFile(url) {
+        const r = await fetch(url);
+        if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`);
+        return r.text();
+    }
+
+    function parseCsvText(text, requiredHeaders = []) {
+        const lines = text.split('\n').filter(l => l.trim());
+        if (lines.length < 2) return { headers: [], data: [] };
+        const headers = lines[0].split(',').map(h => h.trim());
+        const data = [];
+        requiredHeaders.forEach(h => { if (!headers.includes(h)) console.warn(`Missing header: "${h}"`); });
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',').map(v => v.trim());
+            const entry = {};
+            headers.forEach((h, idx) => { entry[h] = values[idx] ?? ''; });
+            data.push(entry);
+        }
+        return { headers, data };
+    }
+
+    // ── Image preloading ──
+    function preloadImage(url) {
+        return new Promise(resolve => {
+            if (imageCache.has(url)) { resolve(imageCache.get(url)); return; }
+            const img = new Image();
+            img.onload  = () => { imageCache.set(url, true);  resolve(true); };
+            img.onerror = () => { imageCache.set(url, false); resolve(false); };
+            img.src = url;
+        });
+    }
+
+    // ── Quiz logic ──
+    function getPageIdFromUrl() {
+        return new URLSearchParams(window.location.search).get('page');
+    }
+
+    function extractWordsFromPage() {
+        const pageDataRow = webCsvData.find(r => r.nameOfSite === currentPageId);
+        if (!pageDataRow) { showError(`Page "${currentPageId}" not found in chfxWeb.csv.`); return false; }
+
+        const currentPageNum = parseInt(currentPageId.replace('page', ''));
+        if (isNaN(currentPageNum)) { showError(`Invalid page format "${currentPageId}".`); return false; }
+
+        const wordMap = new Map(allWordsData.map(w => [w.nameOfSite, w]));
+        const seenWords = new Set();
+        const matchingWords = [];
+
+        for (let p = currentPageNum - 1; p >= 1; p--) {
+            const row = webCsvData.find(r => r.nameOfSite === `page${p}`);
+            if (!row) continue;
+            for (const key in row) {
+                if (key.startsWith('content') && row[key]) {
+                    const urlRegex = /https:\/\/chineseffect\.com\/chfx\/words\.html\?page=([^,&\s]+)/g;
+                    let m;
+                    while ((m = urlRegex.exec(row[key])) !== null) {
+                        const wordId = m[1];
+                        if (!seenWords.has(wordId)) {
+                            seenWords.add(wordId);
+                            const word = wordMap.get(wordId);
+                            if (word) matchingWords.push(word);
+                        }
+                    }
+                }
+            }
+            if (matchingWords.length >= 8) break;
+        }
+
+        currentQuizWords = shuffleArray(matchingWords).slice(0, 8);
+        return true;
+    }
+
+    function initQuiz() {
+        loader.style.display = 'none';
+        quizContainer.style.display = 'flex';
+        currentWordIndex = 0;
+        score = 0;
+        loadNextQuestion();
+    }
+
+    function loadNextQuestion() {
+        selectionLocked = false;
+        feedbackDisplay.textContent = '';
+        feedbackDisplay.style.color = 'rgba(255,255,255,0.7)';
+
+        if (currentWordIndex >= currentQuizWords.length) { showCompletionScreen(); return; }
+
+        const currentWord = currentQuizWords[currentWordIndex];
+
+        questionText.style.opacity = '0';
+        optionsContainer.style.opacity = '0';
+
+        setTimeout(async () => {
+            const cleanMeaning = currentWord.meaning.replace(/\([^)]*\)/g, '').trim();
+            questionText.textContent = `Pick the character(s) for: ${cleanMeaning.toUpperCase()}`;
+
+            await generateOptions(currentWord);
+
+            setTimeout(() => {
+                questionText.style.opacity = '1';
+                optionsContainer.style.opacity = '1';
+            }, 100);
+
+            // Kick off background preload for the next question while user is answering
+            preloadNextQuestion(currentWordIndex + 1);
+        }, 400);
+
+        scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    async function generateOptions(correctWord) {
+        while (optionsContainer.firstChild) optionsContainer.removeChild(optionsContainer.firstChild);
+
+        const wrongOptions = getRandomWords(correctWord, 3);
+        const allOptions = shuffleArray([correctWord, ...wrongOptions]);
+        const letters = ['A', 'B', 'C', 'D'];
+
+        const visuals = await Promise.all(allOptions.map(w => renderWordVisual(w)));
+
+        for (let i = 0; i < allOptions.length; i++) {
+            const word = allOptions[i];
+            const visual = visuals[i];
+
+            const optionEl = document.createElement('div');
+            optionEl.className = 'option';
+
+            const letterEl = document.createElement('span');
+            letterEl.className = 'option-letter';
+            letterEl.textContent = letters[i];
+            optionEl.appendChild(letterEl);
+
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'option-image-container';
+            imgContainer.appendChild(visual);
+            optionEl.appendChild(imgContainer);
+
+            optionEl.addEventListener('click', () => handleOptionClick(optionEl, word, correctWord));
+            optionsContainer.appendChild(optionEl);
+        }
+    }
+
+    async function renderWordVisual(wordData) {
+        // Cache characters.csv
+        if (!window.charactersDataCache) {
+            try {
+                const txt = await loadCsvFile('https://chineseffect.com/chfx/characters.csv');
+                window.charactersDataCache = parseCsvText(txt, ['chineseCharacter', 'visualFile']).data;
+            } catch { window.charactersDataCache = []; }
+        }
+
+        const charactersMap = {};
+        for (const e of window.charactersDataCache) {
+            if (e.chineseCharacter) charactersMap[e.chineseCharacter] = e;
+        }
+
+        // 1. Word tile image
+        const wordImgUrl = `https://chineseffect.com/images/wordsTiles/${wordData.nameOfSite}.webp`;
+        const wordExists = imageCache.has(wordImgUrl) ? imageCache.get(wordImgUrl) : await preloadImage(wordImgUrl);
+        if (wordExists) {
+            const img = document.createElement('img');
+            img.src = wordImgUrl;
+            img.alt = wordData.pinyin || wordData.nameOfSite;
+            img.className = 'word-image';
+            return img;
+        }
+
+        // 2. Per-character images
+        if (wordData.characters) {
+            const container = document.createElement('div');
+            container.className = 'character-container';
+            let allOk = true;
+            for (const char of wordData.characters.split('')) {
+                const entry = charactersMap[char];
+                if (entry && entry.visualFile) {
+                    const url = `https://chineseffect.com/images/characters/${entry.visualFile}.webp`;
+                    const exists = imageCache.has(url) ? imageCache.get(url) : await preloadImage(url);
+                    if (exists) {
+                        const img = document.createElement('img');
+                        img.src = url; img.alt = char; img.className = 'character-image';
+                        container.appendChild(img);
+                    } else { allOk = false; break; }
+                } else { allOk = false; break; }
+            }
+            if (allOk && container.childNodes.length > 0) return container;
+        }
+
+        // 3. Text fallback
+        const fallback = document.createElement('div');
+        fallback.className = 'character-fallback';
+        fallback.textContent = wordData.characters || wordData.nameOfSite;
+        return fallback;
+    }
+
+    // ── Background preloader for next question ──
+    async function preloadNextQuestion(nextIndex) {
+        if (nextIndex >= currentQuizWords.length) return;
+
+        const nextWord = currentQuizWords[nextIndex];
+        const wrongOptions = getRandomWords(nextWord, 3);
+        const allOptions = [nextWord, ...wrongOptions];
+
+        // Ensure characters CSV is cached first (no-op if already loaded)
+        if (!window.charactersDataCache) {
+            try {
+                const txt = await loadCsvFile('https://chineseffect.com/chfx/characters.csv');
+                window.charactersDataCache = parseCsvText(txt, ['chineseCharacter', 'visualFile']).data;
+            } catch { window.charactersDataCache = []; }
+        }
+
+        const charactersMap = {};
+        for (const e of window.charactersDataCache) {
+            if (e.chineseCharacter) charactersMap[e.chineseCharacter] = e;
+        }
+
+        // Fire all image preloads in parallel, silently — errors don't matter here
+        await Promise.allSettled(allOptions.flatMap(word => {
+            const urls = [];
+            urls.push(`https://chineseffect.com/images/wordsTiles/${word.nameOfSite}.webp`);
+            if (word.characters) {
+                for (const char of word.characters.split('')) {
+                    const entry = charactersMap[char];
+                    if (entry && entry.visualFile) {
+                        urls.push(`https://chineseffect.com/images/characters/${entry.visualFile}.webp`);
+                    }
+                }
+            }
+            return urls.map(url => preloadImage(url));
+        }));
+    }
+
+    function getRandomWords(excludeWord, count) {
+        return shuffleArray(allWordsData.filter(w => w.nameOfSite !== excludeWord.nameOfSite)).slice(0, count);
+    }
+
+    // ── TTS ──
+    function playChineseSpeech(characters) {
+        if (!characters || !characters.trim() || !('speechSynthesis' in window)) return;
+        const utterance = new SpeechSynthesisUtterance(characters);
+        utterance.lang = 'zh-CN';
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length === 0) {
+            window.speechSynthesis.onvoiceschanged = () => setVoiceAndSpeak(utterance);
+        } else {
+            setVoiceAndSpeak(utterance);
+        }
+    }
+
+    function setVoiceAndSpeak(utterance) {
+        const voices = window.speechSynthesis.getVoices();
+        const voice = voices.find(v => v.lang.includes('zh') || v.lang.includes('CN') || v.name.includes('Chinese'));
+        if (voice) utterance.voice = voice;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // ── Answer handling ──
+    function handleOptionClick(element, selectedWord, correctWord) {
+        if (selectionLocked) return;
+        selectionLocked = true;
+
+        if (selectedWord.nameOfSite === correctWord.nameOfSite) {
+            element.classList.add('correct');
+            feedbackDisplay.textContent = 'Correct!';
+            feedbackDisplay.style.color = 'rgba(0, 209, 122, 0.9)';
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+            currentWordIndex++;
+            playChineseSpeech(correctWord.characters);
+            setTimeout(loadNextQuestion, 1600);
+        } else {
+            element.classList.add('incorrect');
+            feedbackDisplay.textContent = 'Incorrect!';
+            feedbackDisplay.style.color = 'rgba(234, 0, 112, 0.9)';
+            score = 0;
+            scoreDisplay.textContent = `Score: ${score}`;
+            setTimeout(() => {
+                optionsContainer.querySelectorAll('.option').forEach(o => o.classList.remove('correct', 'incorrect'));
+                feedbackDisplay.textContent = '';
+                selectionLocked = false;
+            }, 2000);
+        }
+    }
+
+    function shuffleArray(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function showCompletionScreen() {
+        quizContent.style.display = 'none';
+        completionScreen.style.display = 'block';
+        document.getElementById('completion-message').textContent = "Great job! There's nothing more here.";
+        scoreDisplay.textContent = `Final Score: ${score}`;
+    }
+
+    function replayQuiz() {
+        score = 0; currentWordIndex = 0; selectionLocked = false;
+        completionScreen.style.display = 'none';
+        quizContent.style.display = 'block';
+        loadNextQuestion();
+    }
+
+    function showError(message) {
+        loader.innerHTML = `Error: ${message}<br/>Please check the console or contact support.`;
+        loader.style.color = 'rgba(234, 0, 112, 0.9)';
+        loader.style.display = 'flex';
+        quizContainer.style.display = 'none';
+    }
+
+    // ── Boot ──
+    const SHEET_WEB_URL   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=0&single=true&output=csv';
+    const SHEET_WORDS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=1317258846&single=true&output=csv';
+
+    function parseSheet(url, filterKey) {
+        return new Promise((resolve, reject) => {
+            Papa.parse(url, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    const rows = results.data.filter(r => r[filterKey] && r[filterKey].trim());
+                    if (rows.length === 0) reject(new Error(`Sheet empty or "${filterKey}" column missing: ${url}`));
+                    else resolve(rows);
+                },
+                error: function(err) { reject(new Error('Failed to load sheet: ' + err.message)); }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        currentPageId = getPageIdFromUrl();
+        if (!currentPageId) { showError("No 'page' parameter in URL (e.g., ?page=page78)."); return; }
+
+        try {
+            // Load both sheets in parallel
+            [allWordsData, webCsvData] = await Promise.all([
+                parseSheet(SHEET_WORDS_URL, 'nameOfSite'),
+                parseSheet(SHEET_WEB_URL,   'nameOfSite'),
+            ]);
+
+            if (extractWordsFromPage()) initQuiz();
+        } catch (err) {
+            showError(`Initialization failed: ${err.message}`);
+        }
+    });
+
+    replayButton.addEventListener('click', replayQuiz);
+    </script>
+</body>
+</html>

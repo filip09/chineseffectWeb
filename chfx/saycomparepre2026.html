@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Recognition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            background: linear-gradient(to bottom, #002840, #000000);
+            overflow: hidden;
+            color: white;
+            position: relative; /* Added for starfield positioning */
+        }
+        #content {
+            max-width: 600px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1; /* Ensure content is above starfield */
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        #english-translation {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .feedback {
+            padding: 10px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            transition: opacity 1s ease-out;
+        }
+        .correct { background-color: #00A85C; }
+        .incorrect { background-color: #FF2983; }
+        .listening {
+            margin-top: 20px;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .bar {
+            width: 6px;
+            height: 100%;
+            background-color: white;
+            margin: 0 3px;
+            animation: pulse 1s infinite ease-in-out;
+        }
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
+        .bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes pulse {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+        #browser-warning {
+            color: red;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        button {
+            font-family: 'Lato', sans-serif;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        #startButton { background-color: #007BFF; color: white; }
+        #hintButton { background-color: orange; color: white; }
+        
+        /* Starfield styles from first code */
+        #starfield {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Below other elements */
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            z-index: 0;
+            opacity: 0.8;
+        }
+        /* Added for showing Chinese text when TTS isn't working */
+        #chinese-text {
+            font-size: 2em;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Add starfield container -->
+    <div id="starfield"></div>
+    
+    <div id="content">
+        <h2>Translate and Say:</h2>
+        <p id="english-translation"></p>
+        <p id="chinese-text"></p>
+        <button id="startButton" onclick="startRecognition()">START</button>
+        <button id="hintButton" onclick="playHint()">HINT</button>
+        <div id="feedback" class="feedback" style="opacity: 0;"></div>
+        <div id="listening" class="listening" style="display: none;">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <div id="browser-warning" style="display: none;">Speech recognition is not supported on this browser. Please use a supported browser like Chrome.</div>
+    </div>
+    
+    <script>
+        let recognition;
+        let soundFile = "";
+        let recognitionInProgress = false;
+        const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+        let stars = []; // For starfield animation
+        let ttsVoicesLoaded = false;
+        let chineseVoice = null;
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function loadCSVData(callback) {
+            Papa.parse('/chfx/speechRecognition.csv', {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    callback(results.data);
+                }
+            });
+        }
+
+        function displayData(data, pageName) {
+            const entry = data.find(item => item.nameOfSite === pageName);
+            if (entry) {
+                document.getElementById('english-translation').innerText = entry.englishTranslation;
+                window.correctPhrase = entry.chineseVersion.trim();
+                document.getElementById('chinese-text').innerText = window.correctPhrase;
+                soundFile = entry.soundFile?.trim() || "";
+            } else {
+                document.getElementById('content').innerHTML = '<p>Page not found</p>';
+            }
+        }
+
+        // Initialize and load TTS voices
+        function initTTS() {
+            if ('speechSynthesis' in window) {
+                // Some browsers need a small delay before voices are available
+                setTimeout(() => {
+                    const voices = speechSynthesis.getVoices();
+                    // Find a Chinese voice
+                    chineseVoice = voices.find(voice => 
+                        voice.lang.includes('zh') || voice.lang.includes('cmn') || voice.lang.includes('yue')
+                    );
+                    ttsVoicesLoaded = true;
+                    console.log('TTS voices loaded:', voices.length);
+                    if (chineseVoice) {
+                        console.log('Chinese voice found:', chineseVoice.name);
+                    } else {
+                        console.warn('No Chinese voice found. Will use default voice.');
+                    }
+                }, 100);
+                
+                // Chrome and Edge need this event to load voices
+                if (speechSynthesis.onvoiceschanged !== undefined) {
+                    speechSynthesis.onvoiceschanged = () => {
+                        if (!ttsVoicesLoaded) {
+                            const voices = speechSynthesis.getVoices();
+                            chineseVoice = voices.find(voice => 
+                                voice.lang.includes('zh') || voice.lang.includes('cmn') || voice.lang.includes('yue')
+                            );
+                            ttsVoicesLoaded = true;
+                            console.log('TTS voices changed event, voices loaded:', voices.length);
+                            if (chineseVoice) {
+                                console.log('Chinese voice found:', chineseVoice.name);
+                            } else {
+                                console.warn('No Chinese voice found. Will use default voice.');
+                            }
+                        }
+                    };
+                }
+            }
+        }
+
+        function initSpeechRecognition() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                document.getElementById('browser-warning').style.display = 'block';
+                return;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.lang = 'zh-CN';
+
+            recognition.onstart = function() {
+                recognitionInProgress = true;
+                document.getElementById('listening').style.display = 'flex';
+            };
+
+            recognition.onend = function() {
+                document.getElementById('listening').style.display = 'none';
+                resetSystem();
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript.trim();
+                const feedback = document.getElementById('feedback');
+                if (transcript === window.correctPhrase) {
+                    feedback.innerText = 'CORRECT';
+                    feedback.className = 'feedback correct';
+                } else {
+                    feedback.innerText = `TRY AGAIN. You said: "${transcript}"`;
+                    feedback.className = 'feedback incorrect';
+                }
+                feedback.style.opacity = 1;
+                setTimeout(() => {
+                    feedback.style.opacity = 0;
+                    resetSystem();
+                }, 3000);
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Recognition error:', event.error);
+            };
+        }
+
+        function startRecognition() {
+            if (!recognition) {
+                initSpeechRecognition();
+            }
+            if (recognition && !recognitionInProgress) {
+                recognition.start();
+            }
+        }
+
+        function resetSystem() {
+            recognitionInProgress = false;
+        }
+
+        function playHint() {
+            // Try to cancel any ongoing speech first
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+            }
+            
+            // Hide the Chinese text in case it was shown from a previous attempt
+            document.getElementById('chinese-text').style.display = 'none';
+            
+            // Try to play the audio file if available
+            if (soundFile) {
+                const audio = new Audio(`/audio/random/${soundFile}.mp3`);
+                
+                audio.onerror = function() {
+                    console.error(`Error loading audio file: ${soundFile}. Falling back to TTS.`);
+                    speakFallback();
+                };
+
+                // Set a timeout to handle cases where the file might be taking too long to load
+                const audioLoadTimeout = setTimeout(() => {
+                    if (audio.readyState < 3) { // HAVE_FUTURE_DATA = 3
+                        console.error('Audio file loading timeout. Falling back to TTS.');
+                        speakFallback();
+                    }
+                }, 3000);
+
+                audio.oncanplaythrough = function() {
+                    clearTimeout(audioLoadTimeout);
+                    audio.play().catch(error => {
+                        console.error('Error playing audio:', error);
+                        speakFallback();
+                    });
+                };
+                
+                // Try to load and play, but catch any immediate errors
+                try {
+                    audio.load();
+                } catch (error) {
+                    console.error('Error loading audio:', error);
+                    speakFallback();
+                }
+            } else {
+                // No sound file specified, use TTS immediately
+                speakFallback();
+            }
+        }
+
+        function speakFallback() {
+            if ('speechSynthesis' in window) {
+                // Check if the Chinese text is available
+                if (window.correctPhrase) {
+                    // Display feedback
+                    const feedback = document.getElementById('feedback');
+                    feedback.innerText = 'Playing text-to-speech...';
+                    feedback.className = 'feedback';
+                    feedback.style.backgroundColor = '#0075B0';
+                    feedback.style.opacity = 1;
+                    
+                    // Also show the Chinese text visually
+                    document.getElementById('chinese-text').style.display = 'block';
+                    
+                    // Create a new utterance with the Chinese text
+                    const utterance = new SpeechSynthesisUtterance(window.correctPhrase);
+                    utterance.lang = 'zh-CN'; // Set language to Chinese
+                    
+                    // Use a Chinese voice if found
+                    if (chineseVoice) {
+                        utterance.voice = chineseVoice;
+                    }
+                    
+                    // Adjust speech parameters for better pronunciation
+                    utterance.rate = 0.8; // Slower rate for clearer pronunciation
+                    utterance.pitch = 1.0; // Normal pitch
+                    utterance.volume = 1.0; // Maximum volume
+                    
+                    // Track if speech actually started
+                    let speechStarted = false;
+                    let speechTimeout;
+                    
+                    utterance.onstart = function() {
+                        speechStarted = true;
+                        console.log('Speech started');
+                        // Clear any pending timeout
+                        if (speechTimeout) clearTimeout(speechTimeout);
+                    };
+                    
+                    utterance.onend = function() {
+                        console.log('Speech ended normally');
+                        setTimeout(() => {
+                            feedback.style.opacity = 0;
+                            // Keep the Chinese text visible for a bit longer
+                            setTimeout(() => {
+                                document.getElementById('chinese-text').style.display = 'none';
+                            }, 2000);
+                        }, 1000);
+                    };
+                    
+                    utterance.onerror = function(event) {
+                        console.error('Speech synthesis error:', event);
+                        feedback.innerText = 'TTS error. See text below:';
+                        feedback.style.backgroundColor = '#FF2983';
+                        // Keep the Chinese text visible indefinitely in case of error
+                    };
+                    
+                    // Set a timeout to check if speech actually started
+                    speechTimeout = setTimeout(() => {
+                        if (!speechStarted) {
+                            console.warn('Speech did not start within timeout');
+                            feedback.innerText = 'Text-to-speech unavailable. See text below:';
+                            feedback.style.backgroundColor = '#FF2983';
+                            // Keep the Chinese text visible indefinitely if TTS failed
+                        }
+                    }, 2000);
+                    
+                    try {
+                        // Try to speak the phrase
+                        speechSynthesis.speak(utterance);
+                        
+                        // Safari on iOS requires user interaction for audio to play
+                        if (isSafari() || isIOS()) {
+                            console.log('Safari or iOS detected, showing message');
+                            feedback.innerText = 'Tap to hear pronunciation (Safari/iOS)';
+                            feedback.style.backgroundColor = '#FFB700';
+                        }
+                    } catch (error) {
+                        console.error('Error starting speech:', error);
+                        feedback.innerText = 'TTS error. See text below:';
+                        feedback.style.backgroundColor = '#FF2983';
+                    }
+                } else {
+                    console.error('No Chinese text available for TTS.');
+                }
+            } else {
+                // If speech synthesis is not supported
+                const feedback = document.getElementById('feedback');
+                feedback.innerText = 'Text-to-speech not supported. See text below:';
+                feedback.className = 'feedback incorrect';
+                feedback.style.opacity = 1;
+                // Show the Chinese text visually instead
+                document.getElementById('chinese-text').style.display = 'block';
+                console.error('Text-to-speech is not supported in this browser.');
+            }
+        }
+
+        function isSafari() {
+            return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        }
+
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+
+        // Starfield functions from first code
+        function createStars() {
+            const starfield = document.getElementById('starfield');
+            starfield.innerHTML = '';
+            stars = [];
+            
+            for (let i = 0; i < 100; i++) {
+                let star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position across the entire visible area
+                let xPos = Math.random() * window.innerWidth;
+                let yPos = Math.random() * window.innerHeight;
+                
+                star.style.left = xPos + 'px';
+                star.style.top = yPos + 'px';
+                
+                // Vary the size for a more dynamic look
+                let size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.opacity = Math.random() * 0.7 + 0.3;
+                
+                // Random speed - smaller number = faster star
+                let speed = Math.random() * 0.2 + 0.1;
+                
+                // Store the star's properties for animation
+                stars.push({
+                    element: star,
+                    x: xPos,
+                    y: yPos,
+                    speed: speed
+                });
+                
+                starfield.appendChild(star);
+            }
+        }
+        
+        function animateStars() {
+            // Animation function that uses requestAnimationFrame for smooth movement
+            function animate() {
+                stars.forEach(star => {
+                    // Move star to the left
+                    star.x -= star.speed;
+                    
+                    // If star moves off the left edge, reset it to the right edge
+                    if (star.x < -10) {
+                        star.x = window.innerWidth + 10;
+                        star.y = Math.random() * window.innerHeight; // Randomize vertical position
+                    }
+                    
+                    // Update star position
+                    star.element.style.left = star.x + 'px';
+                });
+                
+                // Continue the animation loop
+                requestAnimationFrame(animate);
+            }
+            
+            // Start the animation
+            animate();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageName = getQueryParam('page');
+            loadCSVData(data => displayData(data, pageName));
+            
+            // Initialize text-to-speech
+            initTTS();
+            
+            // Create and animate stars on page load
+            createStars();
+            animateStars();
+        });
+    </script>
+</body>
+</html>

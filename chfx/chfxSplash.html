@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chineseffect</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: #0a0a12;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  /* ── Splash UI ── */
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 24px;
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.4s ease;
+  }
+  .wrap.fade-out { opacity: 0; pointer-events: none; }
+
+  .char {
+    font-size: 72px;
+    line-height: 1;
+    color: #fff;
+    animation: charPulse 2.8s ease-in-out infinite;
+  }
+  @keyframes charPulse {
+    0%, 100% { opacity: 0.7;  text-shadow: 0 0 0px rgba(255,255,255,0); }
+    50%       { opacity: 1;    text-shadow: 0 0 28px rgba(255,255,255,0.35); }
+  }
+
+  .wordmark {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    color: rgba(255,255,255,0.9);
+  }
+  .wordmark b { font-weight: 700; }
+
+  .message {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.5);
+    max-width: 270px;
+  }
+  .message strong {
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .bar-track {
+    width: 180px;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    width: 0%;
+    background: rgba(255,255,255,0.65);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .status {
+    font-size: 11px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+    min-height: 1.5em;
+  }
+
+  /* ── Hidden iframe that loads the real page in the background ── */
+  #mainFrame {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  #mainFrame.reveal {
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- Splash UI — visible immediately -->
+<div class="wrap" id="splash">
+  <div class="char">&#x6587;</div>
+  <div class="wordmark">chines<b>effect</b></div>
+  <div class="message">
+    <strong>Chineseffect</strong> is a sophisticated learning system.<br>
+    Please hold while it loads for you.
+  </div>
+  <div class="bar-track"><div class="bar-fill" id="bar"></div></div>
+  <div class="status" id="status">Initialising&hellip;</div>
+</div>
+
+<!-- Main page loads silently here in the background -->
+<iframe id="mainFrame" src="chfxNavigation2026.html"></iframe>
+
+<script>
+  const splash = document.getElementById('splash');
+  const frame  = document.getElementById('mainFrame');
+  const bar    = document.getElementById('bar');
+  const status = document.getElementById('status');
+  let   done   = false;
+
+  // Progress bar advances while the real page loads in the background
+  const stages = [
+    { pct: 18,  delay: 300,   label: 'Connecting\u2026' },
+    { pct: 42,  delay: 1400,  label: 'Fetching journey data\u2026' },
+    { pct: 65,  delay: 3500,  label: 'Loading your progress\u2026' },
+    { pct: 80,  delay: 7000,  label: 'Almost there\u2026' },
+    { pct: 91,  delay: 12000, label: 'Finishing up\u2026' },
+  ];
+  stages.forEach(({ pct, delay, label }) => {
+    setTimeout(() => {
+      if (done) return;
+      bar.style.width = pct + '%';
+      status.textContent = label;
+    }, delay);
+  });
+
+  // Called by the main page (inside the iframe) when it's fully ready
+  window.chfxReady = function () {
+    if (done) return;
+    done = true;
+
+    bar.style.width = '100%';
+    status.textContent = 'Ready!';
+
+    // Fade splash out, fade iframe in — the page is already loaded inside it
+    setTimeout(() => {
+      splash.classList.add('fade-out');
+      frame.classList.add('reveal');
+    }, 300);
+  };
+
+  // Hard fallback — show whatever is in the iframe after 22 s regardless
+  setTimeout(() => window.chfxReady(), 22000);
+</script>
+
+</body>
+</html>

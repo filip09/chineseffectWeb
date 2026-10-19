@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Dynamic Neon Display</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #0C273C, black);
+            position: relative;
+            background-size: contain; /* Ensures full image is visible */
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        canvas {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: auto;
+        }
+
+        #infoPanel {
+            position: absolute;
+            bottom: 16%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 12px;
+            border-radius: 10px;
+            color: white;
+            font-family: "Lato", sans-serif;
+            text-align: center;
+            font-size: 18px;
+            z-index: 3;
+            width: auto;
+            display: inline-block;
+        }
+
+        #playAudio {
+            font-size: 18px;
+            padding: 10px 20px;
+            background-color: #00AA75;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Create a starfield container */
+        #starfield {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        #mediaContainer {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        iframe, video {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="starfield"></div>
+    <canvas id="neonCanvas"></canvas>
+    <div id="infoPanel">
+        <p id="pinyin"></p>
+        <button id="playAudio">PLAY AUDIO</button>
+        <p id="description"></p>
+        <audio id="audio"></audio>
+    </div>
+    <div id="mediaContainer" style="display: none;"></div>
+    <div id="hiddenText" style="display: none;"></div>
+
+    <script>
+        async function fetchCSV() {
+            const url = 'https://chineseffect.com/chfx/words.csv';
+            return fetch(url)
+                .then(response => response.text())
+                .then(text => Papa.parse(text, { header: true }).data);
+        }
+
+        function getURLParameter(name) {
+            return new URLSearchParams(window.location.search).get(name);
+        }
+
+        function updatePageContent(entry) {
+            if (!entry) {
+                document.body.innerHTML = "<h2 style='color: white;'>Word not found.</h2>";
+                return;
+            }
+
+            document.getElementById('hiddenText').textContent = entry.characters;
+            document.getElementById('pinyin').textContent = entry.pinyin;
+            document.getElementById('description').textContent = entry.description;
+            document.getElementById('audio').src = `https://chineseffect.com/audio/random/${entry.audioSource}.mp3`;
+
+            if (entry.linesColor) {
+                document.documentElement.style.setProperty('--neon-color', `#${entry.linesColor}`);
+                document.getElementById('playAudio').style.backgroundColor = `#${entry.linesColor}`;
+            }
+
+            if (entry.background) {
+                document.body.style.background = `url(https://chineseffect.com/images/${entry.background}) no-repeat center center / contain`;
+                document.getElementById('starfield').style.display = 'none';
+            } else if (entry.video) {
+                document.getElementById('mediaContainer').innerHTML = `<iframe src="https://www.youtube.com/embed/${new URL(entry.video).searchParams.get("v")}" frameborder="0" allowfullscreen></iframe>`;
+                document.getElementById('mediaContainer').style.display = 'block';
+                document.getElementById('infoPanel').style.display = 'none';
+                document.getElementById('neonCanvas').style.display = 'none';
+                document.getElementById('starfield').style.display = 'none';
+            } else {
+                createStars();
+                animateStars();
+            }
+        }
+
+        function resizeCanvas() {
+            const canvas = document.getElementById('neonCanvas');
+            canvas.width = document.documentElement.clientWidth;
+            canvas.height = window.innerHeight * 0.5;
+        }
+
+        function drawNeonText() {
+            const canvas = document.getElementById('neonCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const text = document.getElementById('hiddenText').textContent.trim();
+            if (!text) return;
+
+            let fontSize = Math.min(canvas.width * 0.35, canvas.height * 0.9);
+            ctx.font = `${fontSize}px "Lato", sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            let time = Date.now() * 0.004;
+            for (let i = 0; i < 5; i++) {
+                let opacity = 0.8 - i * 0.15;
+                ctx.strokeStyle = `rgba(0, 240, 165, ${opacity})`;
+                ctx.shadowColor = `rgba(0, 240, 165, ${opacity})`;
+                ctx.shadowBlur = 18 + i * 7;
+                ctx.strokeText(text, canvas.width / 2 + Math.sin(time + i) * 3, canvas.height / 2 + Math.cos(time + i) * 3);
+            }
+            requestAnimationFrame(drawNeonText);
+        }
+
+        let stars = [];
+        
+        function createStars() {
+            const starfield = document.getElementById('starfield');
+            starfield.innerHTML = '';
+            starfield.style.display = 'block';
+            
+            stars = [];
+            
+            for (let i = 0; i < 100; i++) {
+                let star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position across the entire visible area
+                let xPos = Math.random() * window.innerWidth;
+                let yPos = Math.random() * window.innerHeight;
+                
+                star.style.left = xPos + 'px';
+                star.style.top = yPos + 'px';
+                
+                // Vary the size for a more dynamic look
+                let size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.opacity = Math.random() * 0.7 + 0.3;
+                
+                // Random speed - smaller number = faster star
+                let speed = Math.random() * 0.2 + 0.1;
+                
+                // Store the star's properties for animation
+                stars.push({
+                    element: star,
+                    x: xPos,
+                    y: yPos,
+                    speed: speed
+                });
+                
+                starfield.appendChild(star);
+            }
+        }
+        
+        function animateStars() {
+            // Animation function that uses requestAnimationFrame for smooth movement
+            function animate() {
+                stars.forEach(star => {
+                    // Move star to the left
+                    star.x -= star.speed;
+                    
+                    // If star moves off the left edge, reset it to the right edge
+                    if (star.x < -10) {
+                        star.x = window.innerWidth + 10;
+                        star.y = Math.random() * window.innerHeight; // Randomize vertical position
+                    }
+                    
+                    // Update star position
+                    star.element.style.left = star.x + 'px';
+                });
+                
+                // Continue the animation loop
+                requestAnimationFrame(animate);
+            }
+            
+            // Start the animation
+            animate();
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const words = await fetchCSV();
+            const siteName = getURLParameter('page');
+            const entry = words.find(row => row.nameOfSite === siteName);
+
+            updatePageContent(entry);
+            drawNeonText();
+
+            document.getElementById('playAudio').addEventListener('click', () => {
+                const audio = document.getElementById('audio');
+                let hasFallbackPlayed = false;
+                
+                // Function to play fallback speech
+                function playFallbackSpeech() {
+                    if (hasFallbackPlayed) return; // Prevent multiple attempts
+                    
+                    hasFallbackPlayed = true;
+                    console.log("Playing fallback speech");
+                    
+                    // Get the Chinese characters directly from the entry data
+                    const characters = document.getElementById('hiddenText').textContent;
+                    console.log("Characters for speech:", characters);
+                    
+                    if (characters && characters.trim().length > 0) {
+                        // Check if browser supports speech synthesis
+                        if ('speechSynthesis' in window) {
+                            const utterance = new SpeechSynthesisUtterance(characters);
+                            utterance.lang = 'zh-CN';
+                            
+                            // Get available voices
+                            let voices = window.speechSynthesis.getVoices();
+                            
+                            // Try to find a Chinese voice
+                            let chineseVoice = voices.find(voice => 
+                                voice.lang.includes('zh') || 
+                                voice.lang.includes('CN') || 
+                                voice.name.includes('Chinese')
+                            );
+                            
+                            if (chineseVoice) {
+                                utterance.voice = chineseVoice;
+                            }
+                            
+                            // Log before speech
+                            console.log("Speaking text:", characters);
+                            
+                            // Speak the text
+                            window.speechSynthesis.speak(utterance);
+                        } else {
+                            console.error("Browser doesn't support speech synthesis");
+                            alert("Your browser doesn't support text-to-speech. Please try a different browser.");
+                        }
+                    } else {
+                        console.error("No text available for speech synthesis");
+                        alert("No Chinese characters found for this word.");
+                    }
+                }
+                
+                // Add an event listener for the 'error' event on the audio element
+                audio.onerror = function() {
+                    console.log("Audio error event fired");
+                    playFallbackSpeech();
+                };
+                
+                // Try to play the original audio
+                audio.play().then(() => {
+                    console.log("Original audio played successfully");
+                }).catch(error => {
+                    console.log("Original audio failed to play:", error);
+                    playFallbackSpeech();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

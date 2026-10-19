@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chineseffect Navigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background iframe */
+        #background-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 0;
+        }
+
+        /* Content wrapper */
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: #000;
+            letter-spacing: -0.5px;
+        }
+
+        .logo .regular {
+            font-weight: 400;
+        }
+
+        .logo .demi {
+            font-weight: 600;
+        }
+
+        /* Email contact */
+        .email-contact {
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+        }
+
+        .email-contact a {
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s ease;
+        }
+
+        .email-contact a:hover {
+            border-bottom-color: #000;
+        }
+
+        /* Radio button */
+        .radio-button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 60px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .radio-button:hover {
+            background: rgba(0, 0, 0, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Journey title */
+        .journey-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Description */
+        .description {
+            font-size: 18px;
+            color: #2a2a2a;
+            line-height: 1.6;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Navigation grid */
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto 80px;
+            padding: 0 10px;
+        }
+
+        @media (min-width: 768px) {
+            .navigation-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        /* Navigation square */
+        .nav-square {
+            aspect-ratio: 1;
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(0, 0, 0, 0.6);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .nav-square:hover {
+            background: rgba(0, 0, 0, 0.25);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .nav-square.visited {
+            background: rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.3);
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            font-size: 14px;
+            color: #3a3a3a;
+            line-height: 1.8;
+            padding: 40px 20px 60px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer .passion {
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .footer a {
+            color: #000;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            transition: border-color 0.3s ease;
+        }
+
+        .footer a:hover {
+            border-bottom-color: #000;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 32px;
+            }
+
+            .journey-title {
+                font-size: 28px;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .navigation-grid {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+                gap: 15px;
+            }
+
+            .nav-square {
+                font-size: 24px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .navigation-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <iframe id="background-frame" src="https://chineseffect.com/chfx/circlesBackgroundGold.html"></iframe>
+
+    <!-- Main content -->
+    <div class="content">
+        <!-- Logo -->
+        <div class="logo">
+            <span class="regular">chines</span><span class="demi">effect</span>
+        </div>
+
+        <!-- Email contact -->
+        <div class="email-contact">
+            For professional guidance, email to <a href="mailto:connect@chineseffect.com">connect@chineseffect.com</a>
+        </div>
+
+        <!-- Radio button -->
+        <a href="https://chineseffect.com/radio" class="radio-button">Chineseffect Radio</a>
+
+        <!-- Journey title -->
+        <h1 class="journey-title">FUN & EASY Chinese Journey</h1>
+
+        <!-- Description -->
+        <div class="description">
+            Game Changing Guiding Program. From 0 to confidence the fastest way possible.<br>
+            Start the journey wherever suits you.
+        </div>
+
+        <!-- Navigation grid -->
+        <div class="navigation-grid" id="navigationGrid">
+            <!-- JavaScript will populate this -->
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="passion">Made with passion.</div>
+            <div>The rights to all the content and the original font are reserved to Filip Mráček, the author of Chineseffect.</div>
+            <div style="margin-top: 10px;"><a href="mailto:connect@chineseffect.com">connect@chineseffect.com</a></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        const csvFilePath = 'https://chineseffect.com/chfx/chfxWeb.csv';
+        const VISITED_KEY = 'visited_pages';
+
+        // Get visited pages from localStorage
+        function getVisitedPages() {
+            try {
+                const visited = localStorage.getItem(VISITED_KEY);
+                return visited ? JSON.parse(visited) : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Save visited page
+        function markPageVisited(pageNumber) {
+            try {
+                const visited = getVisitedPages();
+                if (!visited.includes(pageNumber)) {
+                    visited.push(pageNumber);
+                    localStorage.setItem(VISITED_KEY, JSON.stringify(visited));
+                }
+            } catch (e) {
+                console.log('Could not save visited page');
+            }
+        }
+
+        // Create navigation square
+        function createNavigationSquare(pageNumber, visited) {
+            const square = document.createElement('div');
+            square.classList.add('nav-square');
+            if (visited.includes(pageNumber)) {
+                square.classList.add('visited');
+            }
+            square.textContent = pageNumber;
+            
+            square.onclick = function() {
+                markPageVisited(pageNumber);
+                parent.location.href = `https://chineseffect.com/journey-1/?chfxpage=page${pageNumber}`;
+            };
+
+            return square;
+        }
+
+        // Load navigation
+        function loadNavigation() {
+            const visited = getVisitedPages();
+            
+            Papa.parse(csvFilePath, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    const rows = results.data.filter(row => row && Object.keys(row).length > 0);
+                    const numberOfPages = rows.length;
+                    const grid = document.getElementById('navigationGrid');
+
+                    for (let i = 1; i <= numberOfPages; i++) {
+                        const square = createNavigationSquare(i, visited);
+                        grid.appendChild(square);
+                    }
+                },
+                error: function(error) {
+                    console.error('Error loading CSV:', error);
+                }
+            });
+        }
+
+        // Load on page ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadNavigation);
+        } else {
+            loadNavigation();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Premium Experience</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Lato', sans-serif;
+    }
+    body {
+      height: 400vh;
+      background: linear-gradient(120deg, #a0d2eb, #f0b9dd, #b5ead7, #fee9b2, #beb7df, #ffd8be, #c8b6e2, #b7e5d6, #a0d2eb);
+      background-size: 300% 300%;
+      animation: gradientMove 30s ease-in-out infinite;
+      position: relative;
+      overflow-x: hidden;
+      transition: background 1s;
+    }
+    @keyframes gradientMove {
+      0% {background-position: 0% 50%;}
+      25% {background-position: 50% 100%;}
+      50% {background-position: 100% 50%;}
+      75% {background-position: 50% 0%;}
+      100% {background-position: 0% 50%;}
+    }
+    /* --- Orbs for abstract Apple-like effect --- */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      z-index: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      transition: background 3s ease;
+      animation: orbFloat 18s ease-in-out infinite alternate;
+    }
+    .orb1 {
+      width: 700px; height: 700px;
+      top: -200px; left: -200px;
+      background: radial-gradient(circle, #b5ead7 0%, #a0d2eb 80%);
+      animation-delay: 0s;
+    }
+    .orb2 {
+      width: 500px; height: 500px;
+      bottom: -150px; right: -150px;
+      background: radial-gradient(circle, #f0b9dd 0%, #beb7df 80%);
+      animation-delay: 6s;
+    }
+    .orb3 {
+      width: 400px; height: 400px;
+      top: 40vh; left: 60vw;
+      background: radial-gradient(circle, #fee9b2 0%, #ffd8be 80%);
+      animation-delay: 12s;
+    }
+    @keyframes orbFloat {
+      0% {transform: scale(1) translateY(0);}
+      100% {transform: scale(1.1) translateY(-40px);}
+    }
+    /* --- Overlay and Positioning --- */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0;
+    }
+    .line {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 98vw;
+      max-width: 2200px;
+      opacity: 0;
+      filter: blur(16px);
+      transition: opacity 1s, filter 1.2s, color 2s;
+      pointer-events: auto;
+      text-align: center;
+      line-height: 1.1;
+      white-space: nowrap;
+      text-shadow:
+        0 8px 32px rgba(0,0,0,0.35),
+        0 2px 8px rgba(0,0,0,0.25),
+        0 1px 1px rgba(0,0,0,0.18);
+      /* Strong drop shadow for floating effect */
+    }
+    .line.visible {
+      opacity: 1;
+      filter: blur(0);
+    }
+    .line1 {
+      top: 22vh;
+      font-weight: 900;
+      color: #1a2340; /* deep navy */
+      font-size: 13vw;
+      letter-spacing: 0.01em;
+      text-shadow:
+        0 12px 48px rgba(0,0,0,0.45),
+        0 2px 8px rgba(0,0,0,0.25),
+        0 1px 1px rgba(0,0,0,0.18);
+    }
+    .line2 {
+      top: 50vh;
+      transform: translate(-50%, -50%);
+      font-size: 7vw;
+      font-weight: 700;
+      color: #2d539e;
+      text-shadow:
+        0 8px 32px rgba(0,0,0,0.35),
+        0 2px 8px rgba(0,0,0,0.25),
+        0 1px 1px rgba(0,0,0,0.18);
+    }
+    .line3 {
+      top: 78vh;
+      font-size: 12vw;
+      font-weight: 900;
+      color: #000d27;
+      text-shadow:
+        0 12px 48px rgba(0,0,0,0.45),
+        0 2px 8px rgba(0,0,0,0.25),
+        0 1px 1px rgba(0,0,0,0.18);
+      white-space: nowrap;
+    }
+    .line3 a {
+      color: inherit;
+      text-decoration: underline;
+      pointer-events: auto;
+      transition: color 0.3s;
+      text-shadow: inherit;
+    }
+    .line3 a:hover {
+      color: #1a2340;
+    }
+    .letter {
+      display: inline-block;
+      animation: float 4s ease-in-out infinite alternate;
+      animation-play-state: paused;
+      will-change: transform;
+    }
+    .line.visible .letter {
+      animation-play-state: running;
+    }
+    @keyframes float {
+      0% { transform: translateY(0);}
+      100% { transform: translateY(-12px);}
+    }
+    /* Mobile styles */
+    @media (max-width: 600px) {
+      .line1 {
+        font-size: 19vw;
+        white-space: pre-line;
+        top: 12vh;
+      }
+      .line2 {
+        font-size: 10vw;
+        top: 44vh;
+      }
+      .line3 {
+        font-size: 17vw;
+        top: 78vh;
+        white-space: pre-line;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Abstract Orbs -->
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <!-- Overlay text -->
+  <div class="overlay">
+    <div class="line line1" id="line1"></div>
+    <div class="line line2" id="line2"></div>
+    <div class="line line3" id="line3">
+      <a href="https://chineseffect.com/starterkit-2/" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+  <script>
+    // Texts
+    const TEXTS = [
+      "BEGINNER'S STARTER KIT",      // line 1
+      "Your Fastest Path To Confidence", // line 2
+      "LIMITED SPECIAL OFFER"        // line 3 (anchor text)
+    ];
+    // On mobile, split line1 and line3 into 3 rows
+    function getLine1Text() {
+      if (window.innerWidth <= 600) {
+        return "BEGINNER'S\nSTARTER\nKIT";
+      }
+      return TEXTS[0];
+    }
+    function getLine3Text() {
+      if (window.innerWidth <= 600) {
+        return "LIMITED\nSPECIAL\nOFFER";
+      }
+      return TEXTS[2];
+    }
+    // Helper: wrap each character (except spaces) in a span, preserve spaces
+    function setLineText(el, txt) {
+      el.textContent = "";
+      for (let i = 0; i < txt.length; i++) {
+        const ch = txt[i];
+        if (ch === " ") {
+          el.appendChild(document.createTextNode(" "));
+        } else if (ch === "\n") {
+          el.appendChild(document.createElement("br"));
+        } else {
+          const span = document.createElement('span');
+          span.className = 'letter';
+          span.textContent = ch;
+          span.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
+          el.appendChild(span);
+        }
+      }
+    }
+    // Adaptive sizing: shrink font if needed to fit width
+    function fitTextToWidth(el, maxFont, minFont) {
+      let fontSize = maxFont;
+      el.style.fontSize = fontSize + 'vw';
+      let parent = el.parentElement;
+      let maxWidth = parent.offsetWidth * 0.99;
+      el.style.whiteSpace = (window.innerWidth <= 600 && el.id !== 'line2') ? 'pre-line' : 'nowrap';
+      while (el.scrollWidth > maxWidth && fontSize > minFont) {
+        fontSize -= 0.5;
+        el.style.fontSize = fontSize + 'vw';
+      }
+    }
+    function renderLines() {
+      setLineText(document.getElementById('line1'), getLine1Text());
+      setLineText(document.getElementById('line2'), TEXTS[1]);
+      setLineText(document.querySelector('#line3 a'), getLine3Text());
+      // Fit text to width
+      if (window.innerWidth > 600) {
+        fitTextToWidth(document.getElementById('line1'), 13, 3.5);
+        fitTextToWidth(document.getElementById('line2'), 7, 2.1);
+        fitTextToWidth(document.getElementById('line3'), 12, 3.7);
+      } else {
+        fitTextToWidth(document.getElementById('line1'), 19, 7);
+        fitTextToWidth(document.getElementById('line2'), 10, 3.5);
+        fitTextToWidth(document.getElementById('line3'), 17, 6);
+      }
+    }
+    // Scroll-based reveal/hide
+    const lines = [
+      {el: document.getElementById('line1'), threshold: 0.5},
+      {el: document.getElementById('line2'), threshold: 1.5},
+      {el: document.getElementById('line3'), threshold: 2.5}
+    ];
+    function onScroll() {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      lines.forEach(({el, threshold}) => {
+        if (scrollY > vh * threshold) {
+          el.classList.add('visible');
+        } else {
+          el.classList.remove('visible');
+        }
+      });
+    }
+    // Animate text color for each line (darker, but pastel-tinted)
+    function animateTextColors() {
+      const pastelDark = [
+        "#1a2340", // navy
+        "#2d539e", // blue
+        "#000d27", // deep blue
+        "#7d3c98", // purple
+        "#b85c38", // brown
+        "#1b4d3e", // green
+        "#a67c00", // gold
+        "#7b1fa2"  // violet
+      ];
+      let idx = 0;
+      setInterval(() => {
+        document.querySelector('.line1').style.color = pastelDark[idx % pastelDark.length];
+        document.querySelector('.line2').style.color = pastelDark[(idx+1) % pastelDark.length];
+        document.querySelector('.line3').style.color = pastelDark[(idx+2) % pastelDark.length];
+        idx++;
+      }, 4000);
+    }
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', () => {
+      renderLines();
+      onScroll();
+    });
+    renderLines();
+    onScroll();
+    animateTextColors();
+  </script>
+</body>
+</html>

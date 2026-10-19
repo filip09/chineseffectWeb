@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Mini Lesson – Subscribe</title>
+<style>
+  @import url("https://assets.mlcdn.com/fonts.css?version=1777899");
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  }
+
+  .form-card {
+    background: #86f0d1;
+    border-radius: 8px;
+    padding: 28px 28px 8px;
+    width: 100%;
+    max-width: 400px;
+    margin: 1rem;
+  }
+
+  .form-card h4 {
+    color: #000;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .form-card p {
+    color: #000;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 20px;
+  }
+
+  .form-card input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-card input[type="email"]:focus {
+    border-color: #555;
+  }
+
+  .form-card input[type="email"]::placeholder { color: #333; }
+
+  .form-card button[type="submit"] {
+    width: 100%;
+    padding: 11px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 20px;
+  }
+
+  .form-card button[type="submit"]:hover { background: #333; }
+
+  .success-msg {
+    display: none;
+    padding-bottom: 20px;
+  }
+
+  .success-msg h4 { font-size: 24px; font-weight: 400; margin-bottom: 8px; }
+  .success-msg p { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="form-card">
+  <div id="form-section">
+    <h4>Daily Mini Lesson</h4>
+    <p>Signup for daily mini lesson and get a FREE Magic Playbook.</p>
+
+    <form id="subscribe-form" action="https://assets.mailerlite.com/jsonp/1050231/forms/148050824445035821/subscribe" method="post" target="_blank" novalidate>
+      <input type="email" name="fields[email]" placeholder="Email" autocomplete="email" aria-label="Email address" required>
+      <input type="hidden" name="ml-submit" value="1">
+      <input type="hidden" name="anticsrf" value="true">
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+
+  <div class="success-msg" id="success-section">
+    <h4>Thank you!</h4>
+    <p>You have successfully joined our subscriber list.</p>
+  </div>
+</div>
+
+<script>
+  document.getElementById('subscribe-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value;
+    if (!email || !email.includes('@')) {
+      this.querySelector('input[type="email"]').style.borderColor = 'red';
+      return;
+    }
+    const data = new FormData(this);
+    fetch(this.action, { method: 'POST', body: data })
+      .catch(() => {});
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('success-section').style.display = 'block';
+  });
+</script>
+</body>
+</html>

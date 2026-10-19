@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinese Audio Quiz Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Arial, sans-serif;
+      overflow: hidden;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: transparent;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 56px 24px 72px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ── Quiz card ── */
+    .quiz-area {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 24px;
+      padding: 40px 36px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      overflow-y: auto;
+      max-height: 92vh;
+    }
+
+    /* ── Title ── */
+    .quiz-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-bottom: 28px;
+    }
+
+    /* ── Play button ── */
+    .play-button-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+      height: 80px;
+      position: relative;
+    }
+
+    #play-button {
+      width: 80px;
+      height: 80px;
+      cursor: pointer;
+      position: relative;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #play-button:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+    }
+
+    #play-icon {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 13px 0 13px 26px;
+      border-color: transparent transparent transparent rgba(255,255,255,0.9);
+      margin-left: 4px;
+      position: absolute;
+      z-index: 2;
+      transition: opacity 0.3s ease;
+    }
+
+    #waveform {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* ── Hint field ── */
+    .hint-container {
+      width: 100%;
+      margin-bottom: 28px;
+    }
+
+    .hint-field {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 16px 20px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease;
+      font-size: clamp(0.9rem, 3vw, 1.1rem);
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      min-height: 3.5rem;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.01em;
+    }
+
+    .hint-field:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.22);
+    }
+
+    .hint-text {
+      transition: opacity 0.3s ease;
+      color: rgba(255,255,255,0.4);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hint-content {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      padding: 0 16px;
+    }
+
+    .hint-content.show { opacity: 1; }
+
+    .hint-chinese {
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 4px;
+    }
+
+    .hint-pinyin {
+      font-size: clamp(0.8rem, 3vw, 1rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── Options ── */
+    .options-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      transition: opacity 0.4s ease;
+    }
+
+    .option {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 16px;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      font-size: clamp(0.9rem, 3vw, 1.05rem);
+      font-weight: 400;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      min-height: 3.5rem;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      user-select: none;
+      /* gentle floating animation */
+      animation: float var(--float-dur, 5s) ease-in-out infinite;
+      animation-delay: var(--float-delay, 0s);
+    }
+
+    .option:nth-child(1) { --float-dur: 5.2s; --float-delay: 0s; }
+    .option:nth-child(2) { --float-dur: 6.1s; --float-delay: -1.4s; }
+    .option:nth-child(3) { --float-dur: 5.7s; --float-delay: -2.8s; }
+    .option:nth-child(4) { --float-dur: 6.5s; --float-delay: -0.9s; }
+
+    @keyframes float {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-4px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .option:hover {
+      background: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.28);
+      transform: translateY(-3px) scale(1.01);
+      animation-play-state: paused;
+    }
+
+    .option:active {
+      transform: scale(0.98);
+    }
+
+    .option-letter {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.08);
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-right: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .option-text {
+      flex-grow: 1;
+      letter-spacing: -0.1px;
+    }
+
+    /* correct / incorrect states */
+    .option.correct {
+      background: rgba(0, 209, 122, 0.18);
+      border-color: rgba(0, 209, 122, 0.5);
+      animation-play-state: paused;
+    }
+
+    .option.incorrect {
+      background: rgba(234, 0, 112, 0.18);
+      border-color: rgba(234, 0, 112, 0.5);
+      animation-play-state: paused;
+    }
+
+    /* ── Feedback ── */
+    .feedback {
+      text-align: center;
+      margin-top: 18px;
+      font-size: clamp(0.95rem, 3vw, 1.15rem);
+      font-weight: 500;
+      height: 1.8rem;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Score ── */
+    .score-display {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Loader ── */
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Completion screen ── */
+    #completion-screen {
+      text-align: center;
+      padding: 32px 0;
+      display: none;
+    }
+
+    #completion-message {
+      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.3px;
+      margin-bottom: 24px;
+    }
+
+    #replay-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    }
+
+    #replay-button:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.38);
+      transform: translateY(-1px);
+    }
+
+    /* ── Responsive ── */
+    @media (min-width: 768px) {
+      .options-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 40px 16px 56px; }
+      .quiz-area { padding: 28px 20px; border-radius: 20px; }
+    }
+
+    @media (max-height: 700px) and (max-width: 767px) {
+      .play-button-container { height: 60px; margin-bottom: 18px; }
+      #play-button { width: 60px; height: 60px; }
+      #play-icon { border-width: 10px 0 10px 20px; }
+      .hint-field { min-height: 2.5rem; }
+      .feedback { height: 1.4rem; margin-top: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader" class="loader">Loading quiz journey…</div>
+
+  <div id="quiz-container" class="container" style="display: none;">
+    <div class="quiz-area" id="quiz-area">
+
+      <div class="quiz-label">Audio Challenge</div>
+      <h1 id="quiz-title">Listen and Choose the Translation</h1>
+
+      <div id="quiz-content">
+        <!-- Play button -->
+        <div class="play-button-container">
+          <div id="play-button">
+            <div id="play-icon"></div>
+            <canvas id="waveform"></canvas>
+          </div>
+        </div>
+
+        <!-- Hint field -->
+        <div class="hint-container">
+          <div class="hint-field" id="hint-field">
+            <div class="hint-text" id="hint-text">SHOW HINT</div>
+            <div class="hint-content" id="hint-content">
+              <div class="hint-chinese" id="hint-chinese"></div>
+              <div class="hint-pinyin" id="hint-pinyin"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="options-container" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="score-display" id="score-display">Score: 0</div>
+      </div>
+
+      <div id="completion-screen">
+        <div id="completion-message">Great job! There's nothing more here.</div>
+        <button id="replay-button">↺ &nbsp;Replay</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <script>
+    // --- State ---
+    let currentPageId = null;
+    let allSentencesData = [];
+    let webCsvData = [];
+    let sequenceSentenceIds = [];
+    let currentQuizSentences = [];
+    let currentSentence = null;
+    let currentSequenceIndex = 0;
+    let score = 0;
+    let selectionLocked = false;
+    let hintShown = false;
+
+    let audioElement = null;
+    let isPlaying = false;
+    let audioContext = null;
+    let audioAnalyser = null;
+    let audioSourceNode = null;
+    let audioDataArray = null;
+    let animationFrame;
+
+    // --- DOM ---
+    const loader          = document.getElementById('loader');
+    const quizContainer   = document.getElementById('quiz-container');
+    const quizArea        = document.getElementById('quiz-area');
+    const quizContent     = document.getElementById('quiz-content');
+    const playButton      = document.getElementById('play-button');
+    const playIcon        = document.getElementById('play-icon');
+    const waveformCanvas  = document.getElementById('waveform');
+    const waveCtx         = waveformCanvas.getContext('2d');
+    const optionsContainer= document.getElementById('options');
+    const feedbackDisplay = document.getElementById('feedback');
+    const scoreDisplay    = document.getElementById('score-display');
+    const completionScreen= document.getElementById('completion-screen');
+    const replayButton    = document.getElementById('replay-button');
+    const hintField       = document.getElementById('hint-field');
+    const hintText        = document.getElementById('hint-text');
+    const hintContent     = document.getElementById('hint-content');
+    const hintChinese     = document.getElementById('hint-chinese');
+    const hintPinyin      = document.getElementById('hint-pinyin');
+
+    // --- Waveform ---
+    function initWaveform() {
+      const buttonElement = document.getElementById('play-button');
+      const buttonSize = buttonElement.offsetWidth;
+      waveformCanvas.width = buttonSize;
+      waveformCanvas.height = buttonSize;
+    }
+
+    function drawWaveform() {
+      if (!isPlaying || !audioDataArray || !audioAnalyser) {
+        cancelAnimationFrame(animationFrame);
+        return;
+      }
+      waveCtx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+      audioAnalyser.getByteFrequencyData(audioDataArray);
+
+      const barWidth = 2;
+      const barGap = 2;
+      const centerY = waveformCanvas.height / 2;
+      const maxBarHeight = waveformCanvas.height * 0.5;
+      const barCount = Math.floor(waveformCanvas.width * 0.7 / (barWidth + barGap));
+      const totalWidth = barCount * (barWidth + barGap) - barGap;
+      const startX = (waveformCanvas.width - totalWidth) / 2;
+
+      waveCtx.fillStyle = 'rgba(255,255,255,0.85)';
+      const step = Math.max(1, Math.floor(audioDataArray.length / barCount));
+
+      for (let i = 0; i < barCount; i++) {
+        const dataIndex = Math.min(i * step, audioDataArray.length - 1);
+        const value = audioDataArray[dataIndex] / 256;
+        const barHeight = Math.max(1, value * maxBarHeight);
+        const x = startX + i * (barWidth + barGap);
+        waveCtx.fillRect(x, centerY - barHeight / 2, barWidth, barHeight);
+      }
+      animationFrame = requestAnimationFrame(drawWaveform);
+    }
+
+    // --- Hint ---
+    function setupHint() {
+      hintField.addEventListener('click', toggleHint);
+    }
+
+    function toggleHint() {
+      if (!hintShown) {
+        hintText.style.opacity = '0';
+        setTimeout(() => {
+          hintContent.classList.add('show');
+          hintShown = true;
+        }, 300);
+      }
+    }
+
+    function resetHint() {
+      hintShown = false;
+      hintText.style.opacity = '1';
+      hintContent.classList.remove('show');
+      if (currentSentence) {
+        hintChinese.textContent = currentSentence.chineseVersion || '';
+        hintPinyin.textContent = currentSentence.chinesePinyin || '';
+      }
+    }
+
+    // --- CSV ---
+    async function loadCsvFile(url) {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status} for ${url}`);
+      return response.text();
+    }
+
+    function parseCsvText(text, requiredHeaders = []) {
+      const lines = text.split('\n').filter(line => line.trim() !== '');
+      if (lines.length < 2) return { headers: [], data: [] };
+      const headers = lines[0].split(',').map(h => h.trim());
+      const data = [];
+      requiredHeaders.forEach(h => { if (!headers.includes(h)) console.warn(`Missing header: "${h}"`); });
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',').map(v => v.trim());
+        const entry = {};
+        headers.forEach((header, index) => { entry[header] = values[index] !== undefined ? values[index] : ''; });
+        data.push(entry);
+      }
+      return { headers, data };
+    }
+
+    // --- Quiz Logic ---
+    function getPageIdFromUrl() {
+      return new URLSearchParams(window.location.search).get('page');
+    }
+
+    function filterAndPrepareSequence() {
+      const pageDataRow = webCsvData.find(row => row.nameOfSite === currentPageId);
+      if (!pageDataRow) { showError(`Page ID "${currentPageId}" not found in chfxWeb.csv.`); return false; }
+
+      sequenceSentenceIds = [];
+      const urlRegex = /https:\/\/chineseffect\.com\/chfx\/saycompare\.html\?page=([^,&]+)/i;
+      for (const key in pageDataRow) {
+        if (key.startsWith('content')) {
+          const match = pageDataRow[key].match(urlRegex);
+          if (match && match[1]) sequenceSentenceIds.push(match[1]);
+        }
+      }
+
+      if (sequenceSentenceIds.length === 0) {
+        showError(`No sentences found for page "${currentPageId}" in chfxWeb.csv.`);
+        quizContent.style.display = 'none';
+        completionScreen.style.display = 'block';
+        document.getElementById('completion-message').textContent = `No sentences configured for page: ${currentPageId}.`;
+        replayButton.style.display = 'none';
+        return false;
+      }
+
+      const sentenceMap = new Map(allSentencesData.map(s => [s.soundFile, s]));
+      currentQuizSentences = sequenceSentenceIds.map(id => sentenceMap.get(id)).filter(s => s !== undefined);
+
+      if (currentQuizSentences.length === 0) {
+        showError(`None of the required sentences were found in speechRecognition.csv.`);
+        return false;
+      }
+      return true;
+    }
+
+    function initQuiz() {
+      loader.style.display = 'none';
+      quizContainer.style.display = 'flex';
+
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {
+        showError("Web Audio API is not supported in this browser.");
+        return;
+      }
+
+      initWaveform();
+      setupHint();
+      playButton.addEventListener('click', playAudio);
+      replayButton.addEventListener('click', replayQuiz);
+      window.addEventListener('resize', initWaveform);
+
+      currentSequenceIndex = 0;
+      score = 0;
+      loadNextQuestion();
+    }
+
+    function loadNextQuestion() {
+      selectionLocked = false;
+      feedbackDisplay.textContent = '';
+      feedbackDisplay.style.color = 'rgba(255,255,255,0.7)';
+      optionsContainer.style.opacity = '0';
+
+      if (audioElement) {
+        audioElement.pause();
+        cancelAnimationFrame(animationFrame);
+        isPlaying = false;
+        playIcon.style.opacity = '1';
+        waveformCanvas.style.opacity = '0';
+      }
+
+      if (currentSequenceIndex >= currentQuizSentences.length) {
+        showCompletionScreen();
+        return;
+      }
+
+      currentSentence = currentQuizSentences[currentSequenceIndex];
+      resetHint();
+
+      const audioUrl = `/audio/random/${currentSentence.soundFile}.mp3`;
+      if (!audioElement) {
+        audioElement = new Audio();
+        try {
+          if (audioContext && !audioSourceNode) {
+            audioSourceNode = audioContext.createMediaElementSource(audioElement);
+            audioAnalyser = audioContext.createAnalyser();
+            audioAnalyser.fftSize = 64;
+            audioSourceNode.connect(audioAnalyser);
+            audioAnalyser.connect(audioContext.destination);
+            audioDataArray = new Uint8Array(audioAnalyser.frequencyBinCount);
+          }
+        } catch (e) {
+          console.error("Error setting up audio analyser:", e);
+          waveformCanvas.style.display = 'none';
+        }
+
+        audioElement.addEventListener('ended', () => {
+          isPlaying = false;
+          playIcon.style.opacity = '1';
+          waveformCanvas.style.opacity = '0';
+          cancelAnimationFrame(animationFrame);
+        });
+        audioElement.addEventListener('error', () => {
+          showError(`Error loading audio file: ${currentSentence.soundFile}.mp3`);
+          playButton.disabled = true;
+        });
+      }
+
+      audioElement.src = audioUrl;
+      audioElement.load();
+      playButton.disabled = false;
+
+      setTimeout(() => {
+        generateOptions();
+        optionsContainer.style.opacity = '1';
+      }, 300);
+
+      scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    function playAudio() {
+      if (!audioElement || audioElement.readyState < 2) {
+        feedbackDisplay.textContent = "Audio loading…";
+        return;
+      }
+
+      if (audioContext && audioContext.state === 'suspended') {
+        audioContext.resume().then(() => togglePlayback()).catch(err => {
+          console.error("Failed to resume AudioContext:", err);
+          alert("Could not start audio. Please interact with the page first.");
+        });
+      } else {
+        togglePlayback();
+      }
+    }
+
+    function togglePlayback() {
+      if (isPlaying) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        isPlaying = false;
+        playIcon.style.opacity = '1';
+        waveformCanvas.style.opacity = '0';
+        cancelAnimationFrame(animationFrame);
+      } else {
+        audioElement.play().then(() => {
+          isPlaying = true;
+          playIcon.style.opacity = '0';
+          waveformCanvas.style.opacity = '1';
+          if (audioAnalyser && audioDataArray) drawWaveform();
+        }).catch(err => {
+          console.error("Error playing audio:", err);
+          if (err.name === 'NotAllowedError') {
+            alert("Audio playback was blocked. Please ensure your browser allows autoplay.");
+          } else {
+            alert("Could not play audio. Error: " + err.message);
+          }
+          isPlaying = false;
+          playIcon.style.opacity = '1';
+          waveformCanvas.style.opacity = '0';
+        });
+      }
+    }
+
+    function generateOptions() {
+      optionsContainer.innerHTML = '';
+
+      const correctAnswer = currentSentence.englishTranslation;
+      const wrongOptions = findSimilarSentences(correctAnswer, 3);
+      const options = shuffleArray([correctAnswer, ...wrongOptions]);
+      const letters = ['A', 'B', 'C', 'D'];
+
+      options.forEach((optionText, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.className = 'option';
+        optionElement.innerHTML = `
+          <span class="option-letter">${letters[index]}</span>
+          <span class="option-text">${optionText}</span>
+        `;
+        optionElement.addEventListener('click', () => handleOptionClick(optionElement, optionText, correctAnswer));
+        optionsContainer.appendChild(optionElement);
+      });
+    }
+
+    function handleOptionClick(element, selectedOption, correctOption) {
+      if (selectionLocked) return;
+      selectionLocked = true;
+
+      if (audioElement && isPlaying) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        isPlaying = false;
+        playIcon.style.opacity = '1';
+        waveformCanvas.style.opacity = '0';
+        cancelAnimationFrame(animationFrame);
+      }
+
+      if (selectedOption === correctOption) {
+        element.classList.add('correct');
+        feedbackDisplay.textContent = 'Correct!';
+        feedbackDisplay.style.color = 'rgba(0, 209, 122, 0.9)';
+        score++;
+        scoreDisplay.textContent = `Score: ${score}`;
+        currentSequenceIndex++;
+        setTimeout(loadNextQuestion, 1400);
+      } else {
+        element.classList.add('incorrect');
+        feedbackDisplay.textContent = 'Incorrect!';
+        feedbackDisplay.style.color = 'rgba(234, 0, 112, 0.9)';
+        score = 0;
+        scoreDisplay.textContent = `Score: ${score}`;
+
+        setTimeout(() => {
+          const allOptionElements = optionsContainer.querySelectorAll('.option');
+          allOptionElements.forEach(optEl => {
+            const textSpan = optEl.querySelector('.option-text');
+            if (textSpan && textSpan.textContent === correctOption) {
+              optEl.classList.add('correct');
+            }
+          });
+        }, 500);
+
+        setTimeout(() => {
+          optionsContainer.querySelectorAll('.option').forEach(optEl => {
+            optEl.classList.remove('correct', 'incorrect');
+          });
+          feedbackDisplay.textContent = '';
+          selectionLocked = false;
+        }, 2500);
+      }
+    }
+
+    function findSimilarSentences(correctSentenceText, count) {
+      const potentialDistractors = allSentencesData.filter(s => s.englishTranslation !== correctSentenceText);
+      shuffleArray(potentialDistractors);
+      return potentialDistractors.slice(0, count).map(s => s.englishTranslation);
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function showCompletionScreen() {
+      if (audioElement && isPlaying) {
+        audioElement.pause();
+        cancelAnimationFrame(animationFrame);
+        isPlaying = false;
+      }
+      quizContent.style.display = 'none';
+      completionScreen.style.display = 'block';
+      document.getElementById('completion-message').textContent = "Great job! There's nothing more here.";
+      scoreDisplay.textContent = `Final Score: ${score}`;
+    }
+
+    function replayQuiz() {
+      score = 0;
+      currentSequenceIndex = 0;
+      selectionLocked = false;
+      completionScreen.style.display = 'none';
+      quizContent.style.display = 'block';
+      loadNextQuestion();
+    }
+
+    function showError(message) {
+      console.error("Quiz Error:", message);
+      loader.innerHTML = `Error: ${message}<br/>Please check the console or contact support.`;
+      loader.style.color = 'rgba(234, 0, 112, 0.9)';
+      loader.style.display = 'flex';
+      quizContainer.style.display = 'none';
+    }
+
+    // --- Boot ---
+    const SHEET_WEB_URL    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=0&single=true&output=csv';
+    const SHEET_SPEECH_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=1926340863&single=true&output=csv';
+
+    function parseSheet(url, filterKey) {
+      return new Promise((resolve, reject) => {
+        Papa.parse(url, {
+          download: true,
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            const rows = results.data.filter(r => r[filterKey] && r[filterKey].trim());
+            if (rows.length === 0) reject(new Error(`Sheet empty or "${filterKey}" column missing: ${url}`));
+            else resolve(rows);
+          },
+          error: function(err) { reject(new Error('Failed to load sheet: ' + err.message)); }
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      initWaveform();
+
+      currentPageId = getPageIdFromUrl();
+      if (!currentPageId) { showError("No 'page' parameter found in the URL (e.g., ?page=pageName)."); return; }
+
+      document.getElementById('quiz-title').textContent = "Listen and Choose the Translation";
+
+      try {
+        [allSentencesData, webCsvData] = await Promise.all([
+          parseSheet(SHEET_SPEECH_URL, 'soundFile'),
+          parseSheet(SHEET_WEB_URL,    'nameOfSite'),
+        ]);
+
+        if (filterAndPrepareSequence()) initQuiz();
+      } catch (error) {
+        console.error("Initialization failed:", error);
+        if (!loader.textContent.startsWith("Error:")) showError(`Initialization failed: ${error.message}`);
+      }
+    });
+  </script>
+</body>
+</html>

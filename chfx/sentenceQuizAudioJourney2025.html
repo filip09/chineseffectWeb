@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>English Audio Quiz Journey</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* --- PASTE ALL YOUR ORIGINAL CSS HERE --- */
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+    body {
+    font-family: "Lato", sans-serif;
+    overflow: hidden;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    }
+
+    #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    }
+
+    .container {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+
+    .quiz-area {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin-bottom: 1rem;
+    overflow-y: auto;
+    max-height: 90vh; /* Adjusted max-height */
+    }
+
+    /* Smaller quiz title */
+    h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: clamp(1rem, 3vw, 1.5rem); /* smaller */
+    }
+
+    .play-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    height: 80px;
+    position: relative;
+    }
+
+    #play-button {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    #play-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    #play-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 15px 30px;
+    border-color: transparent transparent transparent #333;
+    margin-left: 5px; /* Adjust icon position */
+    position: absolute;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+    }
+
+    #waveform {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    }
+
+    /* Hint field styles */
+    .hint-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    }
+
+    /* Bigger quiz sentence */
+    .hint-field {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: clamp(1.5rem, 5vw, 2.5rem); /* bigger */
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    min-height: 3.5rem;
+    box-sizing: border-box;
+    font-weight: bold;
+    }
+
+    .hint-field:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hint-text {
+    transition: opacity 0.3s ease;
+    }
+
+    .hint-content {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    }
+
+    .hint-content.show {
+    opacity: 1;
+    }
+
+    .hint-chinese {
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    margin-bottom: 0.25rem;
+    }
+
+    .hint-pinyin {
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
+    font-style: italic;
+    opacity: 0.8;
+    }
+
+    .options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    transition: opacity 0.5s ease;
+    }
+
+    /* New option style with flex for play circle and text */
+    .option {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem;
+    user-select: none;
+    }
+
+    .option:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .option-letter {
+    font-weight: bold;
+    margin: 0 0.75rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    }
+
+    .option-audio-play {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: background-color 0.3s ease;
+    }
+
+    .option-audio-play:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .option-audio-play.playing {
+    background-color: rgba(0, 209, 122, 0.7);
+    }
+
+    .option-audio-play svg {
+    fill: #333;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    }
+
+    .option-text {
+    flex-grow: 1;
+    padding-right: 1rem;
+    }
+
+    .feedback {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    height: 2rem;
+    font-weight: bold;
+    }
+
+    .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    color: #333;
+    text-align: center;
+    padding: 1rem;
+    }
+
+    .score-display {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    color: #333;
+    font-weight: bold;
+    }
+
+    /* Completion Screen Styles */
+    #completion-screen {
+    text-align: center;
+    padding: 2rem;
+    display: none;
+    }
+
+    #completion-message {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    margin-bottom: 1.5rem;
+    color: #333;
+    }
+
+    #replay-button {
+    padding: 0.8rem 1.5rem;
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    }
+
+    #replay-button:hover {
+    background-color: #0056b3;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 768px) {
+    .container {
+    padding: 2rem;
+    }
+
+    .quiz-area {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    }
+
+    .play-button-container {
+    height: 100px;
+    margin-bottom: 2rem;
+    }
+
+    #play-button {
+    width: 100px;
+    height: 100px;
+    }
+
+    #play-icon {
+    border-width: 18px 0 18px 36px;
+    }
+
+    .options-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    }
+
+    .option {
+    padding: 1rem;
+    font-size: 1.2rem;
+    }
+
+    .option-letter {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 1rem;
+    }
+
+    .hint-field {
+    padding: 1rem;
+    font-size: clamp(2rem, 5vw, 3rem); /* bigger on larger screens */
+    }
+
+    .hint-chinese {
+    font-size: 1.3rem;
+    }
+
+    .hint-pinyin {
+    font-size: 1.1rem;
+    }
+    }
+
+    @media (max-height: 700px) and (max-width: 767px) {
+    .play-button-container {
+    height: 60px;
+    margin-bottom: 1rem;
+    }
+
+    #play-button {
+    width: 60px;
+    height: 60px;
+    }
+
+    #play-icon {
+    border-width: 12px 0 12px 24px;
+    }
+
+    .option {
+    padding: 0.5rem;
+    min-height: 2.75rem;
+    }
+
+    .option-letter {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-right: 0.5rem;
+    }
+
+    .feedback {
+    height: 1.5rem;
+    margin-top: 0.5rem;
+    }
+
+    .hint-field {
+    padding: 0.5rem;
+    min-height: 2.75rem;
+    font-size: clamp(1.2rem, 5vw, 2rem); /* smaller on small screens */
+    }
+    }
+    /* --- END OF CSS --- */
+  </style>
+</head>
+<body>
+  <canvas id="background"></canvas>
+
+  <div id="loader" class="loader">Loading quiz journey...</div>
+
+  <div id="quiz-container" class="container" style="display: none;">
+    <div class="quiz-area" id="quiz-area">
+    <h1 id="quiz-title">Pick the Correct Audio</h1>
+
+    <div id="quiz-content">
+    <!-- Question text -->
+    <div class="hint-container" style="margin-bottom: 2rem;">
+    <div
+    class="hint-field"
+    id="question-text"
+    style="cursor: default; user-select: text; font-weight: bold; text-align: center;"
+    >
+    <!-- English translation question will appear here -->
+    </div>
+    </div>
+
+    <div class="options-container" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="score-display" id="score-display">Score: 0</div>
+    </div>
+
+    <div id="completion-screen" style="display: none;">
+    <div id="completion-message">Great job! There's nothing more here.</div>
+    <button id="replay-button">REPLAY</button>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Background Animation Code (Keep your original JS for this) ---
+    const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
+    let width, height;
+    let circles = [];
+
+    function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    initCircles();
+    }
+    function initCircles() {
+    circles = [];
+    const numCircles = 15;
+    for (let i = 0; i < numCircles; i++) {
+    circles.push({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 250 + 150,
+    hue: Math.random() * 360,
+    saturation: Math.random() * 60 + 40,
+    lightness: Math.random() * 30 + 65,
+    alpha: Math.random() * 0.4 + 0.2,
+    vx: Math.random() * 0.5 - 0.25,
+    vy: Math.random() * 0.5 - 0.25,
+    hueChange: Math.random() * 0.5 - 0.25,
+    });
+    }
+    }
+    function drawBackground() {
+    ctx.clearRect(0, 0, width, height);
+    for (let circle of circles) {
+    circle.x += circle.vx;
+    circle.y += circle.vy;
+    if (circle.x < -circle.radius) circle.x = width + circle.radius;
+    if (circle.x > width + circle.radius) circle.x = -circle.radius;
+    if (circle.y < -circle.radius) circle.y = height + circle.radius;
+    if (circle.y > height + circle.radius) circle.y = -circle.radius;
+    circle.hue += circle.hueChange;
+    if (circle.hue > 360) circle.hue -= 360;
+    if (circle.hue < 0) circle.hue += 360;
+    ctx.beginPath();
+    const gradient = ctx.createRadialGradient(
+    circle.x,
+    circle.y,
+    0,
+    circle.x,
+    circle.y,
+    circle.radius
+    );
+    gradient.addColorStop(
+    0,
+    `hsla(${circle.hue}, ${circle.saturation}%, ${circle.lightness}%, ${circle.alpha})`
+    );
+    gradient.addColorStop(1, `hsla(${circle.hue}, ${circle.saturation}%, ${circle.lightness}%, 0)`);
+    ctx.fillStyle = gradient;
+    ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+    ctx.fill();
+    }
+    requestAnimationFrame(drawBackground);
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    drawBackground();
+    // --- End of Background Animation Code ---
+
+    // --- Quiz Implementation ---
+    let currentPageId = null; // e.g., 'page2'
+    let allSentencesData = []; // Data from speechRecognition.csv
+    let webCsvData = []; // Data from chfxWeb.csv
+    let sequenceSentenceIds = []; // Array of soundFile names for the current page, in order
+    let currentQuizSentences = []; // Filtered sentences for the current sequence
+    let currentSentence = null; // The sentence object currently being quizzed
+    let currentSequenceIndex = 0; // Index for currentQuizSentences
+    let score = 0;
+    let selectionLocked = false; // Prevent multiple clicks while processing answer
+
+    let currentlyPlayingAudio = null; // Track currently playing audio element
+
+    // DOM Elements
+    const loader = document.getElementById("loader");
+    const quizContainer = document.getElementById("quiz-container");
+    const quizArea = document.getElementById("quiz-area");
+    const quizContent = document.getElementById("quiz-content");
+    const optionsContainer = document.getElementById("options");
+    const feedbackDisplay = document.getElementById("feedback");
+    const scoreDisplay = document.getElementById("score-display");
+    const completionScreen = document.getElementById("completion-screen");
+    const replayButton = document.getElementById("replay-button");
+    const questionText = document.getElementById("question-text");
+
+    // --- CSV Loading and Parsing ---
+    async function loadCsvFile(url) {
+    try {
+    const response = await fetch(url);
+    if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status} for ${url}`);
+    }
+    const csvText = await response.text();
+    return csvText;
+    } catch (error) {
+    showError(`Error loading CSV from ${url}: ${error.message}`);
+    throw error;
+    }
+    }
+
+    function parseCsvText(text, requiredHeaders = []) {
+    const lines = text.split("\n").filter((line) => line.trim() !== "");
+    if (lines.length < 2) return { headers: [], data: [] };
+
+    const headers = lines[0].split(",").map((h) => h.trim());
+    const data = [];
+
+    for (const reqHeader of requiredHeaders) {
+    if (!headers.includes(reqHeader)) {
+    console.warn(`Warning: CSV missing required header "${reqHeader}".`);
+    }
+    }
+
+    for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(",").map((v) => v.trim());
+    const entry = {};
+    headers.forEach((header, index) => {
+    entry[header] = values[index] !== undefined ? values[index] : "";
+    });
+    data.push(entry);
+    }
+    return { headers, data };
+    }
+
+    // --- Quiz Logic ---
+    function getPageIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("page");
+    }
+
+    function filterAndPrepareSequence() {
+    const pageDataRow = webCsvData.find((row) => row.nameOfSite === currentPageId);
+
+    if (!pageDataRow) {
+    showError(`Error: Page ID "${currentPageId}" not found in chfxWeb.csv.`);
+    return false;
+    }
+
+    sequenceSentenceIds = [];
+    const urlRegex = /https:\/\/chineseffect\.com\/chfx\/saycompare\.html\?page=([^,&]+)/i;
+
+    for (const key in pageDataRow) {
+    if (key.startsWith("content")) {
+    const contentValue = pageDataRow[key];
+    const match = contentValue.match(urlRegex);
+    if (match && match[1]) {
+    sequenceSentenceIds.push(match[1]);
+    }
+    }
+    }
+
+    if (sequenceSentenceIds.length === 0) {
+    showError(`Error: No sentences found for page "${currentPageId}" in chfxWeb.csv.`);
+    quizContent.style.display = "none";
+    completionScreen.style.display = "block";
+    document.getElementById("completion-message").textContent = `No sentences configured for page: ${currentPageId}.`;
+    replayButton.style.display = "none";
+    return false;
+    }
+
+    const sentenceMap = new Map(allSentencesData.map((s) => [s.soundFile, s]));
+    currentQuizSentences = sequenceSentenceIds
+    .map((id) => sentenceMap.get(id))
+    .filter((sentence) => sentence !== undefined);
+
+    if (currentQuizSentences.length !== sequenceSentenceIds.length) {
+    console.warn("Warning: Some sentence IDs from chfxWeb.csv were not found in speechRecognition.csv.");
+    if (currentQuizSentences.length === 0) {
+    showError(`Error: None of the required sentences for page "${currentPageId}" were found in speechRecognition.csv.`);
+    return false;
+    }
+    }
+
+    console.log("Quiz sequence prepared:", currentQuizSentences.map((s) => s.soundFile));
+    return true;
+    }
+
+    function initQuiz() {
+    loader.style.display = "none";
+    quizContainer.style.display = "flex";
+
+    currentSequenceIndex = 0;
+    score = 0;
+    loadNextQuestion();
+    }
+
+    function loadNextQuestion() {
+    selectionLocked = false;
+    feedbackDisplay.textContent = "";
+    feedbackDisplay.style.color = "#333";
+    optionsContainer.style.opacity = "0";
+
+    // Stop any playing audio
+    if (currentlyPlayingAudio) {
+    currentlyPlayingAudio.pause();
+    currentlyPlayingAudio.currentTime = 0;
+    currentlyPlayingAudio = null;
+    }
+
+    if (currentSequenceIndex >= currentQuizSentences.length) {
+    showCompletionScreen();
+    return;
+    }
+
+    currentSentence = currentQuizSentences[currentSequenceIndex];
+    console.log(`Loading question ${currentSequenceIndex + 1}/${currentQuizSentences.length}: ${currentSentence.soundFile}`);
+
+    // Show English translation as question text
+    questionText.textContent = currentSentence.englishTranslation || "No English translation available";
+
+    setTimeout(() => {
+    generateOptions();
+    optionsContainer.style.opacity = "1";
+    }, 300);
+
+    scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    // Find distractors with similar nameOfSite (part of pageId)
+    function findSimilarSentencesBySite(pageId, excludeSoundFile, count) {
+    // Extract base part of pageId for matching (e.g., before underscore or dash)
+    const baseId = pageId.split(/[_-]/)[0].toLowerCase();
+
+    // Filter sentences with soundFile containing baseId and not the correct one
+    const candidates = allSentencesData.filter(
+    (s) =>
+    s.soundFile !== excludeSoundFile &&
+    s.soundFile.toLowerCase().includes(baseId)
+    );
+
+    shuffleArray(candidates);
+    return candidates.slice(0, count).map((s) => s.soundFile);
+    }
+
+    // Find random distractors excluding those already chosen
+    function findRandomDistractors(excludeSoundFile, count, alreadyChosen = []) {
+    const excludeSet = new Set([excludeSoundFile, ...alreadyChosen]);
+    const candidates = allSentencesData.filter((s) => !excludeSet.has(s.soundFile));
+    shuffleArray(candidates);
+    return candidates.slice(0, count).map((s) => s.soundFile);
+    }
+
+    // Shuffle utility
+    function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+    }
+
+    // Generate options with audio play circle and clickable answer area
+    function generateOptions() {
+    optionsContainer.innerHTML = "";
+
+    const correctSoundFile = currentSentence.soundFile;
+
+    // Get distractors
+    let distractors = findSimilarSentencesBySite(currentPageId, correctSoundFile, 3);
+    if (distractors.length < 3) {
+    const needed = 3 - distractors.length;
+    const randomDistractors = findRandomDistractors(correctSoundFile, needed, distractors);
+    distractors = distractors.concat(randomDistractors);
+    }
+
+    const optionSoundFiles = [correctSoundFile, ...distractors];
+    shuffleArray(optionSoundFiles);
+
+    const letters = ["A", "B", "C", "D"];
+
+    optionSoundFiles.forEach((soundFile, index) => {
+    const sentenceObj = allSentencesData.find((s) => s.soundFile === soundFile);
+    if (!sentenceObj) return; // Safety check
+
+    // Create option container
+    const optionDiv = document.createElement("div");
+    optionDiv.className = "option";
+
+    // Letter label
+    const letterSpan = document.createElement("span");
+    letterSpan.className = "option-letter";
+    letterSpan.textContent = letters[index];
+    optionDiv.appendChild(letterSpan);
+
+    // Audio play button circle
+    const playCircle = document.createElement("div");
+    playCircle.className = "option-audio-play";
+    playCircle.title = "Play audio";
+
+    // Play icon SVG
+    playCircle.innerHTML = `
+    <svg viewBox="0 0 24 24" >
+    <path d="M8 5v14l11-7z"></path>
+    </svg>
+    `;
+
+    optionDiv.appendChild(playCircle);
+
+    // Audio element for this option (hidden)
+    const audio = new Audio(`/audio/random/${soundFile}.mp3`);
+
+    // Play circle click: play audio, do NOT select answer
+    playCircle.addEventListener("click", (e) => {
+    e.stopPropagation(); // Prevent triggering optionDiv click
+
+    // Stop currently playing audio if any
+    if (currentlyPlayingAudio && currentlyPlayingAudio !== audio) {
+    currentlyPlayingAudio.pause();
+    currentlyPlayingAudio.currentTime = 0;
+    // Remove playing class from previous playCircle
+    document.querySelectorAll(".option-audio-play.playing").forEach((el) => {
+    el.classList.remove("playing");
+    });
+    }
+
+    if (audio.paused) {
+    audio.play();
+    currentlyPlayingAudio = audio;
+    playCircle.classList.add("playing");
+    audio.onended = () => {
+    playCircle.classList.remove("playing");
+    currentlyPlayingAudio = null;
+    };
+    } else {
+    audio.pause();
+    audio.currentTime = 0;
+    playCircle.classList.remove("playing");
+    currentlyPlayingAudio = null;
+    }
+    });
+
+    // Clicking the optionDiv (outside playCircle) selects the answer
+    optionDiv.addEventListener("click", () => {
+    if (selectionLocked) return;
+    selectionLocked = true;
+
+    // Stop any playing audio
+    if (currentlyPlayingAudio) {
+    currentlyPlayingAudio.pause();
+    currentlyPlayingAudio.currentTime = 0;
+    currentlyPlayingAudio = null;
+    // Remove playing class from all play circles
+    document.querySelectorAll(".option-audio-play.playing").forEach((el) => {
+    el.classList.remove("playing");
+    });
+    }
+
+    if (soundFile === correctSoundFile) {
+    // Correct
+    optionDiv.style.backgroundColor = "rgba(0, 209, 122, 0.7)";
+    optionDiv.style.borderColor = "#00D17A";
+    feedbackDisplay.textContent = "Correct!";
+    feedbackDisplay.style.color = "#00D17A";
+    score++;
+    scoreDisplay.textContent = `Score: ${score}`;
+    currentSequenceIndex++;
+
+    setTimeout(() => {
+    loadNextQuestion();
+    }, 1500);
+    } else {
+    // Incorrect
+    optionDiv.style.backgroundColor = "rgba(234, 0, 112, 0.7)";
+    optionDiv.style.borderColor = "#EA0070";
+    feedbackDisplay.textContent = "Incorrect!";
+    feedbackDisplay.style.color = "#EA0070";
+    score = 0;
+    scoreDisplay.textContent = `Score: ${score}`;
+
+    // Highlight correct answer after delay
+    setTimeout(() => {
+    const allOptionDivs = optionsContainer.querySelectorAll(".option");
+    allOptionDivs.forEach((opt) => {
+    const letter = opt.querySelector(".option-letter").textContent;
+    const idx = letters.indexOf(letter);
+    if (idx !== -1 && optionSoundFiles[idx] === correctSoundFile) {
+    opt.style.backgroundColor = "rgba(0, 209, 122, 0.5)";
+    opt.style.borderColor = "#00D17A";
+    }
+    });
+    }, 500);
+
+    // Allow retry after delay
+    setTimeout(() => {
+    optionDiv.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+    optionDiv.style.borderColor = "transparent";
+    const allOptionDivs = optionsContainer.querySelectorAll(".option");
+    allOptionDivs.forEach((opt) => {
+    opt.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+    opt.style.borderColor = "transparent";
+    });
+    feedbackDisplay.textContent = "";
+    selectionLocked = false;
+    }, 2500);
+    }
+    });
+
+    optionsContainer.appendChild(optionDiv);
+    });
+    }
+
+    function showCompletionScreen() {
+    console.log("Sequence complete. Showing completion screen.");
+    if (currentlyPlayingAudio) {
+    currentlyPlayingAudio.pause();
+    currentlyPlayingAudio = null;
+    }
+    quizContent.style.display = "none";
+    completionScreen.style.display = "block";
+    document.getElementById("completion-message").textContent =
+    "Great job! There's nothing more here.";
+    replayButton.style.display = "inline-block";
+    scoreDisplay.textContent = `Final Score: ${score}`;
+    }
+
+    function replayQuiz() {
+    console.log("Replaying quiz...");
+    score = 0;
+    currentSequenceIndex = 0;
+    selectionLocked = false;
+
+    completionScreen.style.display = "none";
+    quizContent.style.display = "block";
+
+    loadNextQuestion();
+    }
+
+    function showError(message) {
+    console.error("Quiz Error:", message);
+    loader.innerHTML = `Error: ${message} <br/> Please check the console or contact support.`;
+    loader.style.color = "#EA0070";
+    loader.style.display = "flex";
+    quizContainer.style.display = "none";
+    }
+
+    // --- Start the application ---
+    document.addEventListener("DOMContentLoaded", async () => {
+    console.log("DOM Loaded. Starting Quiz Initialization.");
+
+    currentPageId = getPageIdFromUrl();
+    if (!currentPageId) {
+    showError("No 'page' parameter found in the URL (e.g., ?page=pageName).");
+    return;
+    }
+    console.log("Current Page ID:", currentPageId);
+    document.getElementById("quiz-title").textContent = "Pick the Correct Audio";
+
+    try {
+    const [speechCsvText, webCsvText] = await Promise.all([
+    loadCsvFile("/chfx/speechRecognition.csv"),
+    loadCsvFile("/chfx/chfxWeb.csv"),
+    ]);
+    console.log("Both CSV files fetched.");
+
+    const speechDataParsed = parseCsvText(speechCsvText, [
+    "soundFile",
+    "englishTranslation",
+    "chineseVersion",
+    "chinesePinyin",
+    ]);
+    allSentencesData = speechDataParsed.data;
+    if (allSentencesData.length === 0)
+    throw new Error("speechRecognition.csv is empty or invalid.");
+
+    const webDataParsed = parseCsvText(webCsvText, ["nameOfSite"]);
+    webCsvData = webDataParsed.data;
+    if (webCsvData.length === 0)
+    throw new Error("chfxWeb.csv is empty or invalid.");
+
+    console.log(
+    `Loaded ${allSentencesData.length} sentences from speechRecognition.csv`
+    );
+    console.log(`Loaded ${webCsvData.length} pages from chfxWeb.csv`);
+
+    const sequenceReady = filterAndPrepareSequence();
+
+    if (sequenceReady) {
+    initQuiz();
+    } else {
+    console.log("Initialization halted due to sequence preparation failure.");
+    }
+    } catch (error) {
+    console.error("Initialization failed:", error);
+    if (!loader.textContent.startsWith("Error:")) {
+    showError(`Initialization failed: ${error.message}`);
+    }
+    }
+    });
+
+    replayButton.addEventListener("click", replayQuiz);
+  </script>
+</body>
+</html>

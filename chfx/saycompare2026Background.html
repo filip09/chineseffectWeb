@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chineseffect · Say</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Background iframe — same as chfxNavigation2026 */
+        #background-frame {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+            z-index: 0;
+        }
+
+        /* ── Card ── */
+        .content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 520px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            letter-spacing: -0.3px;
+            margin-bottom: 28px;
+            color: rgba(255,255,255,0.5);
+        }
+        .logo .regular { font-weight: 300; }
+        .logo .demi    { font-weight: 600; color: rgba(255,255,255,0.75); }
+
+        .card {
+            width: 100%;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 24px;
+            padding: 36px 32px 32px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 14px;
+        }
+
+        /* English prompt — the big display text */
+        #english-translation {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #fff;
+            text-align: center;
+            line-height: 1.25;
+            margin-bottom: 10px;
+            min-height: 1.3em;
+        }
+
+        /* Chinese reveal (shown with hint) */
+        #chinese-text {
+            font-size: 22px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.55);
+            text-align: center;
+            margin-bottom: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.4s ease, margin-bottom 0.4s ease;
+            opacity: 0;
+        }
+        #chinese-text.visible {
+            max-height: 120px;
+            opacity: 1;
+            margin-bottom: 8px;
+        }
+
+        .divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(255,255,255,0.15);
+            margin: 24px 0;
+        }
+
+        /* ── Buttons ── */
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 11px 24px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.22);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: background 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+            letter-spacing: 0.01em;
+            outline: none;
+        }
+        .btn:hover:not(:disabled) {
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.35);
+            transform: translateY(-1px);
+        }
+        .btn:active:not(:disabled) { transform: scale(0.97); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-start { border-color: rgba(100,180,255,0.4); }
+        .btn-start.listening {
+            background: rgba(255,60,60,0.18);
+            border-color: rgba(255,90,90,0.5);
+            animation: pulse-btn 1.4s ease-in-out infinite;
+        }
+        @keyframes pulse-btn {
+            0%   { box-shadow: 0 0 0 0   rgba(255,80,80,0.4); }
+            60%  { box-shadow: 0 0 0 12px rgba(255,80,80,0);  }
+            100% { box-shadow: 0 0 0 0   rgba(255,80,80,0);  }
+        }
+
+        /* ── Listening bars ── */
+        .bars {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            height: 28px;
+            margin-bottom: 16px;
+        }
+        .bars.active { display: flex; }
+        .bar {
+            width: 4px;
+            border-radius: 2px;
+            background: rgba(255,255,255,0.7);
+            animation: bar-pulse 1s ease-in-out infinite;
+        }
+        .bar:nth-child(1) { height: 14px; animation-delay: 0s;   }
+        .bar:nth-child(2) { height: 22px; animation-delay: 0.1s; }
+        .bar:nth-child(3) { height: 28px; animation-delay: 0.2s; }
+        .bar:nth-child(4) { height: 22px; animation-delay: 0.3s; }
+        .bar:nth-child(5) { height: 14px; animation-delay: 0.4s; }
+        @keyframes bar-pulse {
+            0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+            50%       { transform: scaleY(1);   opacity: 1;   }
+        }
+
+        /* ── Feedback pill ── */
+        #feedback {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            border-radius: 100px;
+            border: 1px solid transparent;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            letter-spacing: 0.01em;
+            opacity: 0;
+            transition: opacity 0.3s ease, background 0.3s, border-color 0.3s, color 0.3s, max-height 0.3s ease, padding 0.3s ease;
+        }
+        #feedback.show    { opacity: 1; max-height: 60px; padding: 10px 18px; }
+        #feedback.correct   { background: rgba(60,200,120,0.15); border-color: rgba(60,200,120,0.35); color: #7de8b0; }
+        #feedback.incorrect { background: rgba(255,80,80,0.12);  border-color: rgba(255,80,80,0.3);  color: #ff9090; }
+        #feedback.info      { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.55); }
+
+        #browser-warning {
+            margin-top: 16px;
+            font-size: 12px;
+            color: rgba(255,160,80,0.8);
+            display: none;
+            text-align: center;
+        }
+
+        .chrome-note {
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.22);
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 28px 20px 24px; }
+            #english-translation { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<iframe id="background-frame" src="chfxBackground.html"></iframe>
+
+<div class="content">
+    <div class="logo"><span class="regular">chines</span><span class="demi">effect</span></div>
+
+    <div class="card">
+        <div class="label">Translate &amp; Say</div>
+        <div id="english-translation">–</div>
+        <div id="chinese-text"></div>
+
+        <div class="divider"></div>
+
+        <div class="btn-row">
+            <button class="btn btn-start" id="startButton" onclick="startRecognition()">
+                <!-- Mic icon -->
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <rect x="4.5" y="1" width="5" height="8" rx="2.5" fill="currentColor" opacity="0.9"/>
+                    <path d="M2 7c0 2.761 2.239 5 5 5s5-2.239 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.9"/>
+                    <line x1="7" y1="12" x2="7" y2="14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.9"/>
+                    <line x1="5" y1="14" x2="9" y2="14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.9"/>
+                </svg>
+                START
+            </button>
+            <button class="btn btn-hint" id="hintButton" onclick="playHint()">
+                <!-- Speaker icon -->
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 4.5v5l3-1.5v-2L1 4.5z" fill="currentColor" opacity="0.9"/>
+                    <path d="M4 3.5l4.5-3v13L4 10" fill="currentColor" opacity="0.9"/>
+                    <path d="M10.5 4.5c1.5.8 1.5 4.2 0 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M12 2.5c2.5 1.7 2.5 7.3 0 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+                HINT
+            </button>
+        </div>
+
+        <div class="bars" id="listeningBars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <div id="feedback"></div>
+        <div id="browser-warning">Speech recognition is not supported. Please use Chrome.</div>
+    </div>
+
+    <div class="chrome-note">Speech recognition works best in Chrome.</div>
+</div>
+
+<script>
+    // ── Config ────────────────────────────────────────────────────────────
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?output=csv&gid=1926340863';
+
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+    // ── State ─────────────────────────────────────────────────────────────
+    let correctPhrase = '';
+    let soundFile     = '';
+    let chineseVoice  = null;
+    let isSpeaking    = false;   // true while TTS or audio is playing
+
+    // ── Elements ──────────────────────────────────────────────────────────
+    const startBtn    = document.getElementById('startButton');
+    const hintBtn     = document.getElementById('hintButton');
+    const feedbackEl  = document.getElementById('feedback');
+    const barsEl      = document.getElementById('listeningBars');
+    const chineseEl   = document.getElementById('chinese-text');
+
+    // ── Feedback helpers ──────────────────────────────────────────────────
+    function showFeedback(text, type) {
+        feedbackEl.textContent = text;
+        feedbackEl.className   = 'show ' + (type || 'info');
+    }
+    function hideFeedback() {
+        feedbackEl.className   = '';
+        feedbackEl.textContent = '';
+    }
+
+    // ── Load data from Google Sheets ──────────────────────────────────────
+    function loadData() {
+        const pageName = new URLSearchParams(window.location.search).get('page');
+        if (!pageName) { showFeedback('No page specified.', 'info'); return; }
+
+        showFeedback('Loading…', 'info');
+        Papa.parse(CSV_URL, {
+            download: true,
+            header: true,
+            complete(results) {
+                const rows = results.data.filter(r => r && Object.keys(r).length > 1);
+                const entry = rows.find(r => r.nameOfSite === pageName);
+                if (!entry) { showFeedback('Page "' + pageName + '" not found.', 'info'); return; }
+
+                document.getElementById('english-translation').textContent = entry.englishTranslation || '';
+                correctPhrase    = (entry.chineseVersion || '').trim();
+                chineseEl.textContent = correctPhrase;
+                soundFile        = (entry.soundFile || '').trim();
+                hideFeedback();
+            },
+            error() { showFeedback('Could not load data. Check connection.', 'info'); }
+        });
+    }
+
+    // ── TTS voice init ────────────────────────────────────────────────────
+    function initVoices() {
+        function pickVoice() {
+            chineseVoice = speechSynthesis.getVoices().find(v =>
+                v.lang.includes('zh') || v.lang.includes('cmn') || v.lang.includes('yue')
+            ) || null;
+        }
+        pickVoice();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = pickVoice;
+        }
+    }
+
+    // ── HINT ──────────────────────────────────────────────────────────────
+    function playHint() {
+        if (isSpeaking) return;
+        speechSynthesis.cancel();
+        chineseEl.classList.remove('visible');
+
+        if (soundFile) {
+            const audio = new Audio('/audio/random/' + soundFile + '.mp3');
+            const fallbackTimer = setTimeout(() => { audio.onerror = null; speakTTS(); }, 3000);
+
+            audio.onerror = () => { clearTimeout(fallbackTimer); speakTTS(); };
+            audio.oncanplaythrough = () => {
+                clearTimeout(fallbackTimer);
+                isSpeaking   = true;
+                hintBtn.disabled  = true;
+                startBtn.disabled = true;
+                audio.play().catch(() => speakTTS());
+            };
+            audio.onended = () => {
+                isSpeaking        = false;
+                hintBtn.disabled  = false;
+                startBtn.disabled = false;
+            };
+            audio.load();
+        } else {
+            speakTTS();
+        }
+    }
+
+    function speakTTS() {
+        if (!('speechSynthesis' in window) || !correctPhrase) return;
+
+        isSpeaking        = true;
+        hintBtn.disabled  = true;
+        startBtn.disabled = true;
+        chineseEl.classList.add('visible');
+        showFeedback('Playing hint…', 'info');
+
+        const utter   = new SpeechSynthesisUtterance(correctPhrase);
+        utter.lang    = 'zh-CN';
+        utter.rate    = 0.8;
+        utter.pitch   = 1.0;
+        utter.volume  = 1.0;
+        if (chineseVoice) utter.voice = chineseVoice;
+
+        utter.onend = utter.onerror = () => {
+            isSpeaking        = false;
+            hintBtn.disabled  = false;
+            startBtn.disabled = false;
+            hideFeedback();
+            // Keep Chinese text visible for a moment then fade
+            setTimeout(() => chineseEl.classList.remove('visible'), 3000);
+        };
+
+        speechSynthesis.speak(utter);
+    }
+
+    // ── Speech Recognition ────────────────────────────────────────────────
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SR) {
+        document.getElementById('browser-warning').style.display = 'block';
+        startBtn.disabled = true;
+    }
+
+    function startRecognition() {
+        if (!SR || isSpeaking) return;
+
+        // Cancel any lingering synthesis before opening the mic
+        if (speechSynthesis.speaking) speechSynthesis.cancel();
+
+        startBtn.disabled = true;
+
+        // 150 ms gap lets the audio session fully release after TTS ends.
+        // Creating a fresh instance every time avoids the silent failure
+        // that occurs when reusing one instance after speechSynthesis fires.
+        setTimeout(() => {
+            const r = new SR();
+            r.lang            = 'zh-CN';
+            r.continuous      = false;
+            r.interimResults  = false;
+            r.maxAlternatives = 3;
+
+            r.onstart = () => {
+                startBtn.classList.add('listening');
+                barsEl.classList.add('active');
+                showFeedback('Listening…', 'info');
+            };
+
+            r.onresult = (event) => {
+                const alts    = event.results[0];
+                let   matched = false;
+                for (let i = 0; i < alts.length; i++) {
+                    if (alts[i].transcript.trim() === correctPhrase) { matched = true; break; }
+                }
+                const best = alts[0].transcript.trim();
+                if (matched) {
+                    showFeedback('CORRECT', 'correct');
+                } else {
+                    showFeedback('TRY AGAIN — you said: "' + best + '"', 'incorrect');
+                }
+                setTimeout(hideFeedback, 3500);
+            };
+
+            r.onspeechend = () => { try { r.stop(); } catch(e) {} };
+
+            r.onend = () => {
+                startBtn.classList.remove('listening');
+                startBtn.disabled = false;
+                barsEl.classList.remove('active');
+            };
+
+            r.onerror = (e) => {
+                startBtn.classList.remove('listening');
+                startBtn.disabled = false;
+                barsEl.classList.remove('active');
+                if      (e.error === 'no-speech')   showFeedback('No speech detected. Try again.', 'info');
+                else if (e.error === 'not-allowed')  showFeedback('Microphone access denied.', 'incorrect');
+                else                                 showFeedback('Error: ' + e.error + '. Try again.', 'info');
+                setTimeout(hideFeedback, 3000);
+            };
+
+            try { r.start(); }
+            catch(e) {
+                showFeedback('Could not start. Please try again.', 'info');
+                startBtn.disabled = false;
+                barsEl.classList.remove('active');
+            }
+        }, 150);
+    }
+
+    // ── Boot ──────────────────────────────────────────────────────────────
+    if ('speechSynthesis' in window) initVoices();
+    loadData();
+</script>
+</body>
+</html>

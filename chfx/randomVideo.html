@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random YouTube Video Player</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            height: calc(100vh - 80px);
+            max-height: 600px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .shuffle-button {
+            margin-top: 20px;
+            background-color: #A801DA;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(168, 1, 218, 0.3);
+        }
+        .shuffle-button:hover {
+            background-color: #8E01BA;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(168, 1, 218, 0.4);
+        }
+        .shuffle-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(168, 1, 218, 0.2);
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="video-container" id="videoContainer">
+            <div class="loading">Loading video...</div>
+        </div>
+        <button class="shuffle-button" id="shuffleButton">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 4L21 7M21 7L18 10M21 7H17C15.9391 7 14.9217 7.42143 14.1716 8.17157C13.4214 8.92172 13 9.93913 13 11M18 20L21 17M21 17L18 14M21 17H17C15.9391 17 14.9217 16.5786 14.1716 15.8284C13.4214 15.0783 13 14.0609 13 13M3 7H7C8.06087 7 9.07828 7.42143 9.82843 8.17157C10.5786 8.92172 11 9.93913 11 11M3 17H7C8.06087 17 9.07828 16.5786 9.82843 15.8284C10.5786 15.0783 11 14.0609 11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            SHUFFLE
+        </button>
+    </div>
+
+    <script>
+        // URL of the CSV file
+        const csvUrl = 'https://chineseffect.com/chfx/qrcodes.csv';
+        let videos = [];
+        let currentVideo = null;
+        
+        // Function to parse CSV data
+        function parseCSV(text) {
+            const lines = text.split('\n');
+            
+            // Find if there's a header with "qrcode"
+            let hasHeader = false;
+            if (lines[0].trim().toLowerCase() === 'qrcode') {
+                hasHeader = true;
+            }
+            
+            const result = [];
+            // Start from index 1 if there's a header, otherwise from index 0
+            const startIndex = hasHeader ? 1 : 0;
+            
+            for (let i = startIndex; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line === '') continue;
+                
+                // Extract YouTube video ID from YouTube link
+                let videoId = null;
+                if (line.includes('youtu.be/')) {
+                    videoId = line.split('youtu.be/')[1];
+                } else if (line.includes('youtube.com/shorts/')) {
+                    videoId = line.split('youtube.com/shorts/')[1];
+                } else if (line.includes('youtube.com/watch')) {
+                    const url = new URL(line);
+                    videoId = url.searchParams.get('v');
+                }
+                
+                if (videoId) {
+                    // Remove any query parameters or hashes
+                    videoId = videoId.split('?')[0].split('#')[0];
+                    result.push(videoId);
+                }
+            }
+            
+            return result;
+        }
+        
+        // Function to fetch CSV and initialize videos array
+        async function fetchVideos() {
+            try {
+                const response = await fetch(csvUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`);
+                }
+                
+                const text = await response.text();
+                videos = parseCSV(text);
+                
+                if (videos.length > 0) {
+                    loadRandomVideo();
+                } else {
+                    showError('No valid YouTube links found in CSV');
+                    console.error('CSV parsing resulted in no valid video IDs');
+                    console.log('CSV content:', text);
+                }
+            } catch (error) {
+                console.error('Error fetching CSV:', error);
+                showError(`Failed to load video data: ${error.message}`);
+            }
+        }
+        
+        // Function to show error message
+        function showError(message) {
+            document.querySelector('.loading').textContent = message;
+        }
+        
+        // Function to load a random video
+        function loadRandomVideo() {
+            if (videos.length === 0) return;
+            
+            const randomIndex = Math.floor(Math.random() * videos.length);
+            const videoId = videos[randomIndex];
+            currentVideo = videoId;
+            
+            const videoContainer = document.getElementById('videoContainer');
+            
+            // Create iframe without autoplay
+            videoContainer.innerHTML = `
+                <iframe
+                    id="ytplayer"
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=0&enablejsapi=1"
+                    frameborder="0"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            `;
+        }
+        
+        // Add event listener to shuffle button
+        document.getElementById('shuffleButton').addEventListener('click', loadRandomVideo);
+        
+        // Initialize the page
+        fetchVideos();
+    </script>
+</body>
+</html>

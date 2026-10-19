@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chineseffect Radio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    html,
+    body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: "Lato", sans-serif;
+    background: linear-gradient(to bottom, #0c273c, black);
+    overflow: hidden;
+    }
+    #starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    }
+    .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    }
+    .container {
+    position: relative;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    }
+    .title {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+    background: linear-gradient(45deg, #93c5fd, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(147, 197, 253, 0.3);
+    }
+    .features {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #e0eaff;
+    }
+    .features p {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    }
+    .mode-buttons {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+    justify-content: center;
+    }
+    .mode-button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-family: "Lato", sans-serif;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: rgba(147, 197, 253, 0.1);
+    color: white;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(147, 197, 253, 0.3);
+    }
+    .mode-button:hover,
+    .mode-button.active {
+    background: rgba(147, 197, 253, 0.3);
+    border-color: rgba(147, 197, 253, 0.5);
+    }
+    #contentFrame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 3;
+    background: transparent;
+    }
+    .nav-bar-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+  min-height: 80px;
+  box-sizing: border-box;
+}
+    .nav-buttons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0;
+    }
+    .nav-buttons img {
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    user-select: none;
+    }
+    .nav-buttons img:hover {
+    transform: scale(1.1);
+    }
+    .nav-left {
+    position: absolute;
+    left: 30px;
+    }
+    .nav-right {
+    position: absolute;
+    right: 30px;
+    }
+    .nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    }
+    #playPauseButton {
+    position: fixed;
+    bottom: 85px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 48px;
+    background: rgba(147, 197, 253, 0.5);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 11;
+    box-shadow: 0 2px 12px #60a5fa44;
+    opacity: 0.9;
+    }
+    #playPauseButton svg {
+    width: 32px;
+    height: 32px;
+    fill: #e0eaff;
+    }
+    #debug {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    z-index: 100;
+    max-width: 80%;
+    max-height: 30%;
+    overflow: auto;
+    display: none;
+    }
+    @media (max-width: 768px) {
+    .title {
+    font-size: 2em;
+    }
+    .features {
+    font-size: 1em;
+    }
+    .mode-buttons {
+    flex-direction: column;
+    gap: 10px;
+    }
+    .mode-button {
+    padding: 12px 24px;
+    font-size: 1em;
+    }
+    .nav-buttons img {
+    height: 38px;
+    }
+    .nav-left {
+    left: 20px;
+    }
+    .nav-right {
+    right: 20px;
+    }
+    #playPauseButton {
+    width: 38px;
+    height: 38px;
+    bottom: 70px;
+    }
+    #playPauseButton svg {
+    width: 24px;
+    height: 24px;
+    }
+    }
+</style>
+</head>
+<body>
+  <div id="starfield"></div>
+  <div class="container" id="mainContainer">
+    <div class="title">Chineseffect Radio</div>
+    <div class="features">
+    <p>✔️ Practice your listening skills.</p>
+    <p>✔️ Interact with the content.</p>
+    </div>
+    <div class="mode-buttons">
+    <button class="mode-button" id="englishFirstBtn">English First</button>
+    <button class="mode-button" id="chineseFirstBtn">Chinese First</button>
+    </div>
+  </div>
+  <iframe id="contentFrame"></iframe>
+  <button id="playPauseButton" style="display:none;">
+    <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+    <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
+  </button>
+  <div class="nav-bar-wrap" id="navBarWrap" style="display:none;">
+    <div class="nav-buttons" id="navigation">
+    <img src="https://chineseffect.com/images/arrowLeft.png" id="backButton" alt="Back" class="nav-left" />
+    <img src="https://chineseffect.com/images/guide.png" id="guideButton" alt="Guide" class="nav-center" />
+    <img src="https://chineseffect.com/images/arrowRight.png" id="nextButton" alt="Next" class="nav-right" />
+    </div>
+  </div>
+  <div id="debug"></div>
+  <script>
+    // --- Debug helper ---
+    const DEBUG = false;
+    function log(...args) {
+    if (!DEBUG) return;
+    console.log(...args);
+    const debug = document.getElementById("debug");
+    debug.style.display = "block";
+    debug.innerHTML += args.join(" ") + "<br>";
+    if (debug.childNodes.length > 20) {
+    debug.removeChild(debug.firstChild);
+    }
+    }
+
+    // --- Device Detection ---
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+    );
+    log("Device detection - iOS:", isIOS, "Mobile:", isMobile);
+
+    // --- Main Logic ---
+    let allSentences = [];
+    let playedSentences = [];
+    let currentSentence = null;
+    let nextSentence = null;
+    let currentMode = null;
+    let isPlaying = false;
+    let playQueue = [];
+    let playQueueIndex = 0;
+    let sentenceHistory = [];
+    let historyIndex = -1;
+    let speechRecognitionData = [];
+    let autoPlayOnLoad = false;
+    let lastLoadedSentenceCode = null;
+    let isPlayingSequence = false;
+    let currentTimeout = null;
+    let audioTimeouts = [];
+    let preferredVoice = null;
+    let audioUnlocked = false;
+
+    // --- Web Audio API Setup ---
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const audioBufferCache = new Map();
+    let currentSource = null;
+
+    // Unlock audio context and speech synthesis on iOS on first user interaction
+    function unlockAudio() {
+    if (audioContext.state === "suspended") {
+    audioContext.resume().then(() => {
+    log("AudioContext resumed");
+    audioUnlocked = true;
+    });
+    } else {
+    audioUnlocked = true;
+    }
+
+    if ("speechSynthesis" in window) {
+    // Create a silent utterance to initialize speech synthesis on iOS
+    const silentUtterance = new SpeechSynthesisUtterance(" ");
+    silentUtterance.volume = 0;
+    window.speechSynthesis.speak(silentUtterance);
+    }
+    }
+    document.addEventListener("touchstart", unlockAudio, { once: true });
+    document.addEventListener("click", unlockAudio, { once: true });
+
+    // --- Audio Buffer Loading ---
+    async function loadAudioBuffer(audioCode) {
+    if (audioBufferCache.has(audioCode)) {
+    log("Audio buffer cache hit:", audioCode);
+    return audioBufferCache.get(audioCode);
+    }
+    const url = `https://chineseffect.com/audio/random/${audioCode}.mp3`;
+    try {
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    audioBufferCache.set(audioCode, audioBuffer);
+    log("Audio buffer loaded and cached:", audioCode);
+    return audioBuffer;
+    } catch (e) {
+    log("Error loading audio buffer:", e);
+    throw e;
+    }
+    }
+
+    // --- Play Audio Buffer ---
+    function playAudioBuffer(audioBuffer) {
+    return new Promise((resolve) => {
+    if (currentSource) {
+    currentSource.stop();
+    currentSource.disconnect();
+    currentSource = null;
+    }
+    const source = audioContext.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(audioContext.destination);
+    source.onended = () => {
+    currentSource = null;
+    resolve();
+    };
+    source.start();
+    currentSource = source;
+    });
+    }
+
+    // --- Stop current audio ---
+    function stopCurrentAudio() {
+    if (currentSource) {
+    try {
+    currentSource.stop();
+    currentSource.disconnect();
+    } catch (e) {
+    log("Error stopping current audio:", e);
+    }
+    currentSource = null;
+    }
+    }
+
+    // --- Cleanup ---
+    function cleanupResources(clearCache = true) {
+    stopCurrentAudio();
+    clearAllTimeouts();
+    if (clearCache) {
+    audioBufferCache.clear();
+    }
+    if (window.gc) {
+    try {
+    window.gc();
+    } catch (e) {}
+    }
+    }
+
+    // --- Clear timeouts ---
+    function clearAllTimeouts() {
+    if (currentTimeout) {
+    clearTimeout(currentTimeout);
+    currentTimeout = null;
+    }
+    audioTimeouts.forEach((timeout) => clearTimeout(timeout));
+    audioTimeouts = [];
+    }
+
+    // --- Play Chinese Audio using Web Audio API ---
+    async function playChineseAudio(audioCode) {
+    if (!audioCode) {
+    log("No audio code provided");
+    return;
+    }
+    try {
+    await unlockAudio();
+    const audioBuffer = await loadAudioBuffer(audioCode);
+    await playAudioBuffer(audioBuffer);
+    } catch (e) {
+    log("Error playing audio with Web Audio API:", e);
+    }
+    }
+
+    // --- Play/Pause Logic ---
+    function setPlayPauseUI() {
+    if (isPlaying) {
+    playIcon.style.display = "none";
+    pauseIcon.style.display = "";
+    } else {
+    playIcon.style.display = "";
+    pauseIcon.style.display = "none";
+    }
+    }
+
+  playPauseButton.addEventListener("click", () => {
+  isPlaying = !isPlaying;
+  setPlayPauseUI();
+
+  if (isPlaying) {
+    if (!isPlayingSequence) {
+    playCurrentQueue();
+    }
+  } else {
+    // Pause: stop audio and timers, and mark sequence as not playing
+    cleanupResources(false); // stops audio and timers
+    isPlayingSequence = false; // allow restarting on play
+  }
+});
+
+    // --- Navigation ---
+    document.getElementById("backButton").onclick = () => {
+    if (historyIndex > 0) {
+    historyIndex--;
+    autoPlayOnLoad = isPlaying;
+    goToSentence(sentenceHistory[historyIndex], false);
+    }
+    if (isIOS && !audioUnlocked) {
+    unlockAudio();
+    }
+    };
+
+    document.getElementById("nextButton").onclick = () => {
+    if (historyIndex < sentenceHistory.length - 1) {
+    historyIndex++;
+    autoPlayOnLoad = isPlaying;
+    goToSentence(sentenceHistory[historyIndex], false);
+    } else {
+    const next = nextSentence || getNextSentence(currentSentence);
+    playedSentences.push(next.sentenceCode);
+    autoPlayOnLoad = isPlaying;
+    goToSentence(next);
+    }
+    if (isIOS && !audioUnlocked) {
+    unlockAudio();
+    }
+    };
+
+    document.getElementById("guideButton").onclick = () => {
+    window.location.reload();
+    };
+
+    // --- Mode Selection ---
+    document.getElementById("englishFirstBtn").onclick = async () => {
+    currentMode = "englishFirst";
+    if (isIOS && !audioUnlocked) {
+    unlockAudio();
+    }
+    await startRadio();
+    };
+
+    document.getElementById("chineseFirstBtn").onclick = async () => {
+    currentMode = "chineseFirst";
+    if (isIOS && !audioUnlocked) {
+    unlockAudio();
+    }
+    await startRadio();
+    };
+
+    // --- Main Radio Logic ---
+    async function startRadio() {
+    mainContainer.style.display = "none";
+    navBarWrap.style.display = "block";
+    playPauseButton.style.display = "flex";
+    contentFrame.style.display = "block";
+    setTimeout(() => (contentFrame.style.opacity = "1"), 50);
+
+    try {
+    await loadSentences();
+    await loadSpeechRecognition();
+
+    playedSentences = [];
+    sentenceHistory = [];
+    historyIndex = -1;
+
+    const first = getNextSentence(null);
+    if (!first) {
+    log("No sentences available");
+    return;
+    }
+
+    playedSentences.push(first.sentenceCode);
+    autoPlayOnLoad = true;
+    goToSentence(first);
+    isPlaying = true;
+    setPlayPauseUI();
+    } catch (error) {
+    log("Error starting radio:", error);
+    }
+    }
+
+    // --- English TTS Function ---
+    function speakEnglishText(text) {
+    if (!text) return Promise.resolve();
+
+    log("Speaking English text:", text);
+
+    return new Promise((resolve) => {
+    if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+    }
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US";
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
+
+    if (preferredVoice) {
+    utterance.voice = preferredVoice;
+    }
+
+    utterance.onend = () => {
+    log("Speech ended");
+    resolve();
+    };
+
+    utterance.onerror = (e) => {
+    log("Speech error:", e);
+    resolve();
+    };
+
+    if (isIOS) {
+    setTimeout(() => {
+    window.speechSynthesis.speak(utterance);
+    }, 100);
+
+    const speechTimeout = setTimeout(() => {
+    resolve();
+    }, text.length * 100 + 2000);
+
+    audioTimeouts.push(speechTimeout);
+    } else {
+    window.speechSynthesis.speak(utterance);
+    }
+    });
+    }
+
+    // --- Play Sequence Logic ---
+    async function playCurrentQueue() {
+    if (isPlayingSequence) {
+    log("Already playing a sequence, not starting a new one");
+    return;
+    }
+
+    cleanupResources(false);
+
+    if (!isPlaying) return;
+    if (!currentSentence) return;
+
+    log("Starting play sequence for:", currentSentence.sentenceCode);
+    isPlayingSequence = true;
+
+    playQueue = [];
+    playQueueIndex = 0;
+
+    const english = getEnglishTranslation(currentSentence.sentenceCode);
+    const audioCode = currentSentence.sentenceAudio;
+
+    const PAUSE_MS = isIOS ? 1000 : 1500;
+
+    if (currentMode === "chineseFirst") {
+    playQueue.push({ type: "audio", code: audioCode });
+    playQueue.push({ type: "wait", ms: PAUSE_MS });
+    playQueue.push({ type: "audio", code: audioCode });
+    playQueue.push({ type: "wait", ms: PAUSE_MS });
+    playQueue.push({ type: "english", text: english });
+    playQueue.push({ type: "wait", ms: PAUSE_MS });
+    playQueue.push({ type: "audio", code: audioCode });
+    } else {
+    playQueue.push({ type: "english", text: english });
+    playQueue.push({ type: "wait", ms: PAUSE_MS });
+    playQueue.push({ type: "audio", code: audioCode });
+    playQueue.push({ type: "wait", ms: PAUSE_MS });
+    playQueue.push({ type: "audio", code: audioCode });
+    playQueue.push({ type: "wait", ms: PAUSE_MS });
+    playQueue.push({ type: "audio", code: audioCode });
+    }
+
+    try {
+    await playQueueStep();
+    } catch (error) {
+    log("Error in play sequence:", error);
+    isPlayingSequence = false;
+    setTimeout(() => {
+    if (isPlaying) document.getElementById("nextButton").click();
+    }, 1000);
+    }
+    }
+
+    async function playQueueStep() {
+    if (!isPlaying) {
+    isPlayingSequence = false;
+    return;
+    }
+
+    if (playQueueIndex >= playQueue.length) {
+    log("Play sequence complete, advancing to next sentence");
+    isPlayingSequence = false;
+    currentTimeout = setTimeout(() => {
+    if (isPlaying) document.getElementById("nextButton").click();
+    }, 1000);
+    return;
+    }
+
+    const step = playQueue[playQueueIndex++];
+    log("Playing step:", step.type, playQueueIndex, "of", playQueue.length);
+
+    try {
+    if (step.type === "english") {
+    await speakEnglishText(step.text);
+    await waitMs(300);
+    playQueueStep();
+    } else if (step.type === "audio") {
+    await playChineseAudio(step.code);
+    await waitMs(300);
+    playQueueStep();
+    } else if (step.type === "wait") {
+    currentTimeout = setTimeout(playQueueStep, step.ms);
+    }
+    } catch (error) {
+    log("Error in play step:", error);
+    currentTimeout = setTimeout(playQueueStep, 500);
+    }
+    }
+
+    function waitMs(ms) {
+    return new Promise((res) => {
+    const timeout = setTimeout(res, ms);
+    audioTimeouts.push(timeout);
+    });
+    }
+
+    // --- CSV Loading ---
+    async function fetchCSV(url) {
+    try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+    const text = await response.text();
+    return parseCSV(text);
+    } catch (error) {
+    log("Error fetching CSV:", error);
+    return [];
+    }
+    }
+
+    function parseCSV(text) {
+    const lines = text.trim().split("\n");
+    const headers = lines[0].split(",").map((h) => h.trim());
+    return lines.slice(1).map((line) => {
+    const cols = line.split(",").map((c) => c.trim());
+    const obj = {};
+    headers.forEach((h, i) => (obj[h] = cols[i] || ""));
+    return obj;
+    });
+    }
+
+    // --- Speech Recognition Data ---
+    async function loadSpeechRecognition() {
+    if (!speechRecognitionData.length) {
+    speechRecognitionData = await fetchCSV(
+    "https://chineseffect.com/chfx/speechRecognition.csv"
+    );
+    }
+    }
+
+    function getEnglishTranslation(sentenceCode) {
+    const row = speechRecognitionData.find((r) => r.nameOfSite === sentenceCode);
+    return row ? row.englishTranslation : "";
+    }
+
+    function getChineseText(sentenceCode) {
+    const row = speechRecognitionData.find((r) => r.nameOfSite === sentenceCode);
+    return row ? row.chineseVersion : "";
+    }
+
+    // --- Sentence Management ---
+    async function loadSentences() {
+    if (!allSentences.length) {
+    allSentences = await fetchCSV("https://chineseffect.com/chfx/sentencesDecomposed.csv");
+    }
+    }
+
+    function getNextSentence(prevSentence) {
+    // Frozen original logic for later use
+    /*
+    let next = null;
+    if (prevSentence) {
+    const prevWords = Object.keys(prevSentence)
+    .filter((k) => k.startsWith("word") && prevSentence[k])
+    .map((k) => prevSentence[k]);
+    next = allSentences.find((s) => {
+    if (playedSentences.includes(s.sentenceCode)) return false;
+    return Object.keys(s)
+    .filter((k) => k.startsWith("word") && s[k])
+    .some((k) => prevWords.includes(s[k]));
+    });
+    }
+    if (!next) {
+    const unplayed = allSentences.filter((s) => !playedSentences.includes(s.sentenceCode));
+    if (unplayed.length === 0) {
+    playedSentences = [];
+    return getNextSentence(null);
+    }
+    next = unplayed[Math.floor(Math.random() * unplayed.length)];
+    }
+    return next;
+    */
+
+    // New logic: purely random order ignoring previous sentence
+    const unplayed = allSentences.filter((s) => !playedSentences.includes(s.sentenceCode));
+    if (unplayed.length === 0) {
+    playedSentences = [];
+    return getNextSentence(null);
+    }
+    const next = unplayed[Math.floor(Math.random() * unplayed.length)];
+    return next;
+    }
+
+    function goToSentence(sentence, addToHistory = true) {
+    cleanupResources(false);
+    isPlayingSequence = false;
+    currentSentence = sentence;
+
+    if (lastLoadedSentenceCode !== sentence.sentenceCode) {
+    contentFrame.src = `sentenceDecomposed.html?page=${sentence.sentenceCode}`;
+    lastLoadedSentenceCode = sentence.sentenceCode;
+    } else {
+    setTimeout(() => {
+    if (autoPlayOnLoad && isPlaying) {
+    playCurrentQueue();
+    }
+    }, 100);
+    }
+
+    if (addToHistory) {
+    if (historyIndex === -1 || sentenceHistory[historyIndex]?.sentenceCode !== sentence.sentenceCode) {
+    sentenceHistory = sentenceHistory.slice(0, historyIndex + 1);
+    sentenceHistory.push(sentence);
+    historyIndex++;
+    }
+    }
+
+    preloadNextSentence();
+    }
+
+    // --- Preload Next Sentence ---
+    function preloadNextSentence() {
+    if (historyIndex < sentenceHistory.length - 1) {
+    nextSentence = sentenceHistory[historyIndex + 1];
+    } else {
+    nextSentence = getNextSentence(currentSentence);
+    }
+
+    if (nextSentence) {
+    // Preload audio buffer for next sentence
+    loadAudioBuffer(nextSentence.sentenceAudio).catch((e) => {
+    log("Error preloading next audio buffer:", e);
+    });
+    }
+    }
+
+    // --- Listen for word clicks in iframe ---
+    window.addEventListener("message", function (event) {
+    log("Received message from iframe:", event.data);
+    if (typeof event.data === "object" && event.data.type === "wordClick" && event.data.nextSentenceCode) {
+    log("Word click detected, loading sentence:", event.data.nextSentenceCode);
+    cleanupResources(false);
+
+    const next = allSentences.find((s) => s.sentenceCode === event.data.nextSentenceCode);
+    if (next) {
+    playedSentences.push(next.sentenceCode);
+    autoPlayOnLoad = isPlaying;
+    goToSentence(next);
+    }
+    }
+    });
+
+    // --- Iframe load: auto-play if needed ---
+    contentFrame.onload = function () {
+    log("Iframe loaded, autoPlayOnLoad:", autoPlayOnLoad);
+    if (autoPlayOnLoad && isPlaying) {
+    log("Auto-playing on load");
+    setTimeout(() => {
+    playCurrentQueue();
+    }, 500);
+    }
+    autoPlayOnLoad = false;
+    };
+
+    // --- Starfield Animation ---
+    let stars = [];
+    function createStars() {
+    const starfield = document.getElementById("starfield");
+    starfield.innerHTML = "";
+    stars = [];
+    const starCount = isMobile ? 30 : 100;
+
+    for (let i = 0; i < starCount; i++) {
+    let star = document.createElement("div");
+    star.className = "star";
+    let xPos = Math.random() * window.innerWidth;
+    let yPos = Math.random() * window.innerHeight;
+    star.style.left = xPos + "px";
+    star.style.top = yPos + "px";
+    let size = Math.random() * 2 + 1;
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+    star.style.opacity = Math.random() * 0.7 + 0.3;
+    let speed = Math.random() * 0.2 + 0.1;
+    stars.push({ element: star, x: xPos, y: yPos, speed: speed });
+    starfield.appendChild(star);
+    }
+    }
+
+    function animateStars() {
+    function animate() {
+    stars.forEach((star) => {
+    star.x -= star.speed;
+    if (star.x < -10) {
+    star.x = window.innerWidth + 10;
+    star.y = Math.random() * window.innerHeight;
+    }
+    star.element.style.left = star.x + "px";
+    });
+    requestAnimationFrame(animate);
+    }
+    animate();
+    }
+
+    createStars();
+    animateStars();
+    window.addEventListener("resize", createStars);
+
+    // --- Initialize TTS Voices ---
+    function initVoices() {
+    if ("speechSynthesis" in window) {
+    let voices = window.speechSynthesis.getVoices();
+
+    if (voices.length === 0) {
+    window.speechSynthesis.onvoiceschanged = () => {
+    voices = window.speechSynthesis.getVoices();
+    selectVoices(voices);
+    };
+    } else {
+    selectVoices(voices);
+    }
+    }
+    }
+
+    function selectVoices(voices) {
+    preferredVoice =
+    voices.find((v) => v.name.includes("Samantha") && v.lang.includes("en")) ||
+    voices.find((v) => v.name.includes("Google") && v.name.includes("US") && v.lang.includes("en")) ||
+    voices.find((v) => v.lang.includes("en-US")) ||
+    voices.find((v) => v.lang.includes("en-GB")) ||
+    voices.find((v) => v.lang.includes("en"));
+
+    log("Selected English voice:", preferredVoice ? preferredVoice.name : "Default system voice");
+    }
+
+    initVoices();
+
+    // --- Mobile height fix ---
+    function setAppHeight() {
+    document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
+    }
+    window.addEventListener("resize", setAppHeight);
+    window.addEventListener("orientationchange", setAppHeight);
+    setAppHeight();
+
+    // --- Memory optimization for mobile ---
+    if (isMobile) {
+    setInterval(() => {
+    if (!isPlayingSequence) {
+    if (window.gc) {
+    try {
+    window.gc();
+    } catch (e) {}
+    }
+    }
+    }, 60000);
+
+    if ("onlowmemory" in window) {
+    window.addEventListener("lowmemory", () => {
+    log("Low memory event detected");
+    cleanupResources(true);
+    });
+    }
+    }
+  </script>
+</body>
+</html>

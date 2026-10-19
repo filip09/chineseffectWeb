@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinese Words File Checker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .results {
+      margin-top: 30px;
+    }
+    .result-section {
+      margin-bottom: 30px;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    h2 {
+      margin-top: 0;
+      color: #444;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+    .status {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .loading {
+      text-align: center;
+      display: none;
+      margin: 20px 0;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+    .stats {
+      background-color: #f7f7f7;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .stat-item {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chinese Words File Checker</h1>
+  
+  <button id="runCheck">RUN</button>
+  
+  <div id="loading" class="loading">
+    Loading and processing data... please wait.
+  </div>
+  
+  <div id="stats" class="stats" style="display: none;">
+    <h3>Data Statistics:</h3>
+    <div id="statsContent"></div>
+  </div>
+  
+  <div id="results" class="results">
+    <div class="result-section">
+      <h2>MISSING FROM WORDS.CSV</h2>
+      <div id="missingFromWordsStatus" class="status">Not checked yet</div>
+      <ul id="missingFromWordslist"></ul>
+    </div>
+    
+    <div class="result-section">
+      <h2>MISSING VISUAL FILES</h2>
+      <div id="missingVisualStatus" class="status">Not checked yet</div>
+      <ul id="missingVisualFiles"></ul>
+    </div>
+    
+    <div class="result-section">
+      <h2>MISSING MP3</h2>
+      <div id="missingMP3Status" class="status">Not checked yet</div>
+      <ul id="missingMP3Files"></ul>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('runCheck').addEventListener('click', runFileCheck);
+    
+    async function runFileCheck() {
+      // Show loading state
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('stats').style.display = 'none';
+      
+      // Reset all lists
+      document.getElementById('missingFromWordslist').innerHTML = '';
+      document.getElementById('missingVisualFiles').innerHTML = '';
+      document.getElementById('missingMP3Files').innerHTML = '';
+      
+      // Set status messages
+      document.getElementById('missingFromWordsStatus').textContent = 'Checking...';
+      document.getElementById('missingVisualStatus').textContent = 'Checking...';
+      document.getElementById('missingMP3Status').textContent = 'Checking...';
+      
+      try {
+        // 1. Fetch the CSV data
+        const [wordsCSV, sentencesCSV] = await Promise.all([
+          fetchCSV('https://chineseffect.com/chfx/words.csv'),
+          fetchCSV('https://chineseffect.com/chfx/sentencesDecomposed.csv')
+        ]);
+        
+        // 2. Get file listings from the correct directories
+        const [imageFiles, audioFiles] = await Promise.all([
+          fetchDirectoryListing('https://chineseffect.com/images/wordsTiles/'),
+          fetchDirectoryListing('https://chineseffect.com/audio/random/')
+        ]);
+        
+        // Process the data
+        const wordsFromCSV = new Set(wordsCSV.map(row => row.nameOfSite ? row.nameOfSite.trim() : '').filter(Boolean));
+        
+        // Extract the image filenames without extensions
+        const imageFileSet = new Set();
+        imageFiles.forEach(file => {
+          if (file.endsWith('.webp')) {
+            imageFileSet.add(file.replace('.webp', ''));
+          }
+        });
+        
+        // Extract the audio filenames without extensions
+        const audioFileSet = new Set();
+        audioFiles.forEach(file => {
+          if (file.endsWith('.mp3')) {
+            audioFileSet.add(file.replace('.mp3', ''));
+          }
+        });
+        
+        // Collect all words from sentences
+        const wordsFromSentences = new Set();
+        sentencesCSV.forEach(row => {
+          // Handle all potential word columns (word1 through word9 and possibly more)
+          Object.keys(row).forEach(key => {
+            if (key.startsWith('word') && row[key] && row[key].trim()) {
+              wordsFromSentences.add(row[key].trim());
+            }
+          });
+        });
+        
+        // Get audioSource values from words.csv
+        const audioSources = new Set();
+        wordsCSV.forEach(row => {
+          if (row.audioSource && row.audioSource.trim()) {
+            audioSources.add(row.audioSource.trim());
+          }
+        });
+        
+        // Display statistics
+        displayStats({
+          wordsCSV: wordsFromCSV.size,
+          sentenceWords: wordsFromSentences.size,
+          imageFiles: imageFileSet.size,
+          audioFiles: audioFileSet.size,
+          audioSources: audioSources.size
+        });
+        
+        // 3. Find missing entries
+        // Words in sentences but missing from words.csv
+        const missingFromWords = [...wordsFromSentences].filter(word => !wordsFromCSV.has(word));
+        
+        // Words in words.csv but missing webp files
+        const missingVisualFiles = [...wordsFromCSV].filter(word => !imageFileSet.has(word));
+        
+        // Audio sources referenced in words.csv but missing MP3 files
+        const missingMP3 = [...audioSources].filter(audioSource => !audioFileSet.has(audioSource));
+        
+        // 4. Display results
+        displayResults('missingFromWordslist', 'missingFromWordsStatus', missingFromWords);
+        displayResults('missingVisualFiles', 'missingVisualStatus', missingVisualFiles);
+        displayResults('missingMP3Files', 'missingMP3Status', missingMP3);
+      } catch (error) {
+        console.error('Error during check:', error);
+        document.getElementById('missingFromWordsStatus').innerHTML = `<span class="error">Error: ${error.message}</span>`;
+        document.getElementById('missingVisualStatus').innerHTML = `<span class="error">Error: ${error.message}</span>`;
+        document.getElementById('missingMP3Status').innerHTML = `<span class="error">Error: ${error.message}</span>`;
+      } finally {
+        document.getElementById('loading').style.display = 'none';
+      }
+    }
+    
+    async function fetchCSV(url) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+        }
+        
+        const text = await response.text();
+        return parseCSV(text);
+      } catch (error) {
+        console.error(`Error fetching ${url}:`, error);
+        throw new Error(`Failed to fetch data from ${url}`);
+      }
+    }
+    
+    function parseCSV(text) {
+      const lines = text.split('\n');
+      const headers = lines[0].split(',').map(h => h.trim());
+      
+      return lines.slice(1).filter(line => line.trim()).map(line => {
+        // Split the line by commas, but handle quoted fields properly
+        const values = [];
+        let inQuotes = false;
+        let currentValue = '';
+        
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            values.push(currentValue.trim());
+            currentValue = '';
+          } else {
+            currentValue += char;
+          }
+        }
+        
+        // Add the last value
+        values.push(currentValue.trim());
+        
+        // Create an object with the values
+        const entry = {};
+        headers.forEach((header, index) => {
+          entry[header] = values[index] || '';
+        });
+        
+        return entry;
+      });
+    }
+    
+    async function fetchDirectoryListing(url) {
+      // Since browsers can't directly list directory contents, we need to use a server-side solution
+      // This function simulates a server endpoint that returns a directory listing
+      
+      try {
+        // In a real implementation, you would have a server endpoint that returns the file list
+        // For example:
+        // const response = await fetch(`${url}?list=true`);
+        // if (!response.ok) throw new Error(`Failed to fetch directory listing: ${response.status}`);
+        // const files = await response.json();
+        // return files;
+        
+        // For this demo, we'll create a mock implementation
+        
+        // Extract the directory name from the URL to determine which mock data to return
+        const isImageDir = url.includes('/images/wordsTiles/');
+        const isAudioDir = url.includes('/audio/random/');
+        
+        return new Promise(resolve => {
+          setTimeout(() => {
+            if (isImageDir) {
+              // Simulate the image files listing
+              const mockImageFiles = [
+                '你好.webp', '谢谢.webp', '再见.webp', '学习.webp', '汉语.webp'
+                // In production, this would be a complete list from your server
+              ];
+              resolve(mockImageFiles);
+            } else if (isAudioDir) {
+              // Simulate the audio files listing
+              const mockAudioFiles = [
+                'nihao.mp3', 'xiexie.mp3', 'zaijian.mp3', 'xuexi.mp3'
+                // In production, this would be a complete list from your server
+              ];
+              resolve(mockAudioFiles);
+            } else {
+              resolve([]);
+            }
+          }, 500);
+        });
+      } catch (error) {
+        console.error(`Error fetching directory listing for ${url}:`, error);
+        throw new Error(`Failed to get directory listing for ${url}`);
+      }
+    }
+    
+    function displayResults(listId, statusId, items) {
+      const list = document.getElementById(listId);
+      const status = document.getElementById(statusId);
+      
+      if (items.length === 0) {
+        status.textContent = 'No missing items found!';
+        return;
+      }
+      
+      status.textContent = `Found ${items.length} missing items:`;
+      
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+    
+    function displayStats(stats) {
+      const statsDiv = document.getElementById('stats');
+      const statsContent = document.getElementById('statsContent');
+      
+      statsContent.innerHTML = `
+        <div class="stat-item">Words in CSV: ${stats.wordsCSV}</div>
+        <div class="stat-item">Words in sentences: ${stats.sentenceWords}</div>
+        <div class="stat-item">Image files (.webp): ${stats.imageFiles}</div>
+        <div class="stat-item">Audio files (.mp3): ${stats.audioFiles}</div>
+        <div class="stat-item">Audio sources referenced: ${stats.audioSources}</div>
+      `;
+      
+      statsDiv.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

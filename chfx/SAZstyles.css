@@ -1,0 +1,67 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#grid-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 20px);
+    grid-template-rows: repeat(auto-fill, 20px);
+    pointer-events: none; /* Ensure the grid does not interfere with other elements */
+}
+
+.character {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 2s ease-out, opacity 2s ease-out;
+}
+
+#info-panel {
+    position: absolute;
+    bottom: 0;
+    width: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* Black with 80% opacity */
+    color: white;
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 20px 30px 20px; /* Add padding to the bottom */
+   bottom: 8%;
+    pointer-events: all; /* Ensure the info panel is interactive */
+}
+
+#info-panel p {
+    margin: 5px;
+}
+
+#info-panel button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#sentence-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px; /* Reduce gap between columns */
+    justify-content: center;
+    align-items: flex-start;
+}

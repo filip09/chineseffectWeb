@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Audio Quiz Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    /* --- PASTE ALL YOUR ORIGINAL CSS HERE --- */
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+
+    body {
+    font-family: 'Lato', sans-serif;
+    overflow: hidden;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    }
+
+    #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    }
+
+    .container {
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+
+    .quiz-area {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin-bottom: 1rem;
+    overflow-y: auto;
+    max-height: 90vh; /* Adjusted max-height */
+    }
+
+    h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    }
+
+    .play-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    height: 80px;
+    position: relative;
+    }
+
+    #play-button {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+
+    #play-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    #play-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 15px 0 15px 30px;
+    border-color: transparent transparent transparent #333;
+    margin-left: 5px; /* Adjust icon position */
+    position: absolute;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+    }
+
+    #waveform {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    }
+
+    /* Hint field styles */
+  .hint-container {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.hint-field {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  min-height: 3.5rem;
+  box-sizing: border-box;
+  /* Remove display: flex and min-width */
+}
+
+    .hint-field:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .hint-text {
+    transition: opacity 0.3s ease;
+    }
+
+    .hint-content {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    }
+
+    .hint-content.show {
+    opacity: 1;
+    }
+
+    .hint-chinese {
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    margin-bottom: 0.25rem;
+    }
+
+    .hint-pinyin {
+    font-size: clamp(0.8rem, 3vw, 1.1rem);
+    font-style: italic;
+    opacity: 0.8;
+    }
+
+    .options-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    transition: opacity 0.5s ease;
+    }
+
+    .option {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 3.5rem; /* Ensure minimum height */
+    }
+
+    .option:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .option-letter {
+    font-weight: bold;
+    margin-right: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    }
+
+    .option-text {
+    flex-grow: 1;
+    }
+
+    .feedback {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    height: 2rem; /* Ensure space for feedback */
+    font-weight: bold; /* Make feedback stand out */
+    }
+
+    .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    color: #333;
+    text-align: center; /* Center text */
+    padding: 1rem; /* Add padding */
+    }
+
+    .score-display {
+    text-align: center;
+    margin-top: 0.75rem;
+    font-size: clamp(0.9rem, 3vw, 1.2rem);
+    color: #333;
+    font-weight: bold; /* Make score stand out */
+    }
+
+    /* Completion Screen Styles */
+    #completion-screen {
+    text-align: center;
+    padding: 2rem;
+    display: none; /* Hidden by default */
+    }
+
+    #completion-message {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    margin-bottom: 1.5rem;
+    color: #333;
+    }
+
+    #replay-button {
+    padding: 0.8rem 1.5rem;
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    cursor: pointer;
+    background-color: #007bff; /* Example color */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    }
+
+    #replay-button:hover {
+    background-color: #0056b3; /* Darker hover */
+    }
+
+
+    /* Responsive adjustments */
+    @media (min-width: 768px) {
+    .container {
+    padding: 2rem;
+    }
+
+    .quiz-area {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    }
+
+    .play-button-container {
+    height: 100px;
+    margin-bottom: 2rem;
+    }
+
+    #play-button {
+    width: 100px;
+    height: 100px;
+    }
+
+    #play-icon {
+    border-width: 18px 0 18px 36px;
+    }
+
+    .options-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    }
+
+    .option {
+    padding: 1rem;
+    font-size: 1.2rem;
+    }
+
+    .option-letter {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 1rem;
+    }
+
+    .hint-field {
+    padding: 1rem;
+    font-size: 1.2rem;
+    }
+
+    .hint-chinese {
+    font-size: 1.3rem;
+    }
+
+    .hint-pinyin {
+    font-size: 1.1rem;
+    }
+    }
+
+    /* Make sure we don't run off the page on small screens */
+    @media (max-height: 700px) and (max-width: 767px) { /* Added max-width condition */
+    .play-button-container {
+    height: 60px;
+    margin-bottom: 1rem;
+    }
+
+    #play-button {
+    width: 60px;
+    height: 60px;
+    }
+
+    #play-icon {
+    border-width: 12px 0 12px 24px;
+    }
+
+    .option {
+    padding: 0.5rem;
+    min-height: 2.75rem;
+    }
+
+    .option-letter {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-right: 0.5rem;
+    }
+
+    .feedback {
+    height: 1.5rem;
+    margin-top: 0.5rem;
+    }
+
+    .hint-field {
+    padding: 0.5rem;
+    min-height: 2.75rem;
+    }
+    }
+    /* --- END OF CSS --- */
+    </style>
+</head>
+<body>
+    <canvas id="background"></canvas>
+
+    <div id="loader" class="loader">Loading quiz journey...</div>
+
+    <div id="quiz-container" class="container" style="display: none;">
+    <div class="quiz-area" id="quiz-area">
+    <h1 id="quiz-title">Listen and Choose the Translation</h1>
+
+    <div id="quiz-content">
+    <div class="play-button-container">
+    <div id="play-button">
+    <div id="play-icon"></div>
+    <canvas id="waveform"></canvas>
+    </div>
+    </div>
+    
+    <!-- Hint field -->
+    <div class="hint-container">
+    <div class="hint-field" id="hint-field">
+    <div class="hint-text" id="hint-text">SHOW HINT</div>
+    <div class="hint-content" id="hint-content">
+    <div class="hint-chinese" id="hint-chinese"></div>
+    <div class="hint-pinyin" id="hint-pinyin"></div>
+    </div>
+    </div>
+    </div>
+    
+    <div class="options-container" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="score-display" id="score-display">Score: 0</div>
+    </div>
+
+    <div id="completion-screen" style="display: none;">
+    <div id="completion-message">Great job! There's nothing more here.</div>
+    <button id="replay-button">REPLAY</button>
+    </div>
+    </div>
+    </div>
+
+    <script>
+    // --- Background Animation Code (Keep your original JS for this) ---
+    const canvas = document.getElementById('background');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let circles = [];
+
+    function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    initCircles();
+    }
+    function initCircles() {
+    circles = [];
+    const numCircles = 15;
+    for (let i = 0; i < numCircles; i++) {
+    circles.push({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 250 + 150,
+    hue: Math.random() * 360,
+    saturation: Math.random() * 60 + 40,
+    lightness: Math.random() * 30 + 65,
+    alpha: Math.random() * 0.4 + 0.2,
+    vx: Math.random() * 0.5 - 0.25,
+    vy: Math.random() * 0.5 - 0.25,
+    hueChange: Math.random() * 0.5 - 0.25
+    });
+    }
+    }
+    function drawBackground() {
+    ctx.clearRect(0, 0, width, height);
+    for (let circle of circles) {
+    circle.x += circle.vx;
+    circle.y += circle.vy;
+    if (circle.x < -circle.radius) circle.x = width + circle.radius;
+    if (circle.x > width + circle.radius) circle.x = -circle.radius;
+    if (circle.y < -circle.radius) circle.y = height + circle.radius;
+    if (circle.y > height + circle.radius) circle.y = -circle.radius;
+    circle.hue += circle.hueChange;
+    if (circle.hue > 360) circle.hue -= 360;
+    if (circle.hue < 0) circle.hue += 360;
+    ctx.beginPath();
+    const gradient = ctx.createRadialGradient(
+    circle.x, circle.y, 0,
+    circle.x, circle.y, circle.radius
+    );
+    gradient.addColorStop(0, `hsla(${circle.hue}, ${circle.saturation}%, ${circle.lightness}%, ${circle.alpha})`);
+    gradient.addColorStop(1, `hsla(${circle.hue}, ${circle.saturation}%, ${circle.lightness}%, 0)`);
+    ctx.fillStyle = gradient;
+    ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+    ctx.fill();
+    }
+    requestAnimationFrame(drawBackground);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawBackground();
+    // --- End of Background Animation Code ---
+
+
+    // --- NEW/MODIFIED Audio Quiz Implementation ---
+    let currentPageId = null; // e.g., 'page2'
+    let allSentencesData = []; // Data from speechRecognition.csv
+    let webCsvData = []; // Data from chfxWeb.csv
+    let sequenceSentenceIds = []; // Array of soundFile names for the current page, in order
+    let currentQuizSentences = []; // Filtered sentences for the current sequence
+    let currentSentence = null; // The sentence object currently being quizzed
+    let currentSequenceIndex = 0; // Index for currentQuizSentences
+    let score = 0;
+    let selectionLocked = false; // Prevent multiple clicks while processing answer
+    let hintShown = false; // Track hint state
+
+    let audioElement = null;
+    let isPlaying = false;
+    let audioContext = null;
+    let audioAnalyser = null;
+    let audioSourceNode = null; // Keep track of the source node
+    let audioDataArray = null;
+    let animationFrame;
+
+    // DOM Elements
+    const loader = document.getElementById('loader');
+    const quizContainer = document.getElementById('quiz-container');
+    const quizArea = document.getElementById('quiz-area');
+    const quizContent = document.getElementById('quiz-content');
+    const playButton = document.getElementById('play-button');
+    const playIcon = document.getElementById('play-icon');
+    const waveformCanvas = document.getElementById('waveform');
+    const waveCtx = waveformCanvas.getContext('2d');
+    const optionsContainer = document.getElementById('options');
+    const feedbackDisplay = document.getElementById('feedback');
+    const scoreDisplay = document.getElementById('score-display');
+    const completionScreen = document.getElementById('completion-screen');
+    const replayButton = document.getElementById('replay-button');
+    
+    // Hint elements
+    const hintField = document.getElementById('hint-field');
+    const hintText = document.getElementById('hint-text');
+    const hintContent = document.getElementById('hint-content');
+    const hintChinese = document.getElementById('hint-chinese');
+    const hintPinyin = document.getElementById('hint-pinyin');
+
+    // --- Waveform Visualization (Keep original functions) ---
+    function initWaveform() {
+    const buttonElement = document.getElementById('play-button');
+    const buttonSize = buttonElement.offsetWidth; // Get actual size
+    waveformCanvas.width = buttonSize;
+    waveformCanvas.height = buttonSize;
+    }
+
+    function drawWaveform() {
+    if (!isPlaying || !audioDataArray || !audioAnalyser) {
+    cancelAnimationFrame(animationFrame);
+    return;
+    }
+
+    waveCtx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+    audioAnalyser.getByteFrequencyData(audioDataArray);
+
+    const barWidth = 2;
+    const barGap = 2;
+    const centerY = waveformCanvas.height / 2;
+    const maxBarHeight = waveformCanvas.height * 0.5;
+    const barCount = Math.floor(waveformCanvas.width * 0.7 / (barWidth + barGap));
+    const totalWidth = barCount * (barWidth + barGap) - barGap;
+    const startX = (waveformCanvas.width - totalWidth) / 2;
+
+    waveCtx.fillStyle = '#333';
+    const step = Math.max(1, Math.floor(audioDataArray.length / barCount));
+
+    for (let i = 0; i < barCount; i++) {
+    const dataIndex = Math.min(i * step, audioDataArray.length - 1);
+    const value = audioDataArray[dataIndex] / 256;
+    const barHeight = Math.max(1, value * maxBarHeight); // Ensure min height of 1px
+    const x = startX + i * (barWidth + barGap);
+    waveCtx.fillRect(x, centerY - barHeight / 2, barWidth, barHeight);
+    }
+    animationFrame = requestAnimationFrame(drawWaveform);
+    }
+    // --- End Waveform ---
+
+    // --- Hint functionality ---
+    function setupHint() {
+    hintField.addEventListener('click', toggleHint);
+    }
+
+    function toggleHint() {
+    if (!hintShown) {
+    // Show hint
+    hintText.style.opacity = '0';
+    setTimeout(() => {
+    hintContent.classList.add('show');
+    hintShown = true;
+    }, 300);
+    }
+    // Note: Once shown, hint stays visible for the current question
+    }
+
+    function resetHint() {
+    hintShown = false;
+    hintText.style.opacity = '1';
+    hintContent.classList.remove('show');
+    
+    // Update hint content for current sentence
+    if (currentSentence) {
+    hintChinese.textContent = currentSentence.chineseVersion || '';
+    hintPinyin.textContent = currentSentence.chinesePinyin || '';
+    }
+    }
+
+    // --- CSV Loading and Parsing ---
+    async function loadCsvFile(url) {
+    try {
+    const response = await fetch(url);
+    if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status} for ${url}`);
+    }
+    const csvText = await response.text();
+    return csvText;
+    } catch (error) {
+    showError(`Error loading CSV from ${url}: ${error.message}`);
+    throw error; // Re-throw to stop execution if critical CSV fails
+    }
+    }
+
+    // Generic CSV parser - assumes comma delimiter and trims whitespace
+    function parseCsvText(text, requiredHeaders = []) {
+    const lines = text.split('\n').filter(line => line.trim() !== '');
+    if (lines.length < 2) return { headers: [], data: [] }; // Need header + data
+
+    const headers = lines[0].split(',').map(h => h.trim());
+    const data = [];
+
+    // Check for required headers
+    for (const reqHeader of requiredHeaders) {
+    if (!headers.includes(reqHeader)) {
+    console.warn(`Warning: CSV missing required header "${reqHeader}".`);
+    // Depending on severity, you might want to throw an error here
+    }
+    }
+
+
+    for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(',').map(v => v.trim());
+    // Handle lines with potentially fewer columns than headers gracefully
+    const entry = {};
+    headers.forEach((header, index) => {
+    entry[header] = values[index] !== undefined ? values[index] : ''; // Assign empty string if value missing
+    });
+    data.push(entry);
+    }
+    return { headers, data };
+    }
+
+
+    // --- Quiz Logic ---
+    function getPageIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('page'); // Returns null if 'page' param is not present
+    }
+
+    function filterAndPrepareSequence() {
+    // 1. Find the row in chfxWeb.csv matching the currentPageId
+    const pageDataRow = webCsvData.find(row => row.nameOfSite === currentPageId);
+
+    if (!pageDataRow) {
+    showError(`Error: Page ID "${currentPageId}" not found in chfxWeb.csv.`);
+    return false;
+    }
+
+    // 2. Extract sentence IDs (soundFile names) from content columns
+    sequenceSentenceIds = [];
+    const urlRegex = /https:\/\/chineseffect\.com\/chfx\/saycompare\.html\?page=([^,&]+)/i;
+
+    // Iterate through all properties (columns) of the row
+    for (const key in pageDataRow) {
+    if (key.startsWith('content')) { // Check columns like content1, content2 etc.
+    const contentValue = pageDataRow[key];
+    const match = contentValue.match(urlRegex);
+    if (match && match[1]) {
+    sequenceSentenceIds.push(match[1]); // Add the extracted 'xxx' part
+    }
+    }
+    }
+
+    if (sequenceSentenceIds.length === 0) {
+    showError(`Error: No sentences found for page "${currentPageId}" in chfxWeb.csv.`);
+    // Show completion screen as there's nothing to do
+    quizContent.style.display = 'none';
+    completionScreen.style.display = 'block';
+    document.getElementById('completion-message').textContent = `No sentences configured for page: ${currentPageId}.`;
+    replayButton.style.display = 'none'; // No replay if nothing loaded
+    return false; // Indicate failure but handled gracefully
+    }
+
+    // 3. Filter allSentencesData based on the extracted IDs and maintain order
+    const sentenceMap = new Map(allSentencesData.map(s => [s.soundFile, s]));
+    currentQuizSentences = sequenceSentenceIds
+    .map(id => sentenceMap.get(id))
+    .filter(sentence => sentence !== undefined); // Filter out any IDs not found in speechRecognition.csv
+
+
+    if (currentQuizSentences.length !== sequenceSentenceIds.length) {
+    console.warn("Warning: Some sentence IDs from chfxWeb.csv were not found in speechRecognition.csv.");
+    // Proceeding with the sentences that were found.
+    if (currentQuizSentences.length === 0) {
+    showError(`Error: None of the required sentences for page "${currentPageId}" were found in speechRecognition.csv.`);
+    return false;
+    }
+    }
+
+    console.log("Quiz sequence prepared:", currentQuizSentences.map(s => s.soundFile));
+    return true; // Success
+    }
+
+
+    function initQuiz() {
+    loader.style.display = 'none';
+    quizContainer.style.display = 'flex'; // Use flex for vertical centering
+
+    try {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // Check context state - might be suspended initially
+    if (audioContext.state === 'suspended') {
+    console.log("AudioContext suspended. Will resume on first interaction.");
+    // Need user interaction to resume, playAudio handles this
+    }
+    } catch (e) {
+    showError("Web Audio API is not supported in this browser.");
+    console.error("AudioContext creation failed:", e);
+    return; // Stop initialization
+    }
+
+
+    // Set up elements
+    initWaveform();
+    setupHint();
+    playButton.addEventListener('click', playAudio);
+    replayButton.addEventListener('click', replayQuiz);
+    window.addEventListener('resize', initWaveform); // Re-init waveform on resize
+
+    // Start the quiz sequence
+    currentSequenceIndex = 0;
+    score = 0; // Ensure score is reset at start
+    loadNextQuestion();
+    }
+
+    function loadNextQuestion() {
+    selectionLocked = false; // Unlock selection for the new question
+    feedbackDisplay.textContent = ''; // Clear feedback
+    feedbackDisplay.style.color = '#333'; // Reset feedback color
+    optionsContainer.style.opacity = '0'; // Start fade out options
+
+    // Stop any currently playing audio and animation
+    if (audioElement) {
+    audioElement.pause();
+    cancelAnimationFrame(animationFrame);
+    isPlaying = false;
+    playIcon.style.opacity = '1';
+    waveformCanvas.style.opacity = '0';
+    }
+
+    // Check if we've completed the sequence
+    if (currentSequenceIndex >= currentQuizSentences.length) {
+    showCompletionScreen();
+    return;
+    }
+
+    // Get the next sentence in the sequence
+    currentSentence = currentQuizSentences[currentSequenceIndex];
+    console.log(`Loading question ${currentSequenceIndex + 1}/${currentQuizSentences.length}: ${currentSentence.soundFile}`);
+
+    // Reset and update hint
+    resetHint();
+
+    // Prepare audio element
+    const audioUrl = `/audio/random/${currentSentence.soundFile}.mp3`; // Assuming path is still correct
+    console.log("Attempting to load audio:", audioUrl);
+    if (!audioElement) {
+    audioElement = new Audio();
+    // Set up analyser connection ONCE when audioElement is created
+    try {
+    if (audioContext && !audioSourceNode) { // Create source node only if it doesn't exist
+    audioSourceNode = audioContext.createMediaElementSource(audioElement);
+    audioAnalyser = audioContext.createAnalyser();
+    audioAnalyser.fftSize = 64; // Smaller FFT size for less detail but faster processing
+    audioSourceNode.connect(audioAnalyser);
+    audioAnalyser.connect(audioContext.destination);
+    audioDataArray = new Uint8Array(audioAnalyser.frequencyBinCount);
+    console.log("Audio analyser setup complete.");
+    }
+    } catch (e) {
+    console.error("Error setting up audio analyser:", e);
+    showError("Failed to initialize audio visualization.");
+    // Quiz can continue without visualization, maybe disable waveform?
+    waveformCanvas.style.display = 'none'; // Hide waveform if analyser fails
+    playIcon.style.margin = '0'; // Recenter play icon if waveform hidden
+    }
+
+    audioElement.addEventListener('ended', () => {
+    isPlaying = false;
+    playIcon.style.opacity = '1';
+    waveformCanvas.style.opacity = '0';
+    cancelAnimationFrame(animationFrame);
+    });
+    audioElement.addEventListener('error', (e) => {
+    console.error('Audio Error:', audioElement.error);
+    showError(`Error loading audio file: ${currentSentence.soundFile}.mp3`);
+    // Maybe skip this question or stop the quiz?
+    // For now, just show error and user can't proceed with this question.
+    playButton.disabled = true; // Disable play button for this broken audio
+    });
+    }
+
+    audioElement.src = audioUrl;
+    audioElement.load(); // Important to load the new source
+    playButton.disabled = false; // Re-enable button for new audio
+
+
+    // Generate options (after a short delay for fade out)
+    setTimeout(() => {
+    generateOptions();
+    optionsContainer.style.opacity = '1'; // Fade in new options
+    }, 300); // Match this delay to CSS transition if needed
+
+
+    // Update score display (doesn't change here, but good practice)
+    scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+
+    function setupAudioAnalyser() {
+    // This function might be redundant now as analyser is set up once in loadNextQuestion
+    // Keeping it here in case it's called elsewhere, but ensure it doesn't recreate nodes.
+    if (!audioElement || !audioContext || audioSourceNode) return; // Only setup if needed and not already done
+
+    console.log("Running setupAudioAnalyser (should ideally run only once).");
+    try {
+    audioSourceNode = audioContext.createMediaElementSource(audioElement);
+    audioAnalyser = audioContext.createAnalyser();
+    audioAnalyser.fftSize = 64;
+    audioSourceNode.connect(audioAnalyser);
+    audioAnalyser.connect(audioContext.destination);
+    audioDataArray = new Uint8Array(audioAnalyser.frequencyBinCount);
+    } catch (e) {
+    console.error("Error setting up audio analyser:", e);
+    // Handle error - maybe disable waveform visualization
+    }
+    }
+
+
+    function playAudio() {
+    if (!audioElement || audioElement.readyState < 2) { // Check if audio is ready (HAVE_CURRENT_DATA or more)
+    console.warn("Audio not ready to play yet.");
+    feedbackDisplay.textContent = "Audio loading...";
+    // Optional: try loading again or wait
+    // audioElement.load(); // Be careful not to cause loops
+    return;
+    }
+
+    // Resume AudioContext if suspended (essential for browser autoplay policies)
+    if (audioContext && audioContext.state === 'suspended') {
+    audioContext.resume().then(() => {
+    console.log("AudioContext resumed successfully.");
+    // Now try playing again
+    togglePlayback();
+    }).catch(err => {
+    console.error("Failed to resume AudioContext:", err);
+    alert("Could not start audio. Please interact with the page first (e.g., click somewhere).");
+    });
+    } else {
+    togglePlayback();
+    }
+    }
+
+    function togglePlayback() {
+    if (isPlaying) {
+    audioElement.pause();
+    audioElement.currentTime = 0; // Reset to beginning
+    isPlaying = false;
+    playIcon.style.opacity = '1';
+    waveformCanvas.style.opacity = '0';
+    cancelAnimationFrame(animationFrame);
+    } else {
+    audioElement.play().then(() => {
+    isPlaying = true;
+    playIcon.style.opacity = '0';
+    waveformCanvas.style.opacity = '1';
+    if (audioAnalyser && audioDataArray) { // Check if analyser is ready
+    drawWaveform(); // Start visualization
+    } else {
+    console.warn("Audio playing, but waveform analyser not ready.");
+    }
+    }).catch(err => {
+    console.error("Error playing audio:", err);
+    // Handle specific errors if possible
+    if (err.name === 'NotAllowedError') {
+    alert("Audio playback was blocked. Please ensure your browser allows autoplay or interact with the page.");
+    } else {
+    alert("Could not play audio. Error: " + err.message);
+    }
+    isPlaying = false; // Ensure state is correct
+    playIcon.style.opacity = '1';
+    waveformCanvas.style.opacity = '0';
+    });
+    }
+    }
+
+
+    function generateOptions() {
+    optionsContainer.innerHTML = ''; // Clear previous options
+
+    const correctAnswer = currentSentence.englishTranslation;
+    const wrongOptions = findSimilarSentences(correctAnswer, 3); // Get 3 distractors
+
+    const options = [correctAnswer, ...wrongOptions];
+    shuffleArray(options); // Randomize order
+
+    const letters = ['A', 'B', 'C', 'D'];
+    options.forEach((optionText, index) => {
+    const optionElement = document.createElement('div');
+    optionElement.className = 'option';
+    optionElement.innerHTML = `<span class="option-letter">${letters[index]}</span><span class="option-text">${optionText}</span>`;
+
+    optionElement.addEventListener('click', () => handleOptionClick(optionElement, optionText, correctAnswer));
+
+    optionsContainer.appendChild(optionElement);
+    });
+    }
+
+    function handleOptionClick(element, selectedOption, correctOption) {
+    if (selectionLocked) return; // Prevent clicking multiple options or during transition
+    selectionLocked = true; // Lock selection
+
+    if (audioElement && isPlaying) { // Stop audio if playing when an answer is selected
+    audioElement.pause();
+    audioElement.currentTime = 0;
+    isPlaying = false;
+    playIcon.style.opacity = '1';
+    waveformCanvas.style.opacity = '0';
+    cancelAnimationFrame(animationFrame);
+    }
+
+
+    if (selectedOption === correctOption) {
+    // Correct Answer
+    element.style.backgroundColor = 'rgba(0, 209, 122, 0.7)'; // Greenish, semi-transparent
+    element.style.borderColor = '#00D17A'; // Solid border
+    feedbackDisplay.textContent = 'Correct!';
+    feedbackDisplay.style.color = '#00D17A';
+    score++;
+    scoreDisplay.textContent = `Score: ${score}`;
+    currentSequenceIndex++; // Move to the next sentence index
+
+    // Wait, then load next question or completion screen
+    setTimeout(() => {
+    loadNextQuestion(); // This function handles the transition (fade options out/in)
+    }, 1500); // 1.5 second delay to see feedback
+
+    } else {
+    // Incorrect Answer
+    element.style.backgroundColor = 'rgba(234, 0, 112, 0.7)'; // Reddish, semi-transparent
+    element.style.borderColor = '#EA0070'; // Solid border
+    feedbackDisplay.textContent = 'Incorrect!';
+    feedbackDisplay.style.color = '#EA0070';
+    score = 0; // Reset score
+    scoreDisplay.textContent = `Score: ${score}`; // Update score display
+
+    // Highlight the correct answer after a short delay
+    setTimeout(() => {
+    const allOptionElements = optionsContainer.querySelectorAll('.option');
+    allOptionElements.forEach(optEl => {
+    const textSpan = optEl.querySelector('.option-text');
+    if (textSpan && textSpan.textContent === correctOption) {
+    optEl.style.backgroundColor = 'rgba(0, 209, 122, 0.5)'; // Highlight correct one less intensely
+    optEl.style.borderColor = '#00D17A';
+    }
+    });
+    }, 500);
+
+
+    // Wait, then allow retry of the SAME question
+    setTimeout(() => {
+    // Reset visual styles for the incorrect option only
+    element.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; // Reset background
+    element.style.borderColor = 'transparent'; // Reset border
+    // Reset correct answer highlight as well
+    const allOptionElements = optionsContainer.querySelectorAll('.option');
+    allOptionElements.forEach(optEl => {
+    optEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+    optEl.style.borderColor = 'transparent';
+    });
+
+    feedbackDisplay.textContent = ''; // Clear feedback message
+    selectionLocked = false; // Unlock selection for retry
+    }, 2500); // Longer delay for incorrect to review, then allow retry
+    }
+    }
+
+
+    // Utility to find distractor sentences (keep original logic, but use allSentencesData)
+    function findSimilarSentences(correctSentenceText, count) {
+    // Get sentences from the master list, excluding the current correct one
+    const potentialDistractors = allSentencesData.filter(s => s.englishTranslation !== correctSentenceText);
+
+    // Simple strategy: Just pick random sentences from the pool
+    shuffleArray(potentialDistractors);
+
+    return potentialDistractors.slice(0, count).map(s => s.englishTranslation);
+
+    // NOTE: The original 'findSimilarSentences' had more complex logic
+    // involving word matching. You can reinstate that if preferred,
+    // but ensure it operates on the 'allSentencesData' array.
+    // For simplicity, random selection is used here.
+    }
+
+    // Utility function (keep original)
+    function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+    }
+
+    function showCompletionScreen() {
+    console.log("Sequence complete. Showing completion screen.");
+    // Stop audio if it was somehow playing
+    if (audioElement && isPlaying) {
+    audioElement.pause();
+    cancelAnimationFrame(animationFrame);
+    isPlaying = false;
+    }
+    quizContent.style.display = 'none'; // Hide the main quiz content
+    completionScreen.style.display = 'block'; // Show the completion message and button
+    document.getElementById('completion-message').textContent = "Great job! There's nothing more here."; // Set standard message
+    replayButton.style.display = 'inline-block'; // Ensure replay button is visible
+    scoreDisplay.textContent = `Final Score: ${score}`; // Show final score
+    }
+
+    function replayQuiz() {
+    console.log("Replaying quiz...");
+    score = 0;
+    currentSequenceIndex = 0;
+    selectionLocked = false;
+
+    completionScreen.style.display = 'none'; // Hide completion screen
+    quizContent.style.display = 'block'; // Show quiz content again
+
+    loadNextQuestion(); // Start from the first question
+    }
+
+    function showError(message) {
+    console.error("Quiz Error:", message);
+    loader.innerHTML = `Error: ${message} <br/> Please check the console or contact support.`; // Use innerHTML for line break
+    loader.style.color = '#EA0070';
+    loader.style.display = 'flex'; // Ensure loader is visible
+    quizContainer.style.display = 'none'; // Hide quiz container on critical error
+    // Stop background animation? Maybe not necessary.
+    }
+
+    // --- Start the application ---
+    document.addEventListener('DOMContentLoaded', async () => {
+    console.log("DOM Loaded. Starting Quiz Initialization.");
+    initWaveform(); // Init waveform early for correct sizing
+
+    currentPageId = getPageIdFromUrl();
+    if (!currentPageId) {
+    showError("No 'page' parameter found in the URL (e.g., ?page=pageName).");
+    return;
+    }
+    console.log("Current Page ID:", currentPageId);
+    document.getElementById('quiz-title').textContent = "Listen and Pick"; // Set static title
+
+
+    try {
+    // Load both CSV files concurrently
+    const [speechCsvText, webCsvText] = await Promise.all([
+    loadCsvFile('/chfx/speechRecognition.csv'),
+    loadCsvFile('/chfx/chfxWeb.csv')
+    ]);
+    console.log("Both CSV files fetched.");
+
+    // Parse CSV data
+    const speechDataParsed = parseCsvText(speechCsvText, ['soundFile', 'englishTranslation', 'chineseVersion', 'chinesePinyin']);
+    allSentencesData = speechDataParsed.data; // Store the array of sentence objects
+    if (allSentencesData.length === 0) throw new Error("speechRecognition.csv is empty or invalid.");
+
+    const webDataParsed = parseCsvText(webCsvText, ['nameOfSite']); // Require at least nameOfSite
+    webCsvData = webDataParsed.data; // Store the array of page data objects
+    if (webCsvData.length === 0) throw new Error("chfxWeb.csv is empty or invalid.");
+
+    console.log(`Loaded ${allSentencesData.length} sentences from speechRecognition.csv`);
+    console.log(`Loaded ${webCsvData.length} pages from chfxWeb.csv`);
+
+
+    // Filter sentences for the current page and prepare the sequence
+    const sequenceReady = filterAndPrepareSequence();
+
+    if (sequenceReady) {
+    initQuiz(); // Start the quiz interface
+    } else {
+    // Error message should already be displayed by filterAndPrepareSequence or showError
+    console.log("Initialization halted due to sequence preparation failure.");
+    }
+
+    } catch (error) {
+    // Errors during fetch/parse/filter are caught here
+    // showError should have already been called by the failing function
+    console.error("Initialization failed:", error);
+    // Ensure loader shows the error message if it wasn't set already
+    if (!loader.textContent.startsWith("Error:")) {
+    showError(`Initialization failed: ${error.message}`);
+    }
+    }
+    });
+
+    </script>
+</body>
+</html>

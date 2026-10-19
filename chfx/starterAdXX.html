@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Premium Experience</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Dynamic color variables - will be updated by JS */
+      --primary-color: #001a4d;
+      --secondary-color: #001a4d;
+      --accent-color: #000a20;
+      --bg-gradient-1: #b2d8f7;
+      --bg-gradient-2: #c3d7f0;
+      --bg-gradient-3: #d4e6f3;
+      --bg-gradient-4: #e0eafc;
+      --shadow-color: rgba(0, 0, 0, 0.18);
+    }
+    
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Lato', sans-serif;
+    }
+    
+    body {
+      height: 400vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* --- Dynamic Background --- */
+    .dynamic-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(
+        135deg,
+        var(--bg-gradient-1) 0%,
+        var(--bg-gradient-2) 35%,
+        var(--bg-gradient-3) 65%,
+        var(--bg-gradient-4) 100%
+      );
+      z-index: 0;
+      transition: background 1s ease;
+    }
+    
+    /* --- Ambient Light --- */
+    .ambient-light {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 60%);
+      opacity: 0.7;
+      z-index: 0;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+    
+    /* --- Floating Circles --- */
+    .circle-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: transparent;
+      transform-origin: center center;
+      will-change: transform;
+      transition: transform 0.5s ease-out;
+    }
+    
+    /* --- Gradient Orbs --- */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.2;
+      z-index: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      transition: background 3s ease;
+    }
+    
+    .orb1 {
+      width: 500px;
+      height: 500px;
+      top: -100px;
+      right: -100px;
+      background: radial-gradient(circle, var(--bg-gradient-1) 0%, rgba(135,206,250,0.4) 70%);
+      animation: float-orb1 20s ease-in-out infinite alternate;
+    }
+    
+    .orb2 {
+      width: 400px;
+      height: 400px;
+      bottom: -50px;
+      left: -100px;
+      background: radial-gradient(circle, var(--bg-gradient-2) 0%, rgba(135,206,235,0.3) 70%);
+      animation: float-orb2 25s ease-in-out infinite alternate;
+    }
+    
+    .orb3 {
+      width: 300px;
+      height: 300px;
+      top: 40vh;
+      left: 20vw;
+      background: radial-gradient(circle, var(--bg-gradient-3) 0%, rgba(176,196,222,0.2) 70%);
+      animation: float-orb3 18s ease-in-out infinite alternate;
+    }
+    
+    @keyframes float-orb1 {
+      0% { transform: translateY(0) scale(1); opacity: 0.2; }
+      100% { transform: translateY(50px) scale(1.1); opacity: 0.3; }
+    }
+    
+    @keyframes float-orb2 {
+      0% { transform: translateX(0) scale(1); opacity: 0.2; }
+      100% { transform: translateX(40px) scale(1.05); opacity: 0.25; }
+    }
+    
+    @keyframes float-orb3 {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.15; }
+      100% { transform: translate(30px, -30px) scale(1.1); opacity: 0.25; }
+    }
+    
+    /* --- Overlay and Positioning --- */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0;
+    }
+    
+    .line {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 98%; /* Almost full width */
+      max-width: 2000px; /* Very large max-width */
+      opacity: 0;
+      filter: blur(16px);
+      transition: opacity 1s, filter 1.2s, color 2s, text-shadow 2s;
+      pointer-events: auto;
+      text-align: center;
+      line-height: 1.1;
+    }
+    
+    .line.visible {
+      opacity: 1;
+      filter: blur(0);
+    }
+    
+    .line1 {
+      top: 15vh; /* Moved up to create more space */
+      font-weight: 900;
+      color: var(--primary-color);
+      letter-spacing: 0.03em;
+      font-size: 12vw;
+      text-shadow: 0 2px 16px var(--shadow-color); /* Softer shadow */
+    }
+    
+    .line2 {
+      top: 50vh;
+      transform: translate(-50%, -50%);
+      font-size: 8vw;
+      font-weight: 700;
+      color: var(--secondary-color);
+      text-shadow: 0 2px 16px var(--shadow-color); /* Softer shadow */
+      white-space: nowrap; /* Force one line */
+    }
+    
+    .line3 {
+      bottom: 15vh; /* Positioned from bottom instead of top */
+      font-size: 10vw;
+      font-weight: 900;
+      color: var(--accent-color);
+      text-shadow: 0 2px 16px var(--shadow-color); /* Softer shadow */
+    }
+    
+    .line3 a {
+      color: inherit;
+      text-decoration: underline;
+      pointer-events: auto;
+      transition: color 0.3s;
+    }
+    
+    .line3 a:hover {
+      color: #001a4d;
+    }
+    
+    .letter {
+      display: inline-block;
+      animation: float 4s ease-in-out infinite alternate;
+      animation-play-state: paused;
+      will-change: transform;
+    }
+    
+    .line.visible .letter {
+      animation-play-state: running;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+    
+    /* Mobile styles */
+    @media (max-width: 600px) {
+      .line1 {
+        font-size: 16vw;
+        white-space: pre-line;
+        top: 12vh; /* Moved up even more on mobile */
+      }
+      
+      .line2 {
+        font-size: 10vw; /* Increased for mobile */
+        font-weight: 700;
+        top: 50vh; /* Centered vertically */
+        width: 95%; /* Use more width */
+      }
+      
+      .line3 {
+        font-size: 14vw;
+        bottom: 12vh; /* Positioned from bottom */
+        top: auto; /* Remove top positioning */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Dynamic Background -->
+  <div class="dynamic-background" id="dynamic-background"></div>
+  
+  <!-- Ambient Light -->
+  <div class="ambient-light"></div>
+  
+  <!-- Floating Circles Container -->
+  <div class="circle-container" id="circle-container"></div>
+  
+  <!-- Gradient Orbs -->
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  
+  <!-- Overlay text -->
+  <div class="overlay">
+    <div class="line line1" id="line1"></div>
+    <div class="line line2" id="line2"></div>
+    <div class="line line3" id="line3">
+      <a href="https://chineseffect.com/starterkit-2/" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+  
+  <script>
+    /*************** 1 – Edit your texts here ****************/
+    const TEXTS = [
+      "BEGINNER'S STARTER KIT",      // line 1
+      "Your Fastest Path To Confidence", // line 2
+      "LIMITED SPECIAL OFFER"        // line 3 (anchor text)
+    ];
+    /*********************************************************/
+    
+    // Pastel color palettes with darker text colors
+    const COLOR_PALETTES = [
+      // Blue palette
+      {
+        primary: "#001a4d",
+        secondary: "#001a4d",
+        accent: "#000a20",
+        bg1: "#b2d8f7",
+        bg2: "#c3d7f0",
+        bg3: "#d4e6f3",
+        bg4: "#e0eafc"
+      },
+      // Purple palette
+      {
+        primary: "#3a1a4d",
+        secondary: "#3a1a4d",
+        accent: "#2a0a30",
+        bg1: "#d8b2f7",
+        bg2: "#d7c3f0",
+        bg3: "#e6d4f3",
+        bg4: "#eae0fc"
+      },
+      // Green palette
+      {
+        primary: "#1a4d30",
+        secondary: "#1a4d30",
+        accent: "#0a2018",
+        bg1: "#b2f7d8",
+        bg2: "#c3f0d7",
+        bg3: "#d4f3e6",
+        bg4: "#e0fcea"
+      },
+      // Pink palette
+      {
+        primary: "#4d1a3a",
+        secondary: "#4d1a3a",
+        accent: "#2a0a20",
+        bg1: "#f7b2d8",
+        bg2: "#f0c3d7",
+        bg3: "#f3d4e6",
+        bg4: "#fce0ea"
+      },
+      // Teal palette
+      {
+        primary: "#1a4d4d",
+        secondary: "#1a4d4d",
+        accent: "#0a2a2a",
+        bg1: "#b2f7f7",
+        bg2: "#c3f0f0",
+        bg3: "#d4f3f3",
+        bg4: "#e0fcfc"
+      }
+    ];
+    
+    // On mobile, split line1 into 3 rows
+    function getLine1Text() {
+      if (window.innerWidth <= 600) {
+        return "BEGINNER'S\nSTARTER\nKIT";
+      }
+      return TEXTS[0];
+    }
+    
+    // Helper: wrap each character (except spaces) in a span, preserve spaces
+    function setLineText(el, txt) {
+      el.textContent = "";
+      for (let i = 0; i < txt.length; i++) {
+        const ch = txt[i];
+        if (ch === " ") {
+          el.appendChild(document.createTextNode(" "));
+        } else if (ch === "\n") {
+          el.appendChild(document.createElement("br"));
+        } else {
+          const span = document.createElement('span');
+          span.className = 'letter';
+          span.textContent = ch;
+          span.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
+          el.appendChild(span);
+        }
+      }
+    }
+    
+    // Adaptive sizing: shrink font if needed to fit width
+    function fitTextToWidth(el, maxFont, minFont) {
+      let fontSize = maxFont;
+      el.style.fontSize = fontSize + 'vw';
+      let parent = el.parentElement;
+      let maxWidth = parent.offsetWidth * 0.98;
+      
+      // Reset any previous inline styles that might affect width calculation
+      el.style.whiteSpace = 'nowrap';
+      
+      while (el.scrollWidth > maxWidth && fontSize > minFont) {
+        fontSize -= 0.5;
+        el.style.fontSize = fontSize + 'vw';
+      }
+      
+      // For mobile special offer, ensure it stays on one line per row
+      if (window.innerWidth <= 600 && el.id === 'line3') {
+        el.style.whiteSpace = 'pre-line';
+      }
+    }
+    
+    function renderLines() {
+      // Set text content
+      setLineText(document.getElementById('line1'), getLine1Text());
+      setLineText(document.getElementById('line2'), TEXTS[1]);
+      
+      // For line3, handle differently on mobile vs desktop
+      const line3 = document.querySelector('#line3 a');
+      if (window.innerWidth <= 600) {
+        setLineText(line3, "LIMITED\nSPECIAL\nOFFER");
+      } else {
+        setLineText(line3, TEXTS[2]);
+      }
+      
+      // Fit text to width - ensure line2 always fits on one line
+      if (window.innerWidth > 600) {
+        fitTextToWidth(document.getElementById('line1'), 12, 3);
+        fitTextToWidth(document.getElementById('line2'), 8, 3);
+        fitTextToWidth(document.getElementById('line3'), 10, 3);
+      } else {
+        document.getElementById('line1').style.fontSize = '16vw';
+        
+        // For mobile, maximize line2 size while keeping on one line
+        const line2 = document.getElementById('line2');
+        fitTextToWidth(line2, 10, 3); // Start with larger size
+        line2.style.whiteSpace = 'nowrap'; // Force one line
+        
+        document.getElementById('line3').style.fontSize = '14vw';
+      }
+    }
+    
+    // Update colors based on time only (not scroll)
+    function updateColors() {
+      // Use time to create dynamic color changes
+      const timeProgress = (Date.now() % 30000) / 30000; // 0-1 over 30 seconds (faster)
+      
+      // Calculate which palette to use based on time
+      const paletteIndex = Math.floor(timeProgress * COLOR_PALETTES.length);
+      const nextPaletteIndex = (paletteIndex + 1) % COLOR_PALETTES.length;
+      
+      // Calculate interpolation factor between palettes
+      const paletteFactor = (timeProgress * COLOR_PALETTES.length) % 1;
+      
+      // Get current and next palette
+      const currentPalette = COLOR_PALETTES[paletteIndex];
+      const nextPalette = COLOR_PALETTES[nextPaletteIndex];
+      
+      // Interpolate between colors
+      function interpolateColor(color1, color2, factor) {
+        // Convert hex to RGB
+        const r1 = parseInt(color1.substring(1, 3), 16);
+        const g1 = parseInt(color1.substring(3, 5), 16);
+        const b1 = parseInt(color1.substring(5, 7), 16);
+        
+        const r2 = parseInt(color2.substring(1, 3), 16);
+        const g2 = parseInt(color2.substring(3, 5), 16);
+        const b2 = parseInt(color2.substring(5, 7), 16);
+        
+        // Interpolate
+        const r = Math.round(r1 + factor * (r2 - r1));
+        const g = Math.round(g1 + factor * (g2 - g1));
+        const b = Math.round(b1 + factor * (b2 - b1));
+        
+        // Convert back to hex
+        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      }
+      
+      // Update CSS variables for text colors
+      document.documentElement.style.setProperty('--primary-color', 
+        interpolateColor(currentPalette.primary, nextPalette.primary, paletteFactor));
+      document.documentElement.style.setProperty('--secondary-color', 
+        interpolateColor(currentPalette.secondary, nextPalette.secondary, paletteFactor));
+      document.documentElement.style.setProperty('--accent-color', 
+        interpolateColor(currentPalette.accent, nextPalette.accent, paletteFactor));
+      
+      // Update CSS variables for background gradient
+      document.documentElement.style.setProperty('--bg-gradient-1', 
+        interpolateColor(currentPalette.bg1, nextPalette.bg1, paletteFactor));
+      document.documentElement.style.setProperty('--bg-gradient-2', 
+        interpolateColor(currentPalette.bg2, nextPalette.bg2, paletteFactor));
+      document.documentElement.style.setProperty('--bg-gradient-3', 
+        interpolateColor(currentPalette.bg3, nextPalette.bg3, paletteFactor));
+      document.documentElement.style.setProperty('--bg-gradient-4', 
+        interpolateColor(currentPalette.bg4, nextPalette.bg4, paletteFactor));
+      
+      // Update shadow color based on time
+      const shadowOpacity = 0.18; // Constant softer shadow
+      document.documentElement.style.setProperty('--shadow-color', 
+        `rgba(0, 0, 0, ${shadowOpacity})`);
+      
+      // Update text shadow intensity - softer, more diffused
+      const shadowBlur = 16; // Larger blur for softer shadow
+      const shadowOffset = 2; // Smaller offset
+      document.getElementById('line1').style.textShadow = 
+        `0 ${shadowOffset}px ${shadowBlur}px var(--shadow-color)`;
+      document.getElementById('line2').style.textShadow = 
+        `0 ${shadowOffset}px ${shadowBlur}px var(--shadow-color)`;
+      document.getElementById('line3').style.textShadow = 
+        `0 ${shadowOffset}px ${shadowBlur}px var(--shadow-color)`;
+    }
+    
+    // Create floating circles
+    function createFloatingCircles() {
+      const container = document.getElementById('circle-container');
+      const numCircles = 15; // Number of circles
+      
+      // Clear any existing circles
+      container.innerHTML = '';
+      
+      // Create circles with different sizes, positions, and paths
+      for (let i = 0; i < numCircles; i++) {
+        const circle = document.createElement('div');
+        circle.className = 'circle';
+        
+        // Random size between 30px and 200px
+        const size = 30 + Math.random() * 170;
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
+        
+        // Random initial position
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        circle.style.left = `${x}vw`;
+        circle.style.top = `${y}vh`;
+        
+        // Random opacity between 10% and 30%
+        const opacity = 0.1 + Math.random() * 0.2;
+        circle.style.borderColor = `rgba(255, 255, 255, ${opacity})`;
+        
+        // Random border width between 1px and 3px
+        const borderWidth = 1 + Math.random() * 2;
+        circle.style.borderWidth = `${borderWidth}px`;
+        
+        // Store animation parameters
+        circle.dataset.size = size;
+        circle.dataset.x = x;
+        circle.dataset.y = y;
+        circle.dataset.speed = 0.5 + Math.random() * 1.5; // Random speed
+        circle.dataset.angle = Math.random() * Math.PI * 2; // Random direction
+        circle.dataset.radius = 10 + Math.random() * 30; // Random path radius
+        circle.dataset.phase = Math.random() * Math.PI * 2; // Random starting phase
+        
+        // Add to container
+        container.appendChild(circle);
+      }
+    }
+    
+    // Animate floating circles
+    function animateCircles(scrollProgress) {
+      const circles = document.querySelectorAll('.circle');
+      const now = Date.now() / 1000; // Current time in seconds
+      
+      circles.forEach(circle => {
+        // Get stored parameters
+        const x = parseFloat(circle.dataset.x);
+        const y = parseFloat(circle.dataset.y);
+        const speed = parseFloat(circle.dataset.speed);
+        const radius = parseFloat(circle.dataset.radius);
+        const phase = parseFloat(circle.dataset.phase);
+        
+        // Calculate position based on time
+        const time = now * speed;
+        const dx = Math.cos(time + phase) * radius;
+        const dy = Math.sin(time + phase) * radius;
+        
+        // Apply scroll effect - move circles off screen as we scroll down
+        const scrollOffset = scrollProgress * 100; // 0-100vh offset
+        
+        // Update position
+        circle.style.transform = `translate(${dx}px, ${dy - scrollOffset}vh)`;
+      });
+    }
+    
+    // Scroll-based reveal/hide
+    const lines = [
+      {el: document.getElementById('line1'), threshold: 0.5},
+      {el: document.getElementById('line2'), threshold: 1.5},
+      {el: document.getElementById('line3'), threshold: 2.5}
+    ];
+    
+    function onScroll() {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      const maxScroll = vh * 3;
+      
+      // Calculate scroll progress (0 to 1)
+      const scrollProgress = Math.min(scrollY / maxScroll, 1);
+      
+      // Animate circles based on scroll
+      animateCircles(scrollProgress);
+      
+      // Show/hide lines based on scroll position
+      lines.forEach(({el, threshold}) => {
+        if (scrollY > vh * threshold) {
+          el.classList.add('visible');
+        } else {
+          el.classList.remove('visible');
+        }
+      });
+    }
+    
+    // Continuous animation loop
+    function animate() {
+      updateColors();
+      
+      // Get scroll progress for circle animation
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      const maxScroll = vh * 3;
+      const scrollProgress = Math.min(scrollY / maxScroll, 1);
+      
+      // Animate circles
+      animateCircles(scrollProgress);
+      
+      requestAnimationFrame(animate);
+    }
+    
+    // Initialize
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', () => {
+      renderLines();
+      createFloatingCircles();
+      onScroll();
+    });
+    
+    renderLines();
+    createFloatingCircles();
+    onScroll();
+    animate(); // Start continuous animation
+  </script>
+</body>
+</html>

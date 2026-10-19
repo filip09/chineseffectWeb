@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CHINESEFFECT SMART SYSTEM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #fff;
+      --secondary-color: #f8f8ff;
+      --accent-color: #e0e0e0;
+      --bg-gradient-1: #181c24;
+      --bg-gradient-2: #23283a;
+      --bg-gradient-3: #1a1d23;
+      --bg-gradient-4: #23283a;
+      --shadow-color: rgba(0,0,0,0.5);
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Lato', sans-serif;
+      background: #181c24;
+    }
+    body {
+      height: 400vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .dynamic-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(
+        135deg,
+        var(--bg-gradient-1) 0%,
+        var(--bg-gradient-2) 35%,
+        var(--bg-gradient-3) 65%,
+        var(--bg-gradient-4) 100%
+      );
+      z-index: 0;
+      transition: background 1s ease;
+    }
+    .circle-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.2);
+      background: transparent;
+      transform-origin: center center;
+      will-change: transform;
+      transition: transform 0.5s cubic-bezier(.4,1.4,.6,1);
+      pointer-events: none;
+    }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0;
+    }
+    .line {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 98%;
+      max-width: 2000px;
+      opacity: 0;
+      filter: blur(16px);
+      transition: opacity 1s, filter 1.2s, color 2s, text-shadow 2s;
+      pointer-events: auto;
+      text-align: center;
+      line-height: 1.1;
+    }
+    .line.visible {
+      opacity: 1;
+      filter: blur(0);
+    }
+    .line1 {
+      top: 15vh;
+      font-weight: 900;
+      color: var(--primary-color);
+      letter-spacing: 0.03em;
+      font-size: 10vw;
+      text-shadow: 0 2px 16px var(--shadow-color);
+    }
+    .line2 {
+      top: 50vh;
+      transform: translate(-50%, -50%);
+      font-size: 8vw;
+      font-weight: 700;
+      color: var(--secondary-color);
+      text-shadow: 0 2px 16px var(--shadow-color);
+      white-space: nowrap;
+    }
+    .line3 {
+      bottom: 15vh;
+      font-size: 10vw;
+      font-weight: 900;
+      color: var(--accent-color);
+      text-shadow: 0 2px 16px var(--shadow-color);
+    }
+    .line3 a {
+      color: inherit;
+      text-decoration: underline;
+      pointer-events: auto;
+      transition: color 0.3s;
+    }
+    .line3 a:hover {
+      color: #fff;
+    }
+    .letter {
+      display: inline-block;
+      animation: float 4s ease-in-out infinite alternate;
+      animation-play-state: paused;
+      will-change: transform;
+    }
+    .line.visible .letter {
+      animation-play-state: running;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+    @media (max-width: 600px) {
+      .line1 {
+        font-size: 14vw;
+        white-space: pre-line;
+        top: 12vh;
+      }
+      .line2 {
+        font-size: 10vw;
+        font-weight: 700;
+        top: 50vh;
+        width: 95%;
+      }
+      .line3 {
+        font-size: 14vw;
+        bottom: 12vh;
+        top: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dynamic-background" id="dynamic-background"></div>
+  <div class="circle-container" id="circle-container"></div>
+  <div class="overlay">
+    <div class="line line1" id="line1"></div>
+    <div class="line line2" id="line2"></div>
+    <div class="line line3" id="line3">
+      <a href="https://chineseffect.com/starterkit-2/" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+  <script>
+    // Texts
+    const TEXTS = [
+      "CHINESEFFECT SMART SYSTEM",      // line 1
+      "Your Fastest Path To Confidence", // line 2
+      "LIMITED SPECIAL OFFER"        // line 3 (anchor text)
+    ];
+    // On mobile, split line1 into 2 rows
+    function getLine1Text() {
+      if (window.innerWidth <= 600) {
+        return "CHINESEFFECT\nSMART SYSTEM";
+      }
+      return TEXTS[0];
+    }
+    function setLineText(el, txt) {
+      el.textContent = "";
+      for (let i = 0; i < txt.length; i++) {
+        const ch = txt[i];
+        if (ch === " ") {
+          el.appendChild(document.createTextNode(" "));
+        } else if (ch === "\n") {
+          el.appendChild(document.createElement("br"));
+        } else {
+          const span = document.createElement('span');
+          span.className = 'letter';
+          span.textContent = ch;
+          span.style.animationDelay = (Math.random() * 3).toFixed(2) + 's';
+          el.appendChild(span);
+        }
+      }
+    }
+    function fitTextToWidth(el, maxFont, minFont) {
+      let fontSize = maxFont;
+      el.style.fontSize = fontSize + 'vw';
+      let parent = el.parentElement;
+      let maxWidth = parent.offsetWidth * 0.98;
+      el.style.whiteSpace = 'nowrap';
+      while (el.scrollWidth > maxWidth && fontSize > minFont) {
+        fontSize -= 0.5;
+        el.style.fontSize = fontSize + 'vw';
+      }
+      if (window.innerWidth <= 600 && el.id === 'line3') {
+        el.style.whiteSpace = 'pre-line';
+      }
+    }
+    function renderLines() {
+      setLineText(document.getElementById('line1'), getLine1Text());
+      setLineText(document.getElementById('line2'), TEXTS[1]);
+      const line3 = document.querySelector('#line3 a');
+      if (window.innerWidth <= 600) {
+        setLineText(line3, "LIMITED\nSPECIAL\nOFFER");
+      } else {
+        setLineText(line3, TEXTS[2]);
+      }
+      if (window.innerWidth > 600) {
+        fitTextToWidth(document.getElementById('line1'), 10, 3);
+        fitTextToWidth(document.getElementById('line2'), 8, 3);
+        fitTextToWidth(document.getElementById('line3'), 10, 3);
+      } else {
+        document.getElementById('line1').style.fontSize = '14vw';
+        const line2 = document.getElementById('line2');
+        fitTextToWidth(line2, 10, 3);
+        line2.style.whiteSpace = 'nowrap';
+        document.getElementById('line3').style.fontSize = '14vw';
+      }
+    }
+    // DENSE CIRCLES
+    function createFloatingCircles() {
+      const container = document.getElementById('circle-container');
+      const numCircles = 60; // Dense!
+      container.innerHTML = '';
+      for (let i = 0; i < numCircles; i++) {
+        const circle = document.createElement('div');
+        circle.className = 'circle';
+        const size = 20 + Math.random() * 120;
+        circle.style.width = `${size}px`;
+        circle.style.height = `${size}px`;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        circle.style.left = `${x}vw`;
+        circle.style.top = `${y}vh`;
+        // Black outline, opacity 0.1-0.3
+        const opacity = 0.1 + Math.random() * 0.2;
+        circle.style.borderColor = `rgba(0,0,0,${opacity})`;
+        const borderWidth = 1 + Math.random() * 2;
+        circle.style.borderWidth = `${borderWidth}px`;
+        // Animation params
+        circle.dataset.size = size;
+        circle.dataset.x = x;
+        circle.dataset.y = y;
+        circle.dataset.speed = 0.1 + Math.random() * 0.3; // Slow!
+        circle.dataset.angle = Math.random() * Math.PI * 2;
+        circle.dataset.radius = 10 + Math.random() * 40;
+        circle.dataset.phase = Math.random() * Math.PI * 2;
+        container.appendChild(circle);
+      }
+    }
+    function animateCircles(scrollProgress) {
+      const circles = document.querySelectorAll('.circle');
+      const now = Date.now() / 2000;
+      circles.forEach(circle => {
+        const x = parseFloat(circle.dataset.x);
+        const y = parseFloat(circle.dataset.y);
+        const speed = parseFloat(circle.dataset.speed);
+        const radius = parseFloat(circle.dataset.radius);
+        const phase = parseFloat(circle.dataset.phase);
+        const time = now * speed;
+        const dx = Math.cos(time + phase) * radius;
+        const dy = Math.sin(time + phase) * radius;
+        // As you scroll, circles move up and fade out
+        const scrollOffset = scrollProgress * 120; // 0-120vh
+        circle.style.transform = `translate(${dx}px, ${dy - scrollOffset}vh)`;
+        // Optionally fade out as they leave
+        let fade = 1 - scrollProgress * 1.2;
+        if (fade < 0) fade = 0;
+        circle.style.opacity = fade;
+      });
+    }
+    // Text shadow always present
+    function updateTextShadows() {
+      const shadowBlur = 16;
+      const shadowOffset = 2;
+      document.getElementById('line1').style.textShadow =
+        `0 ${shadowOffset}px ${shadowBlur}px var(--shadow-color)`;
+      document.getElementById('line2').style.textShadow =
+        `0 ${shadowOffset}px ${shadowBlur}px var(--shadow-color)`;
+      document.getElementById('line3').style.textShadow =
+        `0 ${shadowOffset}px ${shadowBlur}px var(--shadow-color)`;
+    }
+    // Scroll-based reveal/hide
+    const lines = [
+      {el: document.getElementById('line1'), threshold: 0.5},
+      {el: document.getElementById('line2'), threshold: 1.5},
+      {el: document.getElementById('line3'), threshold: 2.5}
+    ];
+    function onScroll() {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      const maxScroll = vh * 3;
+      const scrollProgress = Math.min(scrollY / maxScroll, 1);
+      animateCircles(scrollProgress);
+      lines.forEach(({el, threshold}) => {
+        if (scrollY > vh * threshold) {
+          el.classList.add('visible');
+        } else {
+          el.classList.remove('visible');
+        }
+      });
+    }
+    function animate() {
+      updateTextShadows();
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      const maxScroll = vh * 3;
+      const scrollProgress = Math.min(scrollY / maxScroll, 1);
+      animateCircles(scrollProgress);
+      requestAnimationFrame(animate);
+    }
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', () => {
+      renderLines();
+      createFloatingCircles();
+      onScroll();
+    });
+    renderLines();
+    createFloatingCircles();
+    onScroll();
+    animate();
+  </script>
+</body>
+</html>

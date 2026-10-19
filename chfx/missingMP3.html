@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing MP3 Checker</title>
+    <style>
+        #missingFilesList {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            width: 100%;
+            height: 200px;
+            overflow-y: scroll;
+            background-color: #f9f9f9;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+    <script>
+        // Function to check for missing MP3 files
+        async function checkMissingMP3() {
+            const csvFileUrl = 'https://chineseffect.com/chfx/speechRecognition.csv';  // CSV file path
+            const mp3DirectoryUrl = 'https://chineseffect.com/audio/random/';  // MP3 directory
+
+            // Clear the previous missing files list
+            document.getElementById('missingFilesList').textContent = '';
+
+            // Fetch the CSV file
+            try {
+                const response = await fetch(csvFileUrl);
+                const csvText = await response.text();
+
+                const missingFiles = [];
+                const rows = csvText.split('\n');
+
+                // Loop through each row in the CSV (assuming the first row is the header)
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i].split(',');
+                    const soundFile = row[0];  // Assuming soundFile column is the first column
+
+                    if (soundFile) {
+                        const mp3File = mp3DirectoryUrl + soundFile + '.mp3';
+
+                        // Check if the file exists by trying to fetch it
+                        const fileResponse = await fetch(mp3File, { method: 'HEAD' });
+
+                        if (!fileResponse.ok) {
+                            // If the MP3 file doesn't exist, add it to the missingFiles array
+                            missingFiles.push(mp3File);
+                        }
+                    }
+                }
+
+                // Display the missing files or a message if none are missing
+                if (missingFiles.length > 0) {
+                    document.getElementById('missingFilesList').textContent = missingFiles.join('\n');
+                } else {
+                    document.getElementById('missingFilesList').textContent = 'No missing MP3 files found!';
+                }
+            } catch (error) {
+                console.error('Error loading CSV file:', error);
+                document.getElementById('missingFilesList').textContent = 'Error loading CSV file';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Missing MP3 Checker</h1>
+    <button onclick="checkMissingMP3()">Check Missing MP3 Files</button>
+
+    <div id="missingFilesList">The missing files will appear here.</div>
+</body>
+</html>

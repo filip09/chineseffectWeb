@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chineseffect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://docs.google.com">
+    <link rel="preconnect" href="https://chineseffect.com">
+    <!-- Non-render-blocking font load -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+    <!-- Instant dark background before any CSS or JS runs -->
+    <style>html,body{background:#0a0a12;}</style>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        #background-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 0;
+        }
+
+        /* ── Preloader ── */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: #0a0a12;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            transition: opacity 0.35s ease;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .preloader-logo {
+            font-size: 32px;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+        .preloader-logo .regular { font-weight: 300; }
+        .preloader-logo .demi   { font-weight: 600; }
+
+        .preloader-text {
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: 0.02em;
+            text-align: center;
+            max-width: 260px;
+            line-height: 1.6;
+        }
+
+        /* Three-dot pulse */
+        .preloader-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .preloader-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.35);
+            animation: dot-pulse 1.4s ease-in-out infinite;
+        }
+        .preloader-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .preloader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dot-pulse {
+            0%, 80%, 100% { opacity: 0.25; transform: scale(0.85); }
+            40%            { opacity: 1;    transform: scale(1);    }
+        }
+        /* ── End preloader ── */
+
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 72px 24px 80px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .content.ready { opacity: 1; }
+
+        /* Logo */
+        .logo {
+            font-size: 38px;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .logo .regular { font-weight: 300; }
+        .logo .demi { font-weight: 600; }
+
+        /* Slogan */
+        .slogan {
+            font-size: 17px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 36px;
+            letter-spacing: 0.01em;
+        }
+
+        /* Personal Guidance Button */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0;
+        }
+
+        .btn-guidance {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 100px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            letter-spacing: 0.01em;
+        }
+        .btn-guidance:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.38);
+            transform: translateY(-1px);
+        }
+        .btn-guidance svg { opacity: 0.7; }
+
+        /* Divider */
+        .divider {
+            width: 48px;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            margin: 0 auto 40px;
+        }
+
+        /* Journey section */
+        .journey-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 12px;
+        }
+        .journey-title {
+            font-size: 30px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+        .journey-desc {
+            font-size: 16px;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.65;
+            max-width: 500px;
+            margin: 0 auto 44px;
+            font-weight: 400;
+        }
+
+        /* Navigation grid */
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+            gap: 10px;
+            max-width: 780px;
+            margin: 0 auto 80px;
+        }
+        @media (min-width: 600px) {
+            .navigation-grid { grid-template-columns: repeat(auto-fill, minmax(82px, 1fr)); gap: 12px; }
+        }
+        @media (min-width: 1024px) {
+            .navigation-grid { grid-template-columns: repeat(8, 1fr); }
+        }
+
+        .nav-square {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            letter-spacing: -0.5px;
+        }
+        .nav-square:hover {
+            background: rgba(255,255,255,0.16);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-3px) scale(1.04);
+            color: #fff;
+        }
+        .nav-square:active { transform: scale(0.97); }
+        .nav-square.visited {
+            background: rgba(255,255,255,0.03);
+            border-color: rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.25);
+        }
+        @keyframes rwsSquarePulse {
+            0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); background: rgba(255,255,255,0.28); }
+            50%  { box-shadow: 0 0 0 10px rgba(255,255,255,0); background: rgba(255,255,255,0.18); }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+        }
+        .nav-square.rws-highlight {
+            animation: rwsSquarePulse 0.7s ease forwards;
+        }
+
+        @keyframes navSquareGrow {
+            0%   { transform: scale(1);    background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.14); }
+            100% { transform: scale(3.2);  background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.45); }
+        }
+        .nav-square.nav-loading {
+            animation: navSquareGrow 2.4s cubic-bezier(0.25, 0.1, 0.1, 1) forwards;
+            z-index: 10;
+            position: relative;
+            pointer-events: none;
+        }
+
+        /* Footer */
+        .footer {
+            font-size: 13px;
+            color: rgba(255,255,255,0.3);
+            padding-top: 12px;
+            line-height: 2;
+        }
+        .footer a {
+            color: rgba(255,255,255,0.45);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .footer a:hover { color: rgba(255,255,255,0.7); border-bottom-color: rgba(255,255,255,0.4); }
+
+        /* Modal overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.visible { opacity: 1; pointer-events: all; }
+
+        .modal-card {
+            background: rgba(30,30,40,0.85);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 24px;
+            padding: 40px 36px;
+            max-width: 340px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.92) translateY(12px);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal-overlay.visible .modal-card { transform: scale(1) translateY(0); }
+
+        .modal-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            display: block;
+            border: 2px solid rgba(255,255,255,0.15);
+        }
+        .modal-name { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; letter-spacing: -0.3px; }
+        .modal-title { font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 400; margin-bottom: 18px; line-height: 1.5; }
+
+        .modal-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 100px;
+            padding: 8px 18px;
+            transition: background 0.2s, border-color 0.2s;
+            margin-bottom: 24px;
+        }
+        .modal-email:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.35);
+            font-size: 13px;
+            cursor: pointer;
+            padding: 4px 12px;
+            border-radius: 8px;
+            transition: color 0.2s;
+            font-family: inherit;
+        }
+        .modal-close:hover { color: rgba(255,255,255,0.65); }
+
+        @media (max-width: 640px) {
+            .content { padding: 56px 18px 64px; }
+            .logo { font-size: 30px; }
+            .journey-title { font-size: 24px; }
+            .btn-guidance { margin-bottom: 52px; }
+        }
+
+        /* ── Add to Homescreen popup ── */
+        #a2hs-popup {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 150;
+            /* Base padding clears Safari's bottom toolbar (~83px) + safe area inset */
+            padding: 0 16px calc(83px + env(safe-area-inset-bottom, 0px));
+            transform: translateY(115%);
+            transition: transform 0.45s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.35s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        #a2hs-popup.a2hs-visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #a2hs-popup.a2hs-hiding {
+            transform: translateY(115%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .a2hs-card {
+            background: rgba(18, 18, 26, 0.72);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 22px;
+            padding: 20px 20px 22px;
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset;
+            position: relative;
+        }
+        .a2hs-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: rgba(255,255,255,0.5);
+            transition: background 0.2s, color 0.2s;
+            flex-shrink: 0;
+        }
+        .a2hs-close:hover { background: rgba(255,255,255,0.18); color: #fff; }
+        .a2hs-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.2px;
+            margin-bottom: 4px;
+            padding-right: 32px;
+        }
+        .a2hs-subtitle {
+            font-size: 13px;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .a2hs-steps {
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+        }
+        .a2hs-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+        .a2hs-step-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.13);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .a2hs-step-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .a2hs-step-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            line-height: 1.4;
+            letter-spacing: 0.01em;
+        }
+        .a2hs-arrow {
+            color: rgba(255,255,255,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            margin-top: 14px;
+            flex-shrink: 0;
+        }
+        /* iOS-specific share icon colour */
+        .a2hs-ios-share { color: #3478f6; }
+        /* Android hint bar */
+        .a2hs-android-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+        .a2hs-android-bar img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .a2hs-android-text {
+            flex: 1;
+        }
+        .a2hs-android-text strong {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.1px;
+        }
+        .a2hs-android-text span {
+            font-size: 12px;
+            color: rgba(255,255,255,0.45);
+        }
+        .a2hs-android-hint {
+            font-size: 12px;
+            color: rgba(255,255,255,0.35);
+            margin-top: 10px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* ── Random Word Space ── */
+        #random-word-space {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+
+        #rws-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+        }
+
+        .btn-random-word {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 100px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            letter-spacing: 0.02em;
+            transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s cubic-bezier(.34,1.56,.64,1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .btn-random-word:hover {
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.38);
+            transform: scale(1.05);
+        }
+        .btn-random-word:active { transform: scale(0.97); }
+
+        /* Word display area — hidden until word loads */
+        #rws-word-display {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+            padding: 20px;
+        }
+        #rws-word-display.visible { display: flex; }
+
+        /* Character stage inside random word space */
+        #rws-char-stage {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: visible;
+        }
+
+        #rws-char-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            width: 100%;
+            overflow: visible;
+        }
+
+        .rws-char-slot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: visible;
+        }
+        .rws-char-slot img {
+            display: block;
+            object-fit: contain;
+        }
+        .rws-char-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: rgba(255,255,255,0.92);
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        /* Info panel inside random word space */
+        #rws-info-panel {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 20px;
+            padding: 18px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.34,1.56,.64,1);
+        }
+        #rws-info-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #rws-pinyin {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 0.04em;
+            text-align: center;
+        }
+        #rws-meaning {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.92);
+            text-align: center;
+            letter-spacing: 0.01em;
+            line-height: 1.4;
+        }
+        .rws-divider {
+            width: 36px;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 1px;
+        }
+
+        /* Bottom action buttons */
+        #rws-actions {
+            flex-shrink: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px 20px 24px;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #rws-actions.visible {
+            display: flex;
+            opacity: 1;
+        }
+
+        .btn-rws-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 12px 26px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            letter-spacing: 0.01em;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s cubic-bezier(.34,1.56,.64,1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            white-space: nowrap;
+        }
+        .btn-rws-action:hover {
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.35);
+            transform: translateY(-1px);
+        }
+        .btn-rws-action:active { transform: scale(0.97); }
+        .btn-rws-action svg { opacity: 0.75; flex-shrink: 0; }
+
+        /* Take Me In gets a warmer accent to stand out */
+        .btn-rws-takeme {
+            background: rgba(255, 200, 100, 0.14);
+            border-color: rgba(255, 200, 100, 0.32);
+            color: rgba(255, 220, 140, 0.95);
+        }
+        .btn-rws-takeme:hover {
+            background: rgba(255, 200, 100, 0.24);
+            border-color: rgba(255, 200, 100, 0.55);
+        }
+
+        /* Section separator between random word space and journey */
+        .section-divider {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 28px 0 36px;
+            margin-bottom: 0;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.12), transparent);
+            max-width: 220px;
+        }
+        .section-divider-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.22);
+            white-space: nowrap;
+        }
+
+        /* Animations — reused from words.html */
+        @keyframes rwsZoomIn {
+            0%   { transform: scale(0.05); opacity: 0; }
+            60%  { transform: scale(1.12); opacity: 1; }
+            80%  { transform: scale(0.94); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes rwsFromLeft {
+            0%   { transform: translateX(-120vw) scale(0.7); opacity: 0; }
+            55%  { transform: translateX(6vw) scale(1.05); opacity: 1; }
+            72%  { transform: translateX(-3vw) scale(0.97); }
+            85%  { transform: translateX(2vw) scale(1.01); }
+            100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        @keyframes rwsFromRight {
+            0%   { transform: translateX(120vw) scale(0.7); opacity: 0; }
+            55%  { transform: translateX(-6vw) scale(1.05); opacity: 1; }
+            72%  { transform: translateX(3vw) scale(0.97); }
+            85%  { transform: translateX(-2vw) scale(1.01); }
+            100% { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        @keyframes rwsFromTop {
+            0%   { transform: translateY(-80vh) scale(0.7); opacity: 0; }
+            55%  { transform: translateY(4vh) scale(1.05); opacity: 1; }
+            72%  { transform: translateY(-2vh) scale(0.97); }
+            85%  { transform: translateY(1vh) scale(1.01); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes rwsFromBottom {
+            0%   { transform: translateY(80vh) scale(0.7); opacity: 0; }
+            55%  { transform: translateY(-4vh) scale(1.05); opacity: 1; }
+            72%  { transform: translateY(2vh) scale(0.97); }
+            85%  { transform: translateY(-1vh) scale(1.01); }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        .rws-anim-zoom       { animation: rwsZoomIn    0.9s  cubic-bezier(.34,1.56,.64,1) both; }
+        .rws-anim-from-left  { animation: rwsFromLeft  1.05s cubic-bezier(.34,1.56,.64,1) both; }
+        .rws-anim-from-right { animation: rwsFromRight 1.05s cubic-bezier(.34,1.56,.64,1) both; }
+        .rws-anim-from-top   { animation: rwsFromTop   1.05s cubic-bezier(.34,1.56,.64,1) both; }
+        .rws-anim-from-bot   { animation: rwsFromBottom 1.05s cubic-bezier(.34,1.56,.64,1) both; }
+
+        /* Scroll-down hint at bottom edge of random word space */
+        #rws-scroll-hint {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            pointer-events: none;
+        }
+        #rws-scroll-hint span {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 6px;
+        }
+        .rws-scroll-arrow {
+            display: block;
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+        .rws-scroll-arrow svg path {
+            stroke: white;
+        }
+        /* Each arrow lights up and nudges down in sequence */
+        @keyframes arrowCascade {
+            0%   { opacity: 0;    transform: translateY(-6px); }
+            25%  { opacity: 0.55; transform: translateY(0px); }
+            55%  { opacity: 0.9;  transform: translateY(3px); }
+            80%  { opacity: 0.4;  transform: translateY(2px); }
+            100% { opacity: 0;    transform: translateY(6px); }
+        }
+        .rws-scroll-arrow:nth-child(2) { animation: arrowCascade 2.1s ease-in-out 0s   infinite; }
+        .rws-scroll-arrow:nth-child(3) { animation: arrowCascade 2.1s ease-in-out 0.22s infinite; }
+        .rws-scroll-arrow:nth-child(4) { animation: arrowCascade 2.1s ease-in-out 0.44s infinite; }
+        /* ── End Random Word Space ── */
+    </style>
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-logo">
+            <span class="regular">chines</span><span class="demi">effect</span>
+        </div>
+        <div class="preloader-dots">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="preloader-text">Chineseffect is a sophisticated system &mdash; please hold while everything comes together&hellip;</div>
+    </div>
+
+    <iframe id="background-frame" src="https://chineseffect.com/chfx/chfxBackground.html" loading="lazy"></iframe>
+
+    <div class="content" id="mainContent">
+
+        <div class="logo">
+            <span class="regular">chines</span><span class="demi">effect</span>
+        </div>
+
+        <div class="slogan">World-leading tool for smooth Chinese learning.</div>
+
+        <!-- Random Word Space -->
+        <div id="random-word-space">
+
+            <!-- State A: trigger button (shown before first word loads) -->
+            <div id="rws-trigger">
+                <button class="btn-random-word" id="rwsBtn" onclick="rwsPickRandom()">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M2 8a6 6 0 1 0 12 0A6 6 0 0 0 2 8Z" stroke="currentColor" stroke-width="1.3"/>
+                        <path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Random Word
+                </button>
+            </div>
+
+            <!-- State B: word display (hidden until word selected) -->
+            <div id="rws-word-display">
+                <div id="rws-char-stage">
+                    <div id="rws-char-row"></div>
+                </div>
+                <div id="rws-info-panel">
+                    <div id="rws-pinyin"></div>
+                    <div class="rws-divider"></div>
+                    <div id="rws-meaning"></div>
+                </div>
+            </div>
+
+            <!-- Bottom buttons (shown alongside word) -->
+            <div id="rws-actions">
+                <button class="btn-rws-action btn-rws-another" onclick="rwsPickRandom()">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 2l10 10M12 2l-4 4M12 2v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12l4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                        <path d="M2 8v4h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Another One
+                </button>
+                <button class="btn-rws-action btn-rws-takeme" onclick="rwsTakeMeIn()">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M7 2v8M4 7l3 3 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                    </svg>
+                    Take Me In
+                </button>
+            </div>
+
+            <!-- Subtle scroll hint -->
+            <div id="rws-scroll-hint">
+                <span>scroll</span>
+                <div class="rws-scroll-arrow">
+                    <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+                        <path d="M1 1l7 7 7-7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="rws-scroll-arrow">
+                    <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+                        <path d="M1 1l7 7 7-7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="rws-scroll-arrow">
+                    <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+                        <path d="M1 1l7 7 7-7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+        <!-- End Random Word Space -->
+
+        <div class="section-divider"><span class="section-divider-label">Additional Support</span></div>
+
+        <div class="btn-group">
+            <button class="btn-guidance" onclick="openModal()">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <circle cx="7.5" cy="5" r="3" stroke="currentColor" stroke-width="1.3"/>
+                    <path d="M2 13c0-3.038 2.462-5.5 5.5-5.5S13 9.962 13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                </svg>
+                Personal Guidance
+            </button>
+            <a class="btn-guidance btn-playbooks" href="https://payhip.com/Chineseffect" target="_blank">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                    <path d="M2 3h11M2 6h11M2 9h7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                    <circle cx="11.5" cy="11" r="2.5" stroke="currentColor" stroke-width="1.3"/>
+                    <path d="M10.5 11l.7.7 1.3-1.2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Magic Playbooks
+            </a>
+        </div>
+
+        <div class="section-divider"><span class="section-divider-label">The Journey</span></div>
+
+        <h1 class="journey-title">FUN &amp; EASY Chinese Journey</h1>
+        <p class="journey-desc">Neuroscience-backed step-by-step guided program.<br>From 0 to confidence the smoothest way possible.<br>Start the Journey wherever suits you.</p>
+
+        <div class="navigation-grid" id="navigationGrid"></div>
+
+        <div class="footer">
+            Made with passion by <a href="https://filipmracek.com" target="_blank">filipmracek.com</a><br>
+            Practice other languages at <a href="https://langboss.com" target="_blank">langboss.com</a>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+        <div class="modal-card" id="modalCard">
+            <img class="modal-avatar" src="https://chineseffect.com/images/lumaAuthor.webp" alt="Filip Mráček">
+            <div class="modal-name">Filip Mráček</div>
+            <div class="modal-title">Master Teacher of Diplomats<br>and Professionals</div>
+            <a class="modal-email" href="mailto:connect@chineseffect.com">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <rect x="1" y="3" width="11" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M1 4.5l5.5 3.5L12 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+                connect@chineseffect.com
+            </a>
+            <br>
+            <button class="modal-close" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        const csvFilePath = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=0&single=true&output=csv';
+        const VISITED_KEY = 'visited_pages';
+
+        /* ── Preloader logic ── */
+        // The iframe is cosmetic — don't block UI on it.
+        // Reveal as soon as the CSV is ready (or after safety-net timeout).
+        let csvReady = false;
+
+        function maybeReveal() {
+            if (!csvReady) return;
+            const preloader = document.getElementById('preloader');
+            const content   = document.getElementById('mainContent');
+            content.classList.add('ready');
+            preloader.classList.add('hidden');
+            // Remove from DOM after fade so it can't block interaction
+            preloader.addEventListener('transitionend', () => preloader.remove(), { once: true });
+            // Signal splash page (if preloaded in its hidden iframe)
+            try { if (window.parent && window.parent.chfxReady) window.parent.chfxReady(); } catch(e) {}
+        }
+
+        // Safety net: reveal after 1 s even if CSV never resolves
+        setTimeout(() => { csvReady = true; maybeReveal(); }, 1000);
+        /* ── End preloader logic ── */
+
+        function getVisitedPages() {
+            try {
+                const v = localStorage.getItem(VISITED_KEY);
+                return v ? JSON.parse(v) : [];
+            } catch(e) { return []; }
+        }
+
+        function markPageVisited(n) {
+            try {
+                const v = getVisitedPages();
+                if (!v.includes(n)) { v.push(n); localStorage.setItem(VISITED_KEY, JSON.stringify(v)); }
+            } catch(e) {}
+        }
+
+        function createNavigationSquare(n, visited) {
+            const el = document.createElement('div');
+            el.classList.add('nav-square');
+            el.id = `nav-sq-${n}`;
+            if (visited.includes(n)) el.classList.add('visited');
+            el.textContent = n;
+            el.onclick = () => {
+                markPageVisited(n);
+                el.classList.add('nav-loading');
+                // Small delay so the grow animation has a moment to start visibly
+                // before the browser starts navigating (navigation can freeze rendering)
+                setTimeout(() => {
+                    parent.location.href = `https://chineseffect.com/chfx/template.html?page=page${n}`;
+                }, 80);
+            };
+            return el;
+        }
+
+        function loadNavigation() {
+            const visited = getVisitedPages();
+            const CACHE_KEY = 'chfx_nav_csv';
+            const CACHE_TS  = 'chfx_nav_csv_ts';
+            const CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+            function buildGrid(rows) {
+                const grid = document.getElementById('navigationGrid');
+                for (let i = 1; i <= rows.length; i++) {
+                    grid.appendChild(createNavigationSquare(i, visited));
+                }
+                csvReady = true;
+                maybeReveal();
+            }
+
+            // Try cache first
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                const ts     = localStorage.getItem(CACHE_TS);
+                if (cached && ts && (Date.now() - parseInt(ts, 10)) < CACHE_TTL) {
+                    buildGrid(JSON.parse(cached));
+                    // Refresh cache in background for next visit
+                    fetch(csvFilePath)
+                        .then(r => r.text())
+                        .then(text => {
+                            const rows = Papa.parse(text, { header: true }).data.filter(r => r && Object.keys(r).length > 0);
+                            localStorage.setItem(CACHE_KEY, JSON.stringify(rows));
+                            localStorage.setItem(CACHE_TS, Date.now().toString());
+                        })
+                        .catch(() => {});
+                    return;
+                }
+            } catch(e) {}
+
+            // No valid cache — fetch fresh
+            Papa.parse(csvFilePath, {
+                download: true,
+                header: true,
+                complete(results) {
+                    const rows = results.data.filter(r => r && Object.keys(r).length > 0);
+                    try {
+                        localStorage.setItem(CACHE_KEY, JSON.stringify(rows));
+                        localStorage.setItem(CACHE_TS, Date.now().toString());
+                    } catch(e) {}
+                    buildGrid(rows);
+                },
+                error(e) {
+                    console.error('CSV error:', e);
+                    csvReady = true;   // reveal anyway on error
+                    maybeReveal();
+                }
+            });
+        }
+
+        function openModal()  { document.getElementById('modalOverlay').classList.add('visible'); }
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('visible'); }
+        function handleOverlayClick(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadNavigation);
+        } else {
+            loadNavigation();
+        }
+
+        // ══════════════════════════════════════════════════════════════════
+        // RANDOM WORD SPACE
+        // ══════════════════════════════════════════════════════════════════
+
+        const RWS_WORDS_CSV  = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=1317258846&single=true&output=csv';
+        const RWS_JOURNEY_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=0&single=true&output=csv';
+        const RWS_CHARS_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRpf3VgZ7McmNVsXvD2jrN-II3d_Pq6C0VLN4qi-yT4oWoXSHQ0mFQd_QlcBIdt4J0U_5E6FllJF9QE/pub?gid=2127647417&single=true&output=csv';
+        const RWS_WORD_IMG    = 'https://chineseffect.com/images/wordsTiles/';
+        const RWS_CHAR_IMG    = 'https://chineseffect.com/images/characters/';
+
+        let rwsWordsData    = null;  // array of word row objects
+        let rwsJourneyData  = null;  // array of journey row objects
+        let rwsCharsMap     = {};    // chineseCharacter → char row
+        let rwsCurrentWord  = null;  // currently displayed word entry
+        let rwsCurrentPage  = null;  // journey page number for current word
+        let rwsDataReady    = false;
+
+        // Preload all CSVs in background as soon as DOM is ready
+        async function rwsPreload() {
+            try {
+                const [wText, jText, cText] = await Promise.all([
+                    fetch(RWS_WORDS_CSV).then(r => r.text()),
+                    fetch(RWS_JOURNEY_CSV).then(r => r.text()),
+                    fetch(RWS_CHARS_CSV).then(r => r.text()).catch(() => '')
+                ]);
+                rwsWordsData   = rwsParseCsv(wText);
+                rwsJourneyData = rwsParseCsv(jText);
+                const charsArr = rwsParseCsv(cText);
+                charsArr.forEach(e => { if (e.chineseCharacter) rwsCharsMap[e.chineseCharacter] = e; });
+                rwsDataReady   = true;
+            } catch(e) {
+                console.warn('RWS preload error:', e);
+            }
+        }
+
+        function rwsParseCsv(text) {
+            const lines = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n');
+            if (!lines.length) return [];
+            function parseLine(line) {
+                const res = []; let cur = ''; let inQ = false;
+                for (let i = 0; i < line.length; i++) {
+                    const c = line[i];
+                    if (c === '"') { if (inQ && line[i+1]==='"') { cur+='"'; i++; } else inQ=!inQ; }
+                    else if (c===',' && !inQ) { res.push(cur.trim()); cur=''; }
+                    else cur += c;
+                }
+                res.push(cur.trim());
+                return res;
+            }
+            const headers = parseLine(lines[0]);
+            const result = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                const vals = parseLine(lines[i]);
+                const obj = {};
+                headers.forEach((h, j) => obj[h] = vals[j] || '');
+                result.push(obj);
+            }
+            return result;
+        }
+
+        function rwsImageExists(url) {
+            return new Promise(res => {
+                const img = new Image();
+                img.onload  = () => res(true);
+                img.onerror = () => res(false);
+                img.src = url;
+            });
+        }
+
+        function rwsGetDirections(count) {
+            if (count === 1) return ['zoom'];
+            if (count === 2) return ['left','right'];
+            if (count === 3) return ['left','top','right'];
+            if (count === 4) return ['left','top','bottom','right'];
+            const dirs = ['left'];
+            for (let i = 1; i < count - 1; i++) dirs.push(i % 2 === 0 ? 'bottom' : 'top');
+            dirs.push('right');
+            return dirs;
+        }
+
+        function rwsAnimClass(dir) {
+            return {
+                zoom:   'rws-anim-zoom',
+                left:   'rws-anim-from-left',
+                right:  'rws-anim-from-right',
+                top:    'rws-anim-from-top',
+                bottom: 'rws-anim-from-bot',
+            }[dir] || 'rws-anim-zoom';
+        }
+
+        // Find which journey page (1-based) a word first appears in.
+        // Strategy: look for a 'page' column in the word entry; if absent,
+        // scan journey rows for any column value matching the word's nameOfSite.
+        function rwsFindJourneyPage(wordEntry) {
+            if (!wordEntry) return null;
+
+            // 1. Direct column on the word row
+            const direct = wordEntry.page || wordEntry.journeyPage || wordEntry.stage || wordEntry.pageNumber;
+            if (direct) {
+                const n = parseInt(direct, 10);
+                if (!isNaN(n) && n > 0) return n;
+            }
+
+            // 2. Scan journey rows for a column value that matches nameOfSite
+            if (rwsJourneyData && wordEntry.nameOfSite) {
+                for (let i = 0; i < rwsJourneyData.length; i++) {
+                    const row = rwsJourneyData[i];
+                    for (const key of Object.keys(row)) {
+                        if (String(row[key]).includes(wordEntry.nameOfSite)) {
+                            return i + 1; // 1-based page number
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        // Extract all word page names referenced in the JourneyFull CSV
+        // (entries like: "presentation: https://chineseffect.com/chfx/words.html?page=keshiBut")
+        function rwsExtractJourneyWordNames(journeyRows) {
+            const names = new Set();
+            const pattern = /words\.html\?page=([A-Za-z0-9_-]+)/g;
+            for (const row of journeyRows) {
+                for (const val of Object.values(row)) {
+                    let m;
+                    while ((m = pattern.exec(val)) !== null) {
+                        names.add(m[1]);
+                    }
+                }
+            }
+            return names;
+        }
+
+        async function rwsPickRandom() {
+            if (!rwsDataReady) {
+                // Data not yet loaded — show loading state on button
+                const btn = document.getElementById('rwsBtn');
+                if (btn) btn.textContent = '…';
+                await rwsPreload();
+                if (btn) { btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8a6 6 0 1 0 12 0A6 6 0 0 0 2 8Z" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg> Random Word'; }
+            }
+            if (!rwsWordsData || !rwsWordsData.length) return;
+
+            // Build set of word names actually referenced in the JourneyFull table
+            const journeyWordNames = rwsExtractJourneyWordNames(rwsJourneyData || []);
+
+            // Filter words CSV to only those present in the journey AND having a nameOfSite
+            let validWords = rwsWordsData.filter(r =>
+                r.nameOfSite && r.nameOfSite.trim() && journeyWordNames.has(r.nameOfSite.trim())
+            );
+
+            // Fallback: if cross-reference yields nothing (data issue), use all words with nameOfSite
+            if (!validWords.length) {
+                validWords = rwsWordsData.filter(r => r.nameOfSite && r.nameOfSite.trim());
+            }
+            if (!validWords.length) return;
+
+            const wordEntry = validWords[Math.floor(Math.random() * validWords.length)];
+            rwsCurrentWord  = wordEntry;
+            rwsCurrentPage  = rwsFindJourneyPage(wordEntry);
+
+            await rwsRenderWord(wordEntry);
+        }
+
+        async function rwsRenderWord(wordEntry) {
+            const charRow    = document.getElementById('rws-char-row');
+            const stage      = document.getElementById('rws-char-stage');
+            const infoPanel  = document.getElementById('rws-info-panel');
+            const wordDisplay = document.getElementById('rws-word-display');
+            const trigger    = document.getElementById('rws-trigger');
+            const actions    = document.getElementById('rws-actions');
+
+            // Reset panels
+            charRow.innerHTML = '';
+            infoPanel.classList.remove('visible');
+            actions.classList.remove('visible');
+
+            // Switch to word display state
+            trigger.style.display    = 'none';
+            wordDisplay.classList.add('visible');
+
+            // Populate info panel text
+            document.getElementById('rws-pinyin').textContent  = wordEntry.pinyin || '';
+            document.getElementById('rws-meaning').textContent = wordEntry.description || wordEntry.meaning || '';
+
+            // ── Build character slots (same logic as words.html) ──
+            const characters = (wordEntry.characters || '').split('').filter(Boolean);
+            const charCount  = characters.length;
+            const wordImgUrl = `${RWS_WORD_IMG}${wordEntry.nameOfSite}.webp`;
+            const hasWordImg = await rwsImageExists(wordImgUrl);
+
+            let slots = [];
+
+            if (hasWordImg) {
+                const img = document.createElement('img');
+                img.src = wordImgUrl;
+                img.alt = wordEntry.characters || '';
+                slots.push({ element: img, dir: 'zoom' });
+            } else {
+                const dirs = rwsGetDirections(charCount || 1);
+                if (charCount > 0) {
+                    let allOk = true;
+                    const pending = [];
+                    for (let i = 0; i < characters.length; i++) {
+                        const ch    = characters[i];
+                        const entry = rwsCharsMap[ch];
+                        if (entry && entry.visualFile) {
+                            const url = `${RWS_CHAR_IMG}${entry.visualFile}.webp`;
+                            if (await rwsImageExists(url)) {
+                                const img = document.createElement('img');
+                                img.src = url;
+                                img.alt = ch;
+                                pending.push({ element: img, dir: dirs[i] || 'zoom' });
+                            } else { allOk = false; break; }
+                        } else { allOk = false; break; }
+                    }
+                    if (allOk && pending.length === charCount) slots = pending;
+                }
+                // Text fallback
+                if (slots.length === 0) {
+                    const dirs2 = rwsGetDirections(charCount || 1);
+                    if (charCount > 0) {
+                        characters.forEach((ch, i) => {
+                            const el = document.createElement('div');
+                            el.className = 'rws-char-text';
+                            el.textContent = ch;
+                            slots.push({ element: el, dir: dirs2[i] || 'zoom' });
+                        });
+                    } else {
+                        const el = document.createElement('div');
+                        el.className = 'rws-char-text';
+                        el.textContent = wordEntry.characters || wordEntry.nameOfSite || '?';
+                        slots.push({ element: el, dir: 'zoom' });
+                    }
+                }
+            }
+
+            // ── Size calculation ──
+            const vw         = window.innerWidth;
+            const vh         = window.innerHeight * 0.70; // RWS is 70vh
+            const infoH      = 180;
+            const slotCount  = slots.length;
+            const effectiveCount = charCount > 0 ? charCount : slotCount;
+            const isTrueSingle   = effectiveCount === 1;
+            const stageHMax  = isTrueSingle ? vh * 0.50 : vh * 0.55;
+            const stageH     = Math.min(vh - infoH - 20, stageHMax);
+            const gap        = Math.round(vw * 0.03);
+            const isWordImage = hasWordImg && slotCount === 1 && effectiveCount > 1;
+            const layoutCount = isWordImage ? effectiveCount : slotCount;
+            const totalGap   = gap * (layoutCount - 1);
+            const slotSizeCap = isTrueSingle ? 0.80 : 0.95;
+            const slotSize   = Math.min(
+                Math.floor((vw * 0.90 - totalGap) / layoutCount),
+                Math.floor(stageH * slotSizeCap)
+            );
+
+            stage.style.height = stageH + 'px';
+            charRow.style.gap  = gap + 'px';
+
+            // ── Build DOM ──
+            const DELAYS = [0, 80, 160, 240, 320];
+            slots.forEach(({ element, dir }, idx) => {
+                const slot = document.createElement('div');
+                slot.className = 'rws-char-slot';
+
+                if (isWordImage) {
+                    const imgW = slotSize * effectiveCount + gap * (effectiveCount - 1);
+                    slot.style.width  = imgW + 'px';
+                    slot.style.height = slotSize + 'px';
+                    element.style.width  = imgW + 'px';
+                    element.style.height = slotSize + 'px';
+                    element.style.objectFit = 'contain';
+                } else {
+                    slot.style.width  = slotSize + 'px';
+                    slot.style.height = slotSize + 'px';
+                    if (element.tagName === 'IMG') {
+                        element.style.width  = slotSize + 'px';
+                        element.style.height = slotSize + 'px';
+                        element.style.objectFit = 'contain';
+                    } else if (element.classList.contains('rws-char-text')) {
+                        element.style.fontSize = Math.round(slotSize * 0.82) + 'px';
+                        element.style.width  = slotSize + 'px';
+                        element.style.height = slotSize + 'px';
+                    }
+                }
+
+                element.style.animationDelay    = DELAYS[idx] + 'ms';
+                element.style.animationFillMode = 'both';
+                element.classList.add(rwsAnimClass(dir));
+                slot.appendChild(element);
+                charRow.appendChild(slot);
+            });
+
+            // Show info panel + actions after chars arrive
+            const panelDelay = 700 + (slots.length * 80);
+            setTimeout(() => {
+                infoPanel.classList.add('visible');
+                // Show action buttons shortly after panel
+                setTimeout(() => actions.classList.add('visible'), 200);
+            }, panelDelay);
+        }
+
+        function rwsTakeMeIn() {
+            if (!rwsCurrentPage) return;
+            const pageNum   = rwsCurrentPage;
+            const squareId  = `nav-sq-${pageNum}`;
+            const targetEl  = document.getElementById(squareId);
+
+            if (!targetEl) {
+                // Fallback: navigate directly
+                parent.location.href = `https://chineseffect.com/chfx/template.html?page=page${pageNum}`;
+                return;
+            }
+
+            // Scroll the square into view, then trigger a highlight pulse and open it
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // After scroll settles, flash the square and open
+            setTimeout(() => {
+                targetEl.classList.add('rws-highlight');
+                targetEl.addEventListener('animationend', () => {
+                    targetEl.classList.remove('rws-highlight');
+                    markPageVisited(pageNum);
+                   parent.location.href = `https://chineseffect.com/chfx/template.html?page=page${pageNum}`;
+                }, { once: true });
+            }, 600);
+        }
+
+        // Kick off preload in background
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', rwsPreload);
+        } else {
+            rwsPreload();
+        }
+    </script>
+
+    <!-- ── Add to Homescreen Popup ── -->
+    <div id="a2hs-popup" role="dialog" aria-label="Add to Homescreen">
+        <!-- iOS version -->
+        <div id="a2hs-ios" class="a2hs-card" style="display:none">
+            <button class="a2hs-close" onclick="a2hsClose()" aria-label="Close">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="a2hs-title">Add to your Homescreen</div>
+            <div class="a2hs-subtitle">Get the full experience — quick access, no browser bar.</div>
+            <div class="a2hs-steps">
+                <div class="a2hs-step">
+                    <div class="a2hs-step-icon">
+                        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" class="a2hs-ios-share">
+                            <path d="M13 2v14M8 6l5-5 5 5" stroke="#3478f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 11H3a1 1 0 00-1 1v10a1 1 0 001 1h20a1 1 0 001-1V12a1 1 0 00-1-1h-2" stroke="#3478f6" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="a2hs-step-label">Tap Share</div>
+                </div>
+                <div class="a2hs-arrow">
+                    <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="a2hs-step">
+                    <div class="a2hs-step-icon">
+                        <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                            <rect x="3" y="3" width="20" height="20" rx="5" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+                            <path d="M13 8v10M8 13h10" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="a2hs-step-label">Add to<br>Homescreen</div>
+                </div>
+                <div class="a2hs-arrow">
+                    <svg width="8" height="14" viewBox="0 0 8 14" fill="none"><path d="M1 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="a2hs-step">
+                    <div class="a2hs-step-icon">
+                        <img src="favicon.png" alt="App icon" onerror="this.style.display='none';this.parentNode.innerHTML='<svg width=\'26\' height=\'26\' viewBox=\'0 0 26 26\' fill=\'none\'><circle cx=\'13\' cy=\'13\' r=\'11\' fill=\'rgba(255,255,255,0.15)\' stroke=\'rgba(255,255,255,0.25)\' stroke-width=\'1.5\'/><path d=\'M9 13l3 3 5-5\' stroke=\'rgba(255,255,255,0.7)\' stroke-width=\'1.8\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>'">
+                    </div>
+                    <div class="a2hs-step-label">Add<br>chineseffect.com</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Android version -->
+        <div id="a2hs-android" class="a2hs-card" style="display:none">
+            <button class="a2hs-close" onclick="a2hsClose()" aria-label="Close">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="a2hs-title">Add to your Homescreen</div>
+            <div class="a2hs-subtitle">Get the full experience — quick access, no browser bar.</div>
+            <div class="a2hs-android-bar">
+                <img src="favicon.png" alt="App icon" onerror="this.style.display='none'">
+                <div class="a2hs-android-text">
+                    <strong>xfree.com</strong>
+                    <span>Add to Home screen</span>
+                </div>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M4 9h10M9.5 5l4 4-4 4" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="a2hs-android-hint">Tap <strong style="color:rgba(255,255,255,0.65)">⋮ Menu → Add to Home screen</strong> in your browser</div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var STORAGE_KEY = 'a2hs_dismissed';
+            var DISMISS_DAYS = 30;
+
+            function isIOS() {
+                return /iphone|ipad|ipod/i.test(navigator.userAgent);
+            }
+            function isAndroid() {
+                return /android/i.test(navigator.userAgent);
+            }
+            function isStandalone() {
+                return (
+                    window.navigator.standalone === true ||
+                    window.matchMedia('(display-mode: standalone)').matches ||
+                    window.matchMedia('(display-mode: fullscreen)').matches ||
+                    window.matchMedia('(display-mode: minimal-ui)').matches
+                );
+            }
+            function wasDismissedRecently() {
+                try {
+                    var ts = localStorage.getItem(STORAGE_KEY);
+                    if (!ts) return false;
+                    return (Date.now() - parseInt(ts, 10)) < DISMISS_DAYS * 864e5;
+                } catch (e) { return false; }
+            }
+
+            window.a2hsClose = function () {
+                var popup = document.getElementById('a2hs-popup');
+                popup.classList.remove('a2hs-visible');
+                popup.classList.add('a2hs-hiding');
+                setTimeout(function () {
+                    popup.classList.remove('a2hs-hiding');
+                }, 450);
+                try { localStorage.setItem(STORAGE_KEY, Date.now().toString()); } catch (e) {}
+            };
+
+            function showPopup(type) {
+                var popup   = document.getElementById('a2hs-popup');
+                var iosEl   = document.getElementById('a2hs-ios');
+                var droidEl = document.getElementById('a2hs-android');
+                iosEl.style.display   = type === 'ios'     ? 'block' : 'none';
+                droidEl.style.display = type === 'android' ? 'block' : 'none';
+                // Trigger animation on next frame
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        popup.classList.add('a2hs-visible');
+                    });
+                });
+            }
+
+            function getSafariToolbarHeight() {
+                // window.innerHeight excludes Safari's browser chrome; screen.height does not.
+                // The difference gives us the browser toolbar height.
+                if (!isIOS()) return 0;
+                var toolbarH = window.screen.height - window.innerHeight;
+                // Clamp to a sane range: Safari toolbar is typically 44–90px
+                return (toolbarH > 20 && toolbarH < 200) ? toolbarH : 83;
+            }
+
+            function init() {
+                if (isStandalone()) return;
+                if (wasDismissedRecently()) return;
+                if (isIOS()) {
+                    // Patch bottom padding to exactly clear Safari's toolbar
+                    var popup = document.getElementById('a2hs-popup');
+                    var toolbarH = getSafariToolbarHeight();
+                    popup.style.paddingBottom = (toolbarH + 16) + 'px';
+                    setTimeout(function () { showPopup('ios'); }, 2500);
+                } else if (isAndroid()) {
+                    setTimeout(function () { showPopup('android'); }, 2500);
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+</html>

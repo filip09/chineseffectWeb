@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Audio Quiz Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 56px 24px 72px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ── Quiz card ── */
+    .quiz-area {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 24px;
+      padding: 40px 36px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      overflow-y: auto;
+      max-height: 92vh;
+    }
+
+    /* ── Title ── */
+    .quiz-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #fff;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-bottom: 32px;
+    }
+
+    /* ── Play button ── */
+    .play-button-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+      height: 80px;
+      position: relative;
+    }
+
+    #play-button {
+      width: 80px;
+      height: 80px;
+      cursor: pointer;
+      position: relative;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #play-button:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+    }
+
+    #play-icon {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 13px 0 13px 26px;
+      border-color: transparent transparent transparent rgba(255,255,255,0.9);
+      margin-left: 4px;
+      position: absolute;
+      z-index: 2;
+      transition: opacity 0.3s ease;
+    }
+
+    #waveform {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* ── Question sentence ── */
+    .hint-container {
+      margin-bottom: 28px;
+    }
+
+    .hint-field {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 16px 20px;
+      border-radius: 16px;
+      cursor: default;
+      user-select: text;
+      transition: background 0.25s ease;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.5px;
+      text-align: center;
+      min-height: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hint-text { transition: opacity 0.3s ease; }
+
+    .hint-content {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+    }
+    .hint-content.show { opacity: 1; }
+
+    .hint-chinese {
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      font-weight: 400;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 4px;
+    }
+
+    .hint-pinyin {
+      font-size: clamp(0.8rem, 3vw, 1.1rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── Options grid ── */
+    .options-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 480px;
+      margin: 0 auto;
+      transition: opacity 0.4s ease;
+    }
+
+    /* ── Individual option — compact square with rounded corners ── */
+    .option {
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      /* gentle floating animation */
+      animation: float var(--float-dur, 5s) ease-in-out infinite;
+      animation-delay: var(--float-delay, 0s);
+      transition: background 0.25s ease, border-color 0.25s ease,
+                  transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Each option gets a unique float timing via inline CSS variables */
+    .option:nth-child(1) { --float-dur: 5.2s; --float-delay: 0s; }
+    .option:nth-child(2) { --float-dur: 6.1s; --float-delay: -1.4s; }
+    .option:nth-child(3) { --float-dur: 5.7s; --float-delay: -2.8s; }
+    .option:nth-child(4) { --float-dur: 6.5s; --float-delay: -0.9s; }
+
+    @keyframes float {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-5px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .option:hover {
+      background: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.28);
+      transform: translateY(-4px) scale(1.03);
+      animation-play-state: paused;
+    }
+
+    .option:active {
+      transform: scale(0.97);
+    }
+
+    /* Letter badge */
+    .option-letter {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.4);
+      position: absolute;
+      top: 12px;
+      left: 14px;
+    }
+
+    /* Audio play circle inside option */
+    .option-audio-play {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .option-audio-play:hover {
+      background: rgba(255,255,255,0.22);
+      border-color: rgba(255,255,255,0.38);
+      transform: scale(1.08);
+    }
+
+    .option-audio-play.playing {
+      background: rgba(0, 209, 122, 0.3);
+      border-color: rgba(0, 209, 122, 0.6);
+    }
+
+    .option-audio-play svg {
+      fill: rgba(255,255,255,0.85);
+      width: 16px;
+      height: 16px;
+      pointer-events: none;
+    }
+
+    /* ── Correct / Incorrect states (pause the float) ── */
+    .option.correct {
+      background: rgba(0, 209, 122, 0.22);
+      border-color: rgba(0, 209, 122, 0.55);
+      animation-play-state: paused;
+    }
+
+    .option.incorrect {
+      background: rgba(234, 0, 112, 0.22);
+      border-color: rgba(234, 0, 112, 0.55);
+      animation-play-state: paused;
+    }
+
+    /* ── Feedback ── */
+    .feedback {
+      text-align: center;
+      margin-top: 18px;
+      font-size: clamp(0.95rem, 3vw, 1.2rem);
+      font-weight: 500;
+      height: 1.8rem;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Score ── */
+    .score-display {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Loader ── */
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 1rem;
+      font-weight: 300;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Completion screen ── */
+    #completion-screen {
+      text-align: center;
+      padding: 32px 0;
+      display: none;
+    }
+
+    #completion-message {
+      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.3px;
+      margin-bottom: 24px;
+    }
+
+    #replay-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    }
+
+    #replay-button:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.38);
+      transform: translateY(-1px);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .container { padding: 40px 16px 56px; }
+      .quiz-area { padding: 28px 20px; border-radius: 20px; }
+      .options-container { grid-template-columns: 1fr 1fr; gap: 8px; }
+    }
+
+    @media (max-height: 700px) and (max-width: 767px) {
+      .play-button-container { height: 60px; margin-bottom: 18px; }
+      #play-button { width: 60px; height: 60px; }
+      #play-icon { border-width: 10px 0 10px 20px; }
+      .hint-field { font-size: clamp(1.2rem, 5vw, 2rem); min-height: 2.5rem; }
+      .feedback { height: 1.4rem; margin-top: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader" class="loader">Loading quiz journey…</div>
+
+  <div id="quiz-container" class="container" style="display: none;">
+    <div class="quiz-area" id="quiz-area">
+
+      <div class="quiz-label">Audio Challenge</div>
+      <h1 id="quiz-title">Pick the Correct Audio</h1>
+
+      <div id="quiz-content">
+        <!-- Question -->
+        <div class="hint-container">
+          <div class="hint-field" id="question-text" style="cursor: default;">
+          </div>
+        </div>
+
+        <div class="options-container" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="score-display" id="score-display">Score: 0</div>
+      </div>
+
+      <div id="completion-screen">
+        <div id="completion-message">Great job! There's nothing more here.</div>
+        <button id="replay-button">↺ &nbsp;Replay</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ── State ──
+    let currentPageId = null;
+    let allSentencesData = [];
+    let webCsvData = [];
+    let sequenceSentenceIds = [];
+    let currentQuizSentences = [];
+    let currentSentence = null;
+    let currentSequenceIndex = 0;
+    let score = 0;
+    let selectionLocked = false;
+    let currentlyPlayingAudio = null;
+
+    // ── DOM ──
+    const loader          = document.getElementById("loader");
+    const quizContainer   = document.getElementById("quiz-container");
+    const quizArea        = document.getElementById("quiz-area");
+    const quizContent     = document.getElementById("quiz-content");
+    const optionsContainer= document.getElementById("options");
+    const feedbackDisplay = document.getElementById("feedback");
+    const scoreDisplay    = document.getElementById("score-display");
+    const completionScreen= document.getElementById("completion-screen");
+    const replayButton    = document.getElementById("replay-button");
+    const questionText    = document.getElementById("question-text");
+
+    // ── CSV helpers ──
+    async function loadCsvFile(url) {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`);
+      return r.text();
+    }
+
+    function parseCsvText(text, requiredHeaders = []) {
+      const lines = text.split("\n").filter(l => l.trim());
+      if (lines.length < 2) return { headers: [], data: [] };
+      const headers = lines[0].split(",").map(h => h.trim());
+      const data = [];
+      requiredHeaders.forEach(h => { if (!headers.includes(h)) console.warn(`Missing header: "${h}"`); });
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(",").map(v => v.trim());
+        const entry = {};
+        headers.forEach((h, idx) => { entry[h] = values[idx] ?? ""; });
+        data.push(entry);
+      }
+      return { headers, data };
+    }
+
+    // ── Quiz logic ──
+    function getPageIdFromUrl() {
+      return new URLSearchParams(window.location.search).get("page");
+    }
+
+    function filterAndPrepareSequence() {
+      const pageDataRow = webCsvData.find(r => r.nameOfSite === currentPageId);
+      if (!pageDataRow) { showError(`Page "${currentPageId}" not found in chfxWeb.csv.`); return false; }
+
+      sequenceSentenceIds = [];
+      const urlRegex = /https:\/\/chineseffect\.com\/chfx\/saycompare\.html\?page=([^,&]+)/i;
+      for (const key in pageDataRow) {
+        if (key.startsWith("content")) {
+          const m = pageDataRow[key].match(urlRegex);
+          if (m && m[1]) sequenceSentenceIds.push(m[1]);
+        }
+      }
+
+      if (sequenceSentenceIds.length === 0) {
+        showError(`No sentences for page "${currentPageId}".`);
+        quizContent.style.display = "none";
+        completionScreen.style.display = "block";
+        document.getElementById("completion-message").textContent = `No sentences configured for: ${currentPageId}.`;
+        replayButton.style.display = "none";
+        return false;
+      }
+
+      const sentenceMap = new Map(allSentencesData.map(s => [s.soundFile, s]));
+      currentQuizSentences = sequenceSentenceIds.map(id => sentenceMap.get(id)).filter(Boolean);
+
+      if (currentQuizSentences.length === 0) {
+        showError(`None of the required sentences found in speechRecognition.csv.`);
+        return false;
+      }
+      return true;
+    }
+
+    function initQuiz() {
+      loader.style.display = "none";
+      quizContainer.style.display = "flex";
+      currentSequenceIndex = 0;
+      score = 0;
+      loadNextQuestion();
+    }
+
+    function loadNextQuestion() {
+      selectionLocked = false;
+      feedbackDisplay.textContent = "";
+      feedbackDisplay.style.color = "rgba(255,255,255,0.7)";
+      optionsContainer.style.opacity = "0";
+
+      if (currentlyPlayingAudio) {
+        currentlyPlayingAudio.pause();
+        currentlyPlayingAudio.currentTime = 0;
+        currentlyPlayingAudio = null;
+      }
+
+      if (currentSequenceIndex >= currentQuizSentences.length) {
+        showCompletionScreen();
+        return;
+      }
+
+      currentSentence = currentQuizSentences[currentSequenceIndex];
+      questionText.textContent = currentSentence.englishTranslation || "No translation available";
+
+      setTimeout(() => {
+        generateOptions();
+        optionsContainer.style.opacity = "1";
+      }, 300);
+
+      scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    function findSimilarSentencesBySite(pageId, excludeSoundFile, count) {
+      const baseId = pageId.split(/[_-]/)[0].toLowerCase();
+      const candidates = allSentencesData.filter(s => s.soundFile !== excludeSoundFile && s.soundFile.toLowerCase().includes(baseId));
+      shuffleArray(candidates);
+      return candidates.slice(0, count).map(s => s.soundFile);
+    }
+
+    function findRandomDistractors(excludeSoundFile, count, alreadyChosen = []) {
+      const excludeSet = new Set([excludeSoundFile, ...alreadyChosen]);
+      const candidates = allSentencesData.filter(s => !excludeSet.has(s.soundFile));
+      shuffleArray(candidates);
+      return candidates.slice(0, count).map(s => s.soundFile);
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function generateOptions() {
+      optionsContainer.innerHTML = "";
+      const correctSoundFile = currentSentence.soundFile;
+
+      let distractors = findSimilarSentencesBySite(currentPageId, correctSoundFile, 3);
+      if (distractors.length < 3) {
+        distractors = distractors.concat(findRandomDistractors(correctSoundFile, 3 - distractors.length, distractors));
+      }
+
+      const optionSoundFiles = shuffleArray([correctSoundFile, ...distractors]);
+      const letters = ["A", "B", "C", "D"];
+
+      optionSoundFiles.forEach((soundFile, index) => {
+        const sentenceObj = allSentencesData.find(s => s.soundFile === soundFile);
+        if (!sentenceObj) return;
+
+        // ── Option square ──
+        const optionDiv = document.createElement("div");
+        optionDiv.className = "option";
+
+        // Letter badge
+        const letterSpan = document.createElement("span");
+        letterSpan.className = "option-letter";
+        letterSpan.textContent = letters[index];
+        optionDiv.appendChild(letterSpan);
+
+        // Audio play circle
+        const playCircle = document.createElement("div");
+        playCircle.className = "option-audio-play";
+        playCircle.title = "Play audio";
+        playCircle.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
+        optionDiv.appendChild(playCircle);
+
+
+
+        // Audio element
+        const audio = new Audio(`/audio/random/${soundFile}.mp3`);
+
+        // Play circle: audio only, no answer selection
+        playCircle.addEventListener("click", e => {
+          e.stopPropagation();
+          if (currentlyPlayingAudio && currentlyPlayingAudio !== audio) {
+            currentlyPlayingAudio.pause();
+            currentlyPlayingAudio.currentTime = 0;
+            document.querySelectorAll(".option-audio-play.playing").forEach(el => el.classList.remove("playing"));
+          }
+          if (audio.paused) {
+            audio.play();
+            currentlyPlayingAudio = audio;
+            playCircle.classList.add("playing");
+            audio.onended = () => { playCircle.classList.remove("playing"); currentlyPlayingAudio = null; };
+          } else {
+            audio.pause();
+            audio.currentTime = 0;
+            playCircle.classList.remove("playing");
+            currentlyPlayingAudio = null;
+          }
+        });
+
+        // Option click: select answer
+        optionDiv.addEventListener("click", () => {
+          if (selectionLocked) return;
+          selectionLocked = true;
+
+          if (currentlyPlayingAudio) {
+            currentlyPlayingAudio.pause();
+            currentlyPlayingAudio.currentTime = 0;
+            currentlyPlayingAudio = null;
+            document.querySelectorAll(".option-audio-play.playing").forEach(el => el.classList.remove("playing"));
+          }
+
+          if (soundFile === correctSoundFile) {
+            optionDiv.classList.add("correct");
+            feedbackDisplay.textContent = "Correct!";
+            feedbackDisplay.style.color = "rgba(0, 209, 122, 0.9)";
+            score++;
+            scoreDisplay.textContent = `Score: ${score}`;
+            currentSequenceIndex++;
+            setTimeout(loadNextQuestion, 1400);
+          } else {
+            optionDiv.classList.add("incorrect");
+            feedbackDisplay.textContent = "Incorrect!";
+            feedbackDisplay.style.color = "rgba(234, 0, 112, 0.9)";
+            score = 0;
+            scoreDisplay.textContent = `Score: ${score}`;
+
+            setTimeout(() => {
+              optionsContainer.querySelectorAll(".option").forEach(opt => {
+                const letter = opt.querySelector(".option-letter").textContent;
+                const idx = letters.indexOf(letter);
+                if (idx !== -1 && optionSoundFiles[idx] === correctSoundFile) {
+                  opt.classList.add("correct");
+                }
+              });
+            }, 500);
+
+            setTimeout(() => {
+              optionsContainer.querySelectorAll(".option").forEach(opt => {
+                opt.classList.remove("correct", "incorrect");
+              });
+              feedbackDisplay.textContent = "";
+              selectionLocked = false;
+            }, 2500);
+          }
+        });
+
+        optionsContainer.appendChild(optionDiv);
+      });
+    }
+
+    function showCompletionScreen() {
+      if (currentlyPlayingAudio) {
+        currentlyPlayingAudio.pause();
+        currentlyPlayingAudio = null;
+      }
+      quizContent.style.display = "none";
+      completionScreen.style.display = "block";
+      document.getElementById("completion-message").textContent = "Great job! There's nothing more here.";
+      scoreDisplay.textContent = `Final Score: ${score}`;
+    }
+
+    function replayQuiz() {
+      score = 0;
+      currentSequenceIndex = 0;
+      selectionLocked = false;
+      completionScreen.style.display = "none";
+      quizContent.style.display = "block";
+      loadNextQuestion();
+    }
+
+    function showError(message) {
+      console.error("Quiz Error:", message);
+      loader.innerHTML = `Error: ${message}<br/>Please check the console or contact support.`;
+      loader.style.color = "rgba(234, 0, 112, 0.9)";
+      loader.style.display = "flex";
+      quizContainer.style.display = "none";
+    }
+
+    // ── Boot ──
+    document.addEventListener("DOMContentLoaded", async () => {
+      currentPageId = getPageIdFromUrl();
+      if (!currentPageId) { showError("No 'page' parameter found in the URL (e.g., ?page=pageName)."); return; }
+
+      document.getElementById("quiz-title").textContent = "Pick the Correct Audio";
+
+      try {
+        const [speechCsvText, webCsvText] = await Promise.all([
+          loadCsvFile("/chfx/speechRecognition.csv"),
+          loadCsvFile("/chfx/chfxWeb.csv"),
+        ]);
+
+        allSentencesData = parseCsvText(speechCsvText, ["soundFile","englishTranslation","chineseVersion","chinesePinyin"]).data;
+        if (allSentencesData.length === 0) throw new Error("speechRecognition.csv is empty or invalid.");
+
+        webCsvData = parseCsvText(webCsvText, ["nameOfSite"]).data;
+        if (webCsvData.length === 0) throw new Error("chfxWeb.csv is empty or invalid.");
+
+        if (filterAndPrepareSequence()) initQuiz();
+      } catch (err) {
+        console.error("Initialization failed:", err);
+        if (!loader.textContent.startsWith("Error:")) showError(`Initialization failed: ${err.message}`);
+      }
+    });
+
+    replayButton.addEventListener("click", replayQuiz);
+  </script>
+</body>
+</html>

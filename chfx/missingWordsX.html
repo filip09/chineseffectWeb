@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Word File Checker</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    button { padding: 10px 20px; font-size: 16px; }
+    pre { background: #f9f9f9; padding: 10px; border: 1px solid #ccc; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h2>Word File Checker</h2>
+  <button onclick="runCheck()">RUN</button>
+  <h3>MISSING FROM WORDS.CSV</h3>
+  <pre id="missingWords"></pre>
+  <h3>MISSING VISUAL FILES</h3>
+  <pre id="missingVisuals"></pre>
+  <h3>MISSING MP3</h3>
+  <pre id="missingAudio"></pre>
+
+  <script>
+    async function fetchCSV(url) {
+      try {
+        console.log('Fetching CSV:', url);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        const rows = text.split('\n').map(line => line.split(',').map(cell => cell.trim()));
+        console.log('Parsed CSV:', rows.length, 'rows');
+        return rows;
+      } catch (error) {
+        alert('Error loading ' + url + ': ' + error.message);
+        console.error('Error fetching CSV:', url, error);
+        return [];
+      }
+    }
+
+    async function listFiles(url) {
+      try {
+        console.log('Listing files at:', url);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const html = await response.text();
+        const matches = [...html.matchAll(/href="([^"?]*\.(webp|mp3))"/g)];
+        const files = matches.map(match => match[1]);
+        console.log('Files found:', files.length);
+        return files;
+      } catch (error) {
+        alert('Error reading files from ' + url + ': ' + error.message);
+        console.error('Error listing files:', url, error);
+        return [];
+      }
+    }
+
+    async function runCheck() {
+      const wordsURL = 'https://chineseffect.com/chfx/words.csv';
+      const sentencesURL = 'https://chineseffect.com/chfx/sentencesDecomposed.csv'; // MUST BE .csv!
+      const imagesURL = 'https://chineseffect.com/images/wordsTiles/';
+      const audioURL = 'https://chineseffect.com/audio/random/';
+
+      const [wordsCSV, sentencesCSV] = await Promise.all([
+        fetchCSV(wordsURL),
+        fetchCSV(sentencesURL)
+      ]);
+
+      if (wordsCSV.length === 0 || sentencesCSV.length === 0) {
+        console.warn('Missing data to continue.');
+        return;
+      }
+
+      const headersWords = wordsCSV[0];
+      const nameOfSiteIndex = headersWords.indexOf('nameOfSite');
+      const audioSourceIndex = headersWords.indexOf('audioSource');
+      const wordsData = wordsCSV.slice(1);
+      const wordsSet = new Set(wordsData.map(row => row[nameOfSiteIndex]?.trim()).filter(Boolean));
+      const audioList = wordsData.map(row => row[audioSourceIndex]?.trim()).filter(Boolean);
+
+      const headerSentences = sentencesCSV[0];
+      const wordIndexes = headerSentences
+        .map((col, i) => col.startsWith('word') ? i : -1)
+        .filter(i => i !== -1);
+
+      const sentenceWords = new Set();
+      for (const row of sentencesCSV.slice(1)) {
+        wordIndexes.forEach(i => {
+          const word = row[i]?.trim();
+          if (word) sentenceWords.add(word);
+        });
+      }
+
+      const missingWords = [...sentenceWords].filter(word => !wordsSet.has(word));
+      const imageFiles = await listFiles(imagesURL);
+      const imageSet = new Set(imageFiles.map(f => f.replace('.webp', '')));
+      const missingVisuals = [...wordsSet].filter(word => !imageSet.has(word));
+      const audioFiles = await listFiles(audioURL);
+      const audioSet = new Set(audioFiles.map(f => f.replace('.mp3', '')));
+      const missingAudio = audioList.filter(src => !audioSet.has(src.replace('.mp3', '')));
+
+      document.getElementById('missingWords').textContent = missingWords.join('\n') || 'None';
+      document.getElementById('missingVisuals').textContent = missingVisuals.join('\n') || 'None';
+      document.getElementById('missingAudio').textContent = missingAudio.join('\n') || 'None';
+
+      console.log('Done!');
+    }
+  </script>
+</body>
+</html>

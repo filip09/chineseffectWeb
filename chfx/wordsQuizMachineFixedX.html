@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chinese Word Quiz Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* --- PASTE ALL YOUR ORIGINAL CSS HERE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            overflow: hidden;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .quiz-area {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 1rem;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .question-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            height: 80px;
+            position: relative;
+        }
+
+        .question-text {
+            background-color: rgba(255, 255, 255, 0.3);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 600;
+            color: #333;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .option {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .option-letter {
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.1);
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .option-image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            width: 100%;
+            height: 80px;
+        }
+
+        .word-image {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .character-image {
+            height: 80px;
+            width: auto;
+            margin: 0 2px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 2px;
+        }
+
+        .character-fallback {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .character-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80px;
+        }
+
+        .character-container .character-image {
+            margin-right: 6px;
+        }
+
+        .character-container .character-image:last-child {
+            margin-right: 0;
+        }
+
+        .feedback {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            height: 2rem;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            color: #333;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .score-display {
+            text-align: center;
+            margin-top: 0.75rem;
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Hide the progress display as requested */
+        #progress-display {
+            display: none !important;
+        }
+
+        /* Completion Screen Styles - Fixed to match audioQuiz */
+        #completion-screen {
+            text-align: center;
+            padding: 2rem;
+            display: none; /* Hidden by default like audioQuiz */
+        }
+
+        #completion-message {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        #replay-button {
+            padding: 0.8rem 1.5rem;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        #replay-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .quiz-area {
+                padding: 1rem;
+            }
+
+            .options-container {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .option {
+                min-height: 100px;
+                padding: 0.75rem;
+            }
+
+            .option-image-container {
+                height: 60px;
+            }
+
+            .word-image {
+                height: 60px;
+            }
+
+            .character-image {
+                height: 60px;
+            }
+
+            .character-fallback {
+                font-size: 2rem;
+                height: 60px;
+            }
+
+            .character-container {
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .question-text {
+                font-size: 1rem;
+                padding: 0.75rem 1rem;
+            }
+
+            .option {
+                min-height: 80px;
+                padding: 0.5rem;
+            }
+
+            .option-image-container {
+                height: 50px;
+            }
+
+            .word-image {
+                height: 50px;
+            }
+
+            .character-image {
+                height: 50px;
+            }
+
+            .character-fallback {
+                font-size: 1.5rem;
+                height: 50px;
+            }
+
+            .character-container {
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="background"></canvas>
+
+    <div id="loader" class="loader">Loading word quiz...</div>
+
+    <div id="quiz-container" class="container" style="display: none;">
+        <div class="quiz-area" id="quiz-area">
+            <div id="quiz-content">
+                <div class="progress-display" id="progress-display">Question 1 of ∞</div>
+                <div class="question-container">
+                    <div class="question-text" id="question-text">Pick the character for: LOADING...</div>
+                </div>
+
+                <div class="options-container" id="options"></div>
+                <div class="feedback" id="feedback"></div>
+                <div class="score-display" id="score-display">Score: 0</div>
+            </div>
+
+            <div id="completion-screen" style="display: none;">
+                <div id="completion-message">Incredible! You've completed all words!</div>
+                <button id="replay-button">REPLAY</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Background Animation Code ---
+        const canvas = document.getElementById('background');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let circles = [];
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            initCircles();
+        }
+
+        function initCircles() {
+            circles = [];
+            const numCircles = 15;
+            for (let i = 0; i < numCircles; i++) {
+                circles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 250 + 150,
+                    hue: Math.random() * 360,
+                    saturation: Math.random() * 60 + 40,
+                    lightness: Math.random() * 30 + 65,
+                    alpha: Math.random() * 0.4 + 0.2,
+                    vx: Math.random() * 0.5 - 0.25,
+                    vy: Math.random() * 0.5 - 0.25,
+                    hueChange: Math.random() * 0.5 - 0.25
+                });
+            }
+        }
+
+        function drawBackground() {
+            ctx.clearRect(0, 0, width, height);
+            for (let circle of circles) {
+                circle.x += circle.vx;
+                circle.y += circle.vy;
+                if (circle.x < -circle.radius) circle.x = width + circle.radius;
+                if (circle.x > width + circle.radius) circle.x = -circle.radius;
+                if (circle.y < -circle.radius) circle.y = height + circle.radius;
+                if (circle.y > height + circle.radius) circle.y = -circle.radius;
+                circle.hue += circle.hueChange;
+                if (circle.hue > 360) circle.hue -= 360;
+                if (circle.hue < 0) circle.hue += 360;
+                ctx.beginPath();
+                const gradient = ctx.createRadialGradient(
+                    circle.x, circle.y, 0,
+                    circle.x, circle.y, circle.radius
+                );
+                gradient.addColorStop(0, `hsla(${circle.hue}, ${circle.saturation}%, ${circle.lightness}%, ${circle.alpha})`);
+                gradient.addColorStop(1, `hsla(${circle.hue}, ${circle.saturation}%, ${circle.lightness}%, 0)`);
+                ctx.fillStyle = gradient;
+                ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            requestAnimationFrame(drawBackground);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        drawBackground();
+
+        // --- Quiz Logic ---
+        let allWordsData = [];
+        let charactersDataCache = null;
+        let shuffledWords = [];
+        let currentWordIndex = 0;
+        let score = 0;
+        let selectionLocked = false;
+        let imageCache = new Map(); // Cache for pre-loaded images
+
+        // DOM Elements
+        const loader = document.getElementById('loader');
+        const quizContainer = document.getElementById('quiz-container');
+        const quizContent = document.getElementById('quiz-content');
+        const progressDisplay = document.getElementById('progress-display');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options');
+        const feedbackDisplay = document.getElementById('feedback');
+        const scoreDisplay = document.getElementById('score-display');
+        const completionScreen = document.getElementById('completion-screen');
+        const replayButton = document.getElementById('replay-button');
+
+        // Store option elements to update instead of recreating
+        let optionElements = [];
+
+        // --- CSV Loading and Parsing ---
+        async function loadCsvFile(url) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} for ${url}`);
+                }
+                const csvText = await response.text();
+                return csvText;
+            } catch (error) {
+                showError(`Error loading CSV from ${url}: ${error.message}`);
+                throw error;
+            }
+        }
+
+        function parseCsvText(text, requiredHeaders = []) {
+            const lines = text.split('\n').filter(line => line.trim() !== '');
+            if (lines.length < 2) return { headers: [], data: [] };
+
+            const headers = lines[0].split(',').map(h => h.trim());
+            const data = [];
+
+            for (const reqHeader of requiredHeaders) {
+                if (!headers.includes(reqHeader)) {
+                    console.warn(`Warning: CSV missing required header "${reqHeader}".`);
+                }
+            }
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim());
+                const entry = {};
+                headers.forEach((header, index) => {
+                    entry[header] = values[index] !== undefined ? values[index] : '';
+                });
+                data.push(entry);
+            }
+            return { headers, data };
+        }
+
+        // --- Characters Data Loading (like sentenceDecomposed) ---
+        async function getCharactersData() {
+            if (!charactersDataCache) {
+                try {
+                    const charactersText = await loadCsvFile('https://chineseffect.com/chfx/characters.csv');
+                    const charactersParsed = parseCsvText(charactersText, ['chineseCharacter', 'visualFile']);
+                    charactersDataCache = charactersParsed.data;
+                    console.log(`Loaded ${charactersDataCache.length} characters from characters.csv`);
+                } catch (error) {
+                    console.warn('Could not load characters.csv:', error);
+                    charactersDataCache = [];
+                }
+            }
+            return charactersDataCache;
+        }
+
+        // --- Image Pre-caching System ---
+        function preloadImage(url) {
+            return new Promise((resolve) => {
+                if (imageCache.has(url)) {
+                    resolve(imageCache.get(url));
+                    return;
+                }
+
+                const img = new Image();
+                img.onload = () => {
+                    imageCache.set(url, true);
+                    resolve(true);
+                };
+                img.onerror = () => {
+                    imageCache.set(url, false);
+                    resolve(false);
+                };
+                img.src = url;
+            });
+        }
+
+        async function preCacheImagesForWords(words, maxConcurrent = 3) {
+            const imageUrls = [];
+            const charactersData = await getCharactersData();
+            const charactersMap = {};
+            for (const entry of charactersData) {
+                if (entry.chineseCharacter) charactersMap[entry.chineseCharacter] = entry;
+            }
+
+            for (const word of words) {
+                // Add word image URL
+                imageUrls.push(`https://chineseffect.com/images/wordsTiles/${word.nameOfSite}.webp`);
+
+                // Add character image URLs (using visualFile from characters.csv)
+                if (word.characters) {
+                    const chars = word.characters.split('');
+                    for (const char of chars) {
+                        const charEntry = charactersMap[char];
+                        if (charEntry && charEntry.visualFile) {
+                            imageUrls.push(`https://chineseffect.com/images/characters/${charEntry.visualFile}.webp`);
+                        }
+                    }
+                }
+            }
+
+            // Remove duplicates
+            const uniqueUrls = [...new Set(imageUrls)];
+
+            // Load images in batches to avoid overwhelming the browser
+            for (let i = 0; i < uniqueUrls.length; i += maxConcurrent) {
+                const batch = uniqueUrls.slice(i, i + maxConcurrent);
+                await Promise.all(batch.map(url => preloadImage(url)));
+
+                // Small delay between batches to be nice to the browser
+                if (i + maxConcurrent < uniqueUrls.length) {
+                    await new Promise(resolve => setTimeout(resolve, 50));
+                }
+            }
+        }
+
+        function startPreCaching() {
+            // Pre-cache images for the next 5-10 questions in the background
+            const nextWords = shuffledWords.slice(currentWordIndex + 1, currentWordIndex + 11);
+            if (nextWords.length > 0) {
+                preCacheImagesForWords(nextWords, 2).catch(err => {
+                    console.log("Pre-caching error (non-critical):", err);
+                });
+            }
+        }
+
+        // --- Quiz Logic ---
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function initQuiz() {
+            loader.style.display = 'none';
+            quizContainer.style.display = 'flex';
+
+            // Create shuffled order of all words
+            shuffledWords = shuffleArray(allWordsData);
+            console.log(`Quiz initialized with ${shuffledWords.length} words in random order`);
+
+            currentWordIndex = 0;
+            score = 0;
+
+            // Start pre-caching
+            startPreCaching();
+
+            loadNextQuestion();
+        }
+
+        function loadNextQuestion() {
+    selectionLocked = false;
+
+    // Clear feedback immediately
+    feedbackDisplay.textContent = '';
+    feedbackDisplay.style.color = '#333';
+
+    // Reset option styles to default before transition
+    optionElements.forEach(optEl => {
+        optEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        optEl.style.borderColor = 'transparent';
+    });
+
+    // Check if we've completed all words
+    if (currentWordIndex >= shuffledWords.length) {
+        showCompletionScreen();
+        return;
+    }
+
+    const currentWord = shuffledWords[currentWordIndex];
+    console.log(`Loading question ${currentWordIndex + 1}/${shuffledWords.length}: ${currentWord.nameOfSite}`);
+
+    // Update progress display (hidden by CSS, so no flicker)
+    progressDisplay.textContent = `Question ${currentWordIndex + 1} of ${shuffledWords.length}`;
+
+    // Fade out question and options
+    questionText.style.opacity = '0';
+    optionsContainer.style.opacity = '0';
+
+    // Wait for fade out to complete, then update content
+    setTimeout(() => {
+        const cleanMeaning = currentWord.meaning.replace(/\([^)]*\)/g, '').trim();
+        questionText.textContent = `Pick the character(s) for: ${cleanMeaning.toUpperCase()}`;
+
+        generateOptions(currentWord).then(() => {
+            // Fade in both elements together after content is ready
+            setTimeout(() => {
+                questionText.style.opacity = '1';
+                optionsContainer.style.opacity = '1';
+            }, 100);
+        });
+    }, 500); // Match fade out duration
+
+    scoreDisplay.textContent = `Score: ${score}`;
+}
+
+        async function generateOptions(correctWord) {
+            const letters = ['A', 'B', 'C', 'D'];
+
+            // Get 3 random wrong options from the shuffled list (avoiding current word)
+            const wrongOptions = getRandomWords(correctWord, 3);
+
+            // Create 4 options with the correct answer in a random position
+            const allOptions = [correctWord, ...wrongOptions];
+
+            // Shuffle the options using Fisher-Yates shuffle
+            for (let i = allOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]];
+            }
+
+            // Pre-load all images for this question first to avoid loading flashes
+            const visuals = await Promise.all(allOptions.map(word => renderWordVisual(word)));
+
+            if (optionElements.length === 0) {
+                // First time: create option elements
+                for (let i = 0; i < allOptions.length; i++) {
+                    const word = allOptions[i];
+                    const visual = visuals[i];
+
+                    const optionElement = document.createElement('div');
+                    optionElement.className = 'option';
+
+                    const letterElement = document.createElement('div');
+                    letterElement.className = 'option-letter';
+                    letterElement.textContent = letters[i];
+
+                    const imageContainer = document.createElement('div');
+                    imageContainer.className = 'option-image-container';
+                    imageContainer.appendChild(visual);
+
+                    optionElement.appendChild(letterElement);
+                    optionElement.appendChild(imageContainer);
+
+                    optionElement.addEventListener('click', () => handleOptionClick(optionElement, word, correctWord));
+
+                    optionsContainer.appendChild(optionElement);
+                    optionElements.push(optionElement);
+                }
+            } else {
+                // Update existing option elements content and event handlers
+                for (let i = 0; i < optionElements.length; i++) {
+                    const optionElement = optionElements[i];
+                    const word = allOptions[i];
+                    const visual = visuals[i];
+
+                    // Update letter (should remain same but just in case)
+                    const letterElement = optionElement.querySelector('.option-letter');
+                    letterElement.textContent = letters[i];
+
+                    // Replace image container content
+                    const imageContainer = optionElement.querySelector('.option-image-container');
+                    imageContainer.innerHTML = '';
+                    imageContainer.appendChild(visual);
+
+                    // Remove old click listeners by cloning node
+                    const newOptionElement = optionElement.cloneNode(true);
+                    optionElements[i] = newOptionElement;
+                    optionsContainer.replaceChild(newOptionElement, optionElement);
+
+                    // Add new click listener
+                    newOptionElement.addEventListener('click', () => handleOptionClick(newOptionElement, word, correctWord));
+                }
+            }
+        }
+
+        // --- Enhanced renderWordVisual function (like sentenceDecomposed) ---
+        async function renderWordVisual(wordData) {
+            console.log('Rendering word visual for:', wordData.nameOfSite);
+
+            const charactersData = await getCharactersData();
+            const charactersMap = {};
+            for (const entry of charactersData) {
+                if (entry.chineseCharacter) charactersMap[entry.chineseCharacter] = entry;
+            }
+
+            // 1. Try word image first
+            const wordImageUrl = `https://chineseffect.com/images/wordsTiles/${wordData.nameOfSite}.webp`;
+            const wordImageExists = imageCache.has(wordImageUrl) ? imageCache.get(wordImageUrl) : await preloadImage(wordImageUrl);
+
+            if (wordImageExists) {
+                const img = document.createElement('img');
+                img.src = wordImageUrl;
+                img.alt = wordData.pinyin || wordData.nameOfSite;
+                img.className = 'word-image';
+                return img;
+            }
+
+            // 2. Try character images using characters.csv mapping (like sentenceDecomposed)
+            if (wordData.characters && charactersMap) {
+                const container = document.createElement('div');
+                container.className = 'character-container';
+
+                let allCharsHaveImages = true;
+                const chars = wordData.characters.split('');
+
+                for (const char of chars) {
+                    const charEntry = charactersMap[char];
+                    if (charEntry && charEntry.visualFile) {
+                        const charImgUrl = `https://chineseffect.com/images/characters/${charEntry.visualFile}.webp`;
+                        const charImageExists = imageCache.has(charImgUrl) ? imageCache.get(charImgUrl) : await preloadImage(charImgUrl);
+
+                        if (charImageExists) {
+                            const img = document.createElement('img');
+                            img.src = charImgUrl;
+                            img.alt = char;
+                            img.className = 'character-image';
+                            container.appendChild(img);
+                        } else {
+                            allCharsHaveImages = false;
+                            break;
+                        }
+                    } else {
+                        allCharsHaveImages = false;
+                        break;
+                    }
+                }
+
+                if (allCharsHaveImages && container.childNodes.length > 0) {
+                    return container;
+                }
+            }
+
+            // 3. Fallback to text
+            const fallback = document.createElement('div');
+            fallback.className = 'character-fallback';
+            fallback.textContent = wordData.characters || wordData.nameOfSite;
+            return fallback;
+        }
+
+        function getRandomWords(excludeWord, count) {
+            // Get random words from the shuffled list, excluding the current word
+            const availableWords = shuffledWords.filter(w => w.nameOfSite !== excludeWord.nameOfSite);
+
+            // Shuffle and take the required count
+            const randomWords = shuffleArray(availableWords).slice(0, count);
+            return randomWords;
+        }
+
+        // Text-to-Speech function for Chinese pronunciation
+        function playChineseSpeech(characters) {
+            console.log("Playing Chinese speech for:", characters);
+
+            if (!characters || characters.trim().length === 0) {
+                console.error("No characters provided for speech synthesis");
+                return;
+            }
+
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(characters);
+                utterance.lang = 'zh-CN';
+
+                let voices = window.speechSynthesis.getVoices();
+
+                if (voices.length === 0) {
+                    window.speechSynthesis.onvoiceschanged = () => {
+                        voices = window.speechSynthesis.getVoices();
+                        setChineseVoiceAndSpeak(utterance, voices, characters);
+                    };
+                } else {
+                    setChineseVoiceAndSpeak(utterance, voices, characters);
+                }
+            } else {
+                console.error("Browser doesn't support speech synthesis");
+            }
+        }
+
+        function setChineseVoiceAndSpeak(utterance, voices, characters) {
+            let chineseVoice = voices.find(voice =>
+                voice.lang.includes('zh') ||
+                voice.lang.includes('CN') ||
+                voice.name.includes('Chinese')
+            );
+
+            if (chineseVoice) {
+                utterance.voice = chineseVoice;
+                console.log("Using Chinese voice:", chineseVoice.name);
+            } else {
+                console.log("No Chinese voice found, using default");
+            }
+
+            console.log("Speaking text:", characters);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function handleOptionClick(element, selectedWord, correctWord) {
+            if (selectionLocked) return;
+            selectionLocked = true;
+
+            if (selectedWord.nameOfSite === correctWord.nameOfSite) {
+                // Correct Answer
+                element.style.backgroundColor = 'rgba(0, 209, 122, 0.7)';
+                element.style.borderColor = '#00D17A';
+                feedbackDisplay.textContent = 'Correct!';
+                feedbackDisplay.style.color = '#00D17A';
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                currentWordIndex++;
+
+                // Play Chinese pronunciation
+                playChineseSpeech(correctWord.characters);
+
+                setTimeout(() => {
+                    loadNextQuestion();
+                }, 1800); // Slightly longer delay for smoother transition (matching Journey)
+
+            } else {
+                // Incorrect Answer
+                element.style.backgroundColor = 'rgba(234, 0, 112, 0.7)';
+                element.style.borderColor = '#EA0070';
+                feedbackDisplay.textContent = 'Incorrect!';
+                feedbackDisplay.style.color = '#EA0070';
+                score = 0;
+                scoreDisplay.textContent = `Score: ${score}`;
+
+                setTimeout(() => {
+                    // Reset styles
+                    const allOptions = optionsContainer.querySelectorAll('.option');
+                    allOptions.forEach(optEl => {
+                        optEl.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                        optEl.style.borderColor = 'transparent';
+                    });
+
+                    feedbackDisplay.textContent = '';
+                    selectionLocked = false;
+                }, 2500);
+            }
+        }
+
+        function showCompletionScreen() {
+            console.log("Quiz complete. Showing completion screen.");
+
+            quizContent.style.display = 'none';
+            completionScreen.style.display = 'block';
+            document.getElementById('completion-message').textContent = "Incredible! You've completed all words!";
+            replayButton.style.display = 'inline-block';
+            scoreDisplay.textContent = `Final Score: ${score}`;
+        }
+
+        function replayQuiz() {
+            console.log("Replaying quiz...");
+            score = 0;
+            currentWordIndex = 0;
+            selectionLocked = false;
+
+            // Clear image cache to start fresh
+            imageCache.clear();
+
+            // Hide completion screen and show quiz content
+            completionScreen.style.display = 'none';
+            quizContent.style.display = 'block';
+
+            // Re-shuffle the words for a new random order
+            shuffledWords = shuffleArray(allWordsData);
+            console.log("Words re-shuffled for replay");
+
+            // Start pre-caching again
+            startPreCaching();
+
+            loadNextQuestion();
+        }
+
+        function showError(message) {
+            console.error("Quiz Error:", message);
+            loader.innerHTML = `Error: ${message} <br/> Please check the console or contact support.`;
+            loader.style.color = '#EA0070';
+            loader.style.display = 'flex';
+            quizContainer.style.display = 'none';
+        }
+
+        // --- Start the application ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log("DOM Loaded. Starting Word Quiz Initialization.");
+
+            try {
+                // Load words.csv only
+                const wordsText = await loadCsvFile('https://chineseffect.com/chfx/words.csv');
+
+                // Parse the data
+                const wordsParsed = parseCsvText(wordsText, ['nameOfSite', 'meaning']);
+                allWordsData = wordsParsed.data.filter(word =>
+                    word.nameOfSite &&
+                    word.meaning &&
+                    word.meaning.trim() !== ''
+                );
+
+                if (allWordsData.length === 0) throw new Error("words.csv is empty or invalid.");
+
+                console.log(`Loaded ${allWordsData.length} valid words from words.csv`);
+
+                // Pre-load characters data
+                await getCharactersData();
+
+                initQuiz();
+
+            } catch (error) {
+                console.error("Initialization failed:", error);
+                showError(`Initialization failed: ${error.message}`);
+            }
+        });
+
+        // Set up replay button
+        replayButton.addEventListener('click', replayQuiz);
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background</title>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    /* Animated gradient canvas background */
+    #gradient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      animation: hueShift 30s linear infinite;
+    }
+
+    @keyframes hueShift {
+      0%   { filter: hue-rotate(0deg);   }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    /* We use a layered radial gradient that looks rich and dark */
+    .gradient-layer {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 30%,  hsl(220, 70%, 10%) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 80% 70%,  hsl(270, 60%, 8%)  0%, transparent 70%),
+        radial-gradient(ellipse 100% 100% at 50% 50%, hsl(200, 50%, 5%)  0%, transparent 100%);
+      background-color: hsl(240, 30%, 3%);
+    }
+
+    /* Secondary drifting orbs for depth */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      mix-blend-mode: screen;
+    }
+
+    .orb-1 {
+      width: 60vw;
+      height: 60vw;
+      background: hsl(200, 100%, 40%);
+      top: -10%;
+      left: -15%;
+      animation: drift1 25s ease-in-out infinite alternate;
+    }
+
+    .orb-2 {
+      width: 50vw;
+      height: 50vw;
+      background: hsl(280, 90%, 35%);
+      bottom: -10%;
+      right: -10%;
+      animation: drift2 32s ease-in-out infinite alternate;
+    }
+
+    .orb-3 {
+      width: 40vw;
+      height: 40vw;
+      background: hsl(170, 80%, 30%);
+      top: 30%;
+      left: 40%;
+      animation: drift3 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift1 {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(8vw, 6vh) scale(1.15); }
+    }
+    @keyframes drift2 {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-6vw, -8vh) scale(1.2); }
+    }
+    @keyframes drift3 {
+      0%   { transform: translate(0, 0) scale(1); opacity: 0.18; }
+      100% { transform: translate(-5vw, 5vh) scale(0.85); opacity: 0.10; }
+    }
+
+    /* Logo container */
+    .logo-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-img {
+      /* Invert so the black logo becomes white on the dark background */
+      width: 100vmin;
+      height: 100vmin;
+      max-width: 100vw;
+      max-height: 100vh;
+      object-fit: contain;
+      animation: breathe 8s ease-in-out infinite;
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    @keyframes breathe {
+      0%   { transform: scale(0.82); }   /* exhale hold */
+      10%  { transform: scale(0.82); }   /* begin inhale */
+      45%  { transform: scale(1.00); }   /* full inhale */
+      55%  { transform: scale(1.00); }   /* inhale hold */
+      90%  { transform: scale(0.82); }   /* full exhale */
+      100% { transform: scale(0.82); }   /* exhale hold */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Gradient background -->
+  <div id="gradient-bg">
+    <div class="gradient-layer"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Pulsating logo -->
+  <div class="logo-wrap">
+    <img
+      class="logo-img"
+      src="https://chineseffect.com/images/logo2026.webp"
+      alt="Logo"
+      draggable="false"
+    >
+  </div>
+
+</body>
+</html>

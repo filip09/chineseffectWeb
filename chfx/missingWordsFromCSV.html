@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing Audio Files</title>
+</head>
+<body>
+    <h2>Missing Audio Files</h2>
+    <ul id="missingList"></ul>
+
+    <script>
+        async function checkMissingAudio() {
+            const csvUrl = "https://chineseffect.com/chfx/words.csv";
+            const audioBaseUrl = "https://chineseffect.com/audio/random/";
+            
+            const response = await fetch(csvUrl);
+            if (!response.ok) {
+                document.body.innerHTML = "Failed to fetch CSV file.";
+                return;
+            }
+            const csvText = await response.text();
+            const rows = csvText.split("\n").map(row => row.split(","));
+            const headers = rows[0];
+            const audioIndex = headers.indexOf("audioSource");
+            const charactersIndex = headers.indexOf("characters");
+            
+            if (audioIndex === -1 || charactersIndex === -1) {
+                document.body.innerHTML = "CSV does not contain required columns.";
+                return;
+            }
+            
+            const fileChecks = rows.slice(1).map(async row => {
+                const audioFile = row[audioIndex]?.trim();
+                const characters = row[charactersIndex]?.trim();
+                if (!audioFile) return null;
+                
+                const audioResponse = await fetch(audioBaseUrl + audioFile, { method: 'HEAD' });
+                if (!audioResponse.ok) return characters;
+                return null;
+            });
+            
+            const results = await Promise.all(fileChecks);
+            const missingFiles = results.filter(Boolean);
+            
+            const listElement = document.getElementById("missingList");
+            missingFiles.forEach(characters => {
+                const li = document.createElement("li");
+                li.textContent = characters;
+                listElement.appendChild(li);
+            });
+        }
+
+        checkMissingAudio();
+    </script>
+</body>
+</html>

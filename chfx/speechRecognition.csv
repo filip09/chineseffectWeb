@@ -1,0 +1,1018 @@
+nameOfSite,englishTranslation,chineseVersion,chinesePinyin,soundFile
+nihaoma,Are you fine?,你好吗,Nǐ hǎo ma?,nihaoma
+xiexie,Thank you.,谢谢,Xièxie.,xiexie
+wohenhao,I’m fine.,我很好,Wǒ hěn hǎo.,wohenhao
+wohenhaonine,I’m fine - and you?,我很好你呢,Wǒ hěn hǎo nǐ ne?,wohenhaonine
+woyehenhao,I’m also fine.,我也很好,Wǒ yě hěn hǎo.,woyehenhao
+nishishei,Who are you?,你是谁,Nǐ shì shéi?,nishishei
+woshinanren,I’m a man.,我是男人,Wǒ shì nánrén.,woshinanren
+woshinvren,I’m a woman.,我是女人,Wǒ shì nǚrén.,woshinvren
+nishizhongguorenma,Are you Chinese?,你是中国人吗,Nǐ shì Zhōngguórén ma?,nishizhongguorenma
+nimenshizhongguorenma,Are you (pl.) Chinese?,你们是中国人吗,Nǐmen shì Zhōngguórén ma?,nimenshizhongguorenma
+wobushizhongguoren,I’m not Chinese.,我不是中国人,Wǒ bù shì Zhōngguórén.,wobushizhongguoren
+womenbushizhongguoren,We aren’t Chinese.,我们不是中国人,Wǒmen bù shì Zhōngguórén.,womenbushizhongguoren
+nishinaguoren,Which country are you from?,你是哪国人,Nǐ shì nǎ guó rén?,nishinaguoren
+tashishei,Who is he?,他是谁,Tā shì shéi?,tashishei
+tahaizaima,Is he still here?,他还在吗,Tā hái zài ma?,tahaizaima
+woshimeiguoren,I’m American.,我是美国人,Wǒ shì Měiguórén.,woshimeiguoren
+womenshimeiguoren,We are Americans.,我们是美国人,Wǒmen shì Měiguórén.,womenshimeiguoren
+zhongguohenda,China is big.,中国很大,Zhōngguó hěn dà.,zhongguohenda
+zhongguorenhenduo,Chinese people are many.,中国人很多,Zhōngguórén hěn duō.,zhongguorenhenduo
+meiguorenyehenduo,Americans are also many.,美国人也很多,Měiguórén yě hěn duō.,meiguorenyehenduo
+meiguoyehenda,America is also big.,美国也很大,Měiguó yě hěn dà.,meiguoyehenda
+zhongguobimeiguoda,China is bigger than America.,中国比美国大,Zhōngguó bǐ Měiguó dà.,zhongguobimeiguoda
+zhongguorenbimeiguorenduo,There are more Chinese than Americans.,中国人比美国人多,Zhōngguórén bǐ Měiguórén duō.,zhongguorenbimeiguorenduo
+zhongguodabuda,Is China big? (verb-negation-verb),中国大不大,Zhōngguó dà bù dà?,zhongguodabuda
+zhongguorenduobuduo,Are there many Chinese people? (verb-negation-verb),中国人多不多,Zhōngguórén duō bù duō?,zhongguorenduobuduo
+nizainali,Where are you?,你在哪里？,Nǐ zài nǎli?,nizainali
+wozaizheli,I’m here.,我在这里,Wǒ zài zhèli.,wozaizheli
+tayezaizhelima,Is he here as well?,他也在这里吗,Tā yě zài zhèli ma?,tayezaizhelima
+tabuzaizheli,He isn’t here.,他不在这里,Tā bù zài zhèli.,tabuzaizheli
+tahaizaishanghaima,Is he still in Shanghai?,他还在上海吗,Tā hái zài Shànghǎi ma?,tahaizaishanghaima
+tabuzaishanghaile,He isn’t in Shanghai anymore.,他不在上海了,Tā bù zài Shànghǎi le.,tabuzaishanghaile
+tayijingzaibeijing,He is already in Beijing.,他已经在北京,Tā yǐjīng zài Běijīng.,tayijingzaibeijing
+beijingzainali,Where is Beijing?,北京在哪里,Běijīng zài nǎli?,beijingzainali
+beijingzaizhongguoma,Is Beijing in China?,北京在中国吗,Běijīng zài Zhōngguó ma?,beijingzaizhongguoma
+beijingbishanghaida,Beijing is bigger than Shanghai.,北京比上海大,Běijīng bǐ Shànghǎi dà.,beijingbishanghaida
+zhongguozainali,Where is China?,中国在哪里,Zhōngguó zài nǎli?,zhongguozainali
+beijingzaizhongguo,Beijing is in China.,北京在中国,Běijīng zài Zhōngguó.,beijingzaizhongguo
+tazaima,Is she (here)?,她在吗？,Tā zài ma?,tazaima
+tabuzai,She isn’t (here).,她不在,Tā bù zài.,tabuzai
+tabuzaile,She isn’t (here) anymore.,她不在了,Tā bù zài le.,tabuzaile
+tazoule,He has left.,他走了,Tā zǒu le.,tazoule
+tayijingzoule,He has already left.,他已经走了,Tā yǐjīng zǒu le.,tayijingzoule
+taqulenali,Where did she go?,她去了哪里,Tā qùle nǎli?,taqulenali
+taqulechaguan,She went to a tearoom.,她去了茶馆,Tā qùle cháguǎn.,taqulechaguan
+tahaiyaolaima,Is he still coming?,他还要来吗,Tā hái yào lái ma?,tahaiyaolaima
+tayijingzaichaguan,He is already in a tearoom.,他已经在茶馆,Tā yǐjīng zài cháguǎn.,tayijingzaichaguan
+tahaiyaolaima,Is she still going to come?,她还要来吗,Tā hái yào lái ma?,tahaiyaolaima
+tabuyaolaile,She isn’t going to come (anymore).,她不要来了,Tā bù yào lái le.,tabuyaolaile
+haolema,Is (it) better?,好了吗？,Hǎo le ma?,haolema
+haoduole,(It)’s much better.,好多了,Hǎo duō le.,haoduole
+chaguanzainali,Where is the tearoom?,茶馆在哪里,Cháguǎn zài nǎli?,chaguanzainali
+niyaoheshenme,What will you drink?,你要喝什么,Nǐ yào hē shénme?,niyaoheshenme
+woyaohecha,I will drink tea.,我要喝茶,Wǒ yào hē chá.,woyaohecha
+woyaoheshui,I will drink water.,我要喝水,Wǒ yào hē shuǐ.,woyaoheshui
+niyaoheshenmecha,What tea will you drink?,你要喝什么茶,Nǐ yào hē shénme chá?,niyaoheshenmecha
+woyaohelvcha,I will drink green tea.,我要喝绿茶,Wǒ yào hē lǜchá.,woyaohelvcha
+woyaohebaicha,I will drink white tea.,我要喝白茶,Wǒ yào hē báichá.,woyaohebaicha
+niyoushenmecha,What tea do you have?,你有什么茶,Nǐ yǒu shénme chá?,niyoushenmecha
+niyoubaichama,Do you have white tea?,你有白茶吗,Nǐ yǒu báichá ma?,niyoubaichama
+woyoubaicha,I have white tea.,我有白茶,Wǒ yǒu báichá.,woyoubaicha
+niyoulvchama,Do you have green tea?,你有绿茶吗,Nǐ yǒu lǜchá ma?,niyoulvchama
+womeiyoulvcha,I don’t have green tea.,我没有绿茶,Wǒ méiyǒu lǜchá.,womeiyoulvcha
+niyoushenmebaicha,What white tea do you have?,你有什么白茶,Nǐ yǒu shénme báichá?,niyoushenmebaicha
+woyoubaimudan,I have Bai Mu Dan.,我有白牡丹,Wǒ yǒu Bái Mǔdān.,woyoubaimudan
+woyaozhege,I want this (one).,我要这个,Wǒ yào zhège.,woyaozhege
+niyeyaozhegema,Do you want this as well?,你也要这个吗,Nǐ yě yào zhège ma?,niyeyaozhegema
+wobuyaozhege,I don’t want this.,我不要这个,Wǒ bù yào zhège.,wobuyaozhege
+woyaonage,I want that.,我要那个,Wǒ yào nàge.,woyaonage
+nagebizhegehao,That (one) is better than this (one).,那个比这个好,Nàge bǐ zhège hǎo.,nagebizhegehao
+nagezuihao,Which one is the best?,哪个最好？,Nǎge zuì hǎo?,nagezuihao
+zhegezuihao,This one is the best.,这个最好,Zhège zuì hǎo.,zhegezuihao
+zhegechazenmeyang,How is this tea?,这个茶怎么样,Zhège chá zěnmeyàng?,zhegechazenmeyang
+nizenmeyang,How are you?,你怎么样,Nǐ zěnmeyàng?,nizenmeyang
+zhegechahenhaohe,This tea is tasty.,这个茶很好喝,Zhège chá hěn hǎo hē.,zhegechahenhaohe
+woxihuan,I like (it).,我喜欢,Wǒ xǐhuan.,woxihuan
+woxihuanhecha,I like to drink tea.,我喜欢喝茶,Wǒ xǐhuan hē chá.,woxihuanhecha
+nixihuanheshenmecha,What tea do you like to drink?,你喜欢喝什么茶,Nǐ xǐhuan hē shénme chá?,nixihuanheshenmecha
+woxihuanhebaicha,I like to drink white tea.,我喜欢喝白茶,Wǒ xǐhuan hē báichá.,woxihuanhebaicha
+nizuixihuanheshenmecha,What tea do you like to drink the most?,你最喜欢喝什么茶,Nǐ zuì xǐhuan hē shénme chá?,nizuixihuanheshenmecha
+wozuixihuanhebaicha,I like to drink white tea the most.,我最喜欢喝白茶,Wǒ zuì xǐhuan hē báichá.,wozuixihuanhebaicha
+niyaohehongchama,Will you drink red tea?,你要喝红茶吗,Nǐ yào hē hóngchá ma?,niyaohehongchama
+nijiaoshenmemingzi,What’s your name?,你叫什么名字,Nǐ jiào shénme míngzi?,nijiaoshenmemingzi
+niyouzhongwenmingzima,Do you have a Chinese name?,你有中文名字吗,Nǐ yǒu Zhōngwén míngzi ma?,niyouzhongwenmingzima
+wohaimeiyouzhongwenmingzi,I don’t have a Chinese name yet. (I still don’t have a Chinese name.),我还没有中文名字,Wǒ hái méiyǒu Zhōngwén míngzi.,wohaimeiyouzhongwenmingzi
+meiguanxi,No worries.,没关系,Méiguānxì.,meiguanxi
+renshiniwohengaoxing,Nice to meet you!,认识你我很高兴,Rènshi nǐ wǒ hěn gāoxìng.,renshiniwohengaoxing
+renshiniwoyehengaoxing,Nice to meet you too.,认识你我也很高兴,Rènshi nǐ wǒ yě hěn gāoxìng.,renshiniwoyehengaoxing
+wozaizhongguogongzuo,I work in China.,我在中国工作,Wǒ zài Zhōngguó gōngzuò.,wozaizhongguogongzuo
+wozaiyigemeiguogongsigongzuo,I work in one American company.,我在一个美国公司工作,Wǒ zài yīge Měiguó gōngsī gōngzuò.,wozaiyigemeiguogongsigongzuo
+nizainaligongzuo,Where do you work?,你在哪里工作,Nǐ zài nǎli gōngzuò?,nizainaligongzuo
+nixihuannidegongzuoma,Do you like your job?,你喜欢你的工作吗,Nǐ xǐhuan nǐ de gōngzuò ma?,nixihuannidegongzuoma
+wohenxihuanwodegongzuo,I like my job a lot.,我很喜欢我的工作,Wǒ hěn xǐhuan wǒ de gōngzuò.,wohenxihuanwodegongzuo
+wobutaixihuanwodegongzuo,I don’t like my job too much.,我不太喜欢我的工作,Wǒ bù tài xǐhuan wǒ de gōngzuò.,wobutaixihuanwodegongzuo
+nigongzuodegongsidabuda,Is the company where you work big?,你工作的公司打不打,Nǐ gōngzuò de gōngsī dà bù dà?,nigongzuodegongsidabuda
+wogongzuodegongsihenda,The company where I work is big.,我工作的公司很大,Wǒ gōngzuò de gōngsī hěn dà.,wogongzuodegongsihenda
+wogongzuodegongsibudayebuxiao,The company where I work isn’t big and it’s not small either.,我工作的公司不大也不小,Wǒ gōngzuò de gōngsī bù dà yě bù xiǎo.,wogongzuodegongsibudayebuxiao
+wozaizhongguoxuexizhongwen,I study Chinese in China.,我在中国学习中文,Wǒ zài Zhōngguó xuéxí Zhōngwén.,wozaizhongguoxuexizhongwen
+woshixuesheng,I’m a student.,我是学生,Wǒ shì xuéshēng.,woshixuesheng
+wozaizhongguoshangxue,I study in China.,我在中国上学,Wǒ zài Zhōngguó shàngxué.,wozaizhongguoshangxue
+nidezhuanyeshishenme,What’s your major?,你的专业是什么,Nǐ de zhuānyè shì shénme?,nidezhuanyeshishenme
+wodezhuanyeshizhongwen,My major is Chinese.,我的专业是中文,Wǒ de zhuānyè shì Zhōngwén.,wodezhuanyeshizhongwen
+nixihuanzhegezhuanyema,Do you like this major?,你喜欢这个专业吗,Nǐ xǐhuan zhège zhuānyè ma?,nixihuanzhegezhuanyema
+woxiangni,I miss you.,我想你,Wǒ xiǎng nǐ.,woxiangni
+woxianggenniquhecha,I want to go drink tea with you.,我想跟你去喝茶,Wǒ xiǎng gēn nǐ qù hē chá.,woxianggenniquhecha
+genwolai,Come with me.,跟我来,Gēn wǒ lái.,genwolai
+woxianggenniqukandianying,I want to go watch a movie with you.,我想跟你去看电影,Wǒ xiǎng gēn nǐ qù kàn diànyǐng.,woxianggenniqukandianying
+woxiangqukanyigexindedianying,I want to go watch a new movie.,我想去看一个新的电影,Wǒ xiǎng qù kàn yīge xīn de diànyǐng.,woxiangqukanyigexindedianying
+niyaonage,Which one do you want?,你要哪个,Nǐ yào nǎge?,niyaonage
+wobuyaozhegewoyaonage,I don’t want this (one) - I want that (one).,我不要这个，我要那个,Wǒ bù yào zhège - wǒ yào nàge.,wobuyaozhegewoyaonage
+zhegebinagehao,This is better than that.,这个比那个好,Zhège bǐ nàge hǎo.,zhegebinagehao
+nimenjiwei,How many are you?,你们几位,Nǐmen jǐ wèi?,nimenjiwei
+womensangeren,We are three.,我们三个人,Wǒmen sānge rén.,womensangeren
+niheshenme,What do you drink?,你喝什么,Nǐ hē shénme?,niheshenme
+nixiangheshenme,What do you (sing.) want to drink?,你想喝什么,Nǐ xiǎng hē shénme?,nixiangheshenme
+woxianghekafei,I want to drink coffee.,我想喝咖啡,Wǒ xiǎng hē kāfēi.,woxianghekafei
+woxianghebaicha,I want to drink white tea.,我想喝白茶,Wǒ xiǎng hē báichá.,woxianghebaicha
+keyima,Is it possible?,可以吗,Kěyǐ ma?,keyima
+keyi,It’s possible.,可以,Kěyǐ.,keyi
+womenyoubaimudan,We have Bai Mu Dan.,我们有白牡丹,Wǒmen yǒu Bái Mǔdān.,womenyoubaimudan
+qinglaisangebaimudan,Bring three Bai Mu Dans - please.,请来三个白牡丹,Qǐng lái sāngè Bái Mǔdān.,qinglaisangebaimudan
+woquchifan,I’m going to eat.,我去吃饭,Wǒ qù chīfàn.,woquchifan
+woxiangchifan,I want to eat.,我想吃饭,Wǒ xiǎng chīfàn.,woxiangchifan
+nimenxiangchishenme,What do you (pl.) want to eat?,你们想吃什么,Nǐmen xiǎng chī shénme?,nimenxiangchishenme
+woyaohehongcha,I will drink red tea.,我要喝红茶,Wǒ yào hē hóngchá.,woyaohehongcha
+womenxiangchijirou,We want to eat chicken meat.,我们想吃鸡肉,Wǒmen xiǎng chī jīròu.,womenxiangchijirou
+nimenyoushenmejiroucai,What chicken dishes do you (pl.) have?,你们有什么鸡肉菜,Nǐmen yǒu shénme jīròu cài?,nimenyoushenmejiroucai
+womenyouhenduojiroucai,We have many chicken dishes.,我们有很多鸡肉菜,Wǒmen yǒu hěn duō jīròu cài.,womenyouhenduojiroucai
+zaijian,Goodbye! (Again to see!),再见,Zàijiàn.,zaijian
+keyikankancaidanma,Is it possible to look at the menu?,可以看看菜单吗,Kěyǐ kànkan càidān ma?,keyikankancaidanma
+womenyaoyigezhege,We want one of this.,我们要一个这个,Wǒmen yào yīge zhège.,womenyaoyigezhege
+zaiyaoyigezhege,(We) additionally want one of this.,在要一个这个,Zài yào yīge zhège.,zaiyaoyigezhege
+zhegecailabula,Is this dish spicy?,这个菜辣不辣,Zhège cài là bù là?,zhegecailabula
+zhegecaihenla,This dish is spicy.,这个菜很辣,Zhège cài hěn là.,zhegecaihenla
+youyidianla,It’s a bit spicy.,有一点辣,Yǒu yīdiǎn là.,youyidianla
+yidianlakeyi,A bit spicy is ok.,一点辣可以,Yīdiǎn là kěyǐ.,yidianlakeyi
+qingbuyaotaila,Please - don’t want too spicy.,请不要太辣,Qǐng bùyào tài là.,qingbuyaotaila
+nimenyaojiwanmifan,How many bowls of rice do you (pl.) want?,你们要几碗米饭,Nǐmen yào jǐ wǎn mǐfàn?,nimenyaojiwanmifan
+qinglaisanwanmifan,Bring 3 bowls of rice - please.,请来三碗米饭,Qǐng lái sān wǎn mǐfàn.,qinglaisanwanmifan
+zhegecaihenhaokan,This dish looks good (is good to look at).,这个菜很好看,Zhège cài hěn hǎokàn.,zhegecaihenhaokan
+zhegechahenhaohe,This tea tastes good (is good to drink).,这个茶很好喝,Zhège chá hěn hǎo hē.,zhegechahenhaohe
+zhegecaizenmeyang,How is this dish?,这个菜怎么样,Zhège cài zěnmeyàng?,zhegecaizenmeyang
+zhegecaibuhaochi,This dish isn’t tasty.,这个菜不好吃,Zhège cài bù hǎo chī.,zhegecaibuhaochi
+zhegecaitaila,This dish is too spicy.,这个菜太辣,Zhège cài tài là.,zhegecaitaila
+qinglaisanbeibaijiu,Please - bring 3 glasses of spirits.,请来三杯白酒,Qǐng lái sān bēi báijiǔ.,qinglaisanbeibaijiu
+zailaisanbeipijiu,Bring 3 more glasses of beer.,再来三杯啤酒,Zài lái sān bēi píjiǔ.,zailaisanbeipijiu
+qinglaijiubeipijiu,Please - bring 9 glasses of beer.,请来九杯啤酒,Qǐng lái jiǔ bēi píjiǔ.,qinglaijiubeipijiu
+ganbei,Bottoms up! (Dry the cup!),干杯,Gānbēi.,ganbei
+suiyi,Drink at your own pace.,随意,Suíyì.,suiyi
+wobuhele,I’m not drinking anymore.,我不喝了,Wǒ bù hē le.,wobuhele
+qingmaidan,Please - bill.,请买单,Qǐng mǎidān.,qingmaidan
+wobuyaole,I don’t want (it) anymore.,我不要了,Wǒ bù yào le.,wobuyaole
+wobuhebaijiule,I don’t drink spirits anymore.,我不喝白酒了,Wǒ bù hē báijiǔ le.,wobuhebaijiule
+pijiukeyi,Beer is ok.,啤酒可以,Píjiǔ kěyǐ.,pijiukeyi
+wozaibeijing,I’m in Beijing.,我在北京,Wǒ zài Běijīng.,wozaibeijing
+meiguorenduobuduo,Are there many Americans?,美国人多不多,Měiguórén duō bù duō?,meiguorenduobuduo
+bukeqi,Don’t be (too) polite!,不客气,Bù kèqì.,bukeqi
+nimaileshenme,What did you buy?,你买了什么,Nǐ mǎile shénme?,nimaileshenme
+womailehenduodongxi,I bought many things. (Standard word order),我买了很多东西,Wǒ mǎile hěn duō dōngxī.,womailehenduodongxi
+womaidedongxihenduo,“Things that I bought are many.”,我买的东西很多,Wǒ mǎi de dōngxī hěn duō.,womaidedongxihenduo
+niyoumeiyoumaishuiguo,Did you buy fruits?,你有没有买水果,Nǐ yǒu méiyǒu mǎi shuǐguǒ?,niyoumeiyoumaishuiguo
+womeiyoumaishuiguo,I didn’t buy fruits.,我有没买水果,Wǒ yǒu méi mǎi shuǐguǒ.,womeiyoumaishuiguo
+woxianzaiquzuofan,I’m going to cook now.,我现在去做饭,Wǒ xiànzài qù zuòfàn.,woxianzaiquzuofan
+ninengbangwoma,Can you help me?,你能帮我吗,Nǐ néng bāng wǒ ma?,ninengbangwoma
+woxiangbangni,I want to help you.,我想帮你,Wǒ xiǎng bāng nǐ.,woxiangbangni
+xing,Ok! (One syllable),行,Xíng.,xing
+wotaimangle,I’m too busy.,我太忙了,Wǒ tài máng le.,wotaimangle
+wowanglenihenmang,I forgot you are busy.,我忘了你很忙,Wǒ wàng le nǐ hěn máng.,wowanglenihenmang
+wowangletajiaoshenmemingzi,“I forgot by which name he is called.”,我忘了他叫什么名字,Wǒ wàng le tā jiào shénme míngzi.,wowangletajiaoshenmemingzi
+wowangletashishei,I forgot who he is.,我忘了他是谁,Wǒ wàng le tā shì shéi.,wowangletashishei
+woxianzaimeiyoushijian,I don’t have time now.,我现在没有时间,Wǒ xiànzài méiyǒu shíjiān.,woxianzaimeiyoushijian
+wowanglechaguanzainali,I forgot where the tearoom was.,我忘了茶馆在哪里,Wǒ wàng le cháguǎn zài nǎli.,wowanglechaguanzainali
+woxiangbangnikeshixianzaibuxing,I want to help you but now it’s not possible.,我想帮你可是现在不行,Wǒ xiǎng bāng nǐ kěshì xiànzài bùxíng.,woxiangbangnikeshixianzaibuxing
+wokeyizijizuo,I can do (it) myself.,我可以自己做,Wǒ kěyǐ zìjǐ zuò.,wokeyizijizuo
+wozijilai,I will “do” (it) myself.,我自己来,Wǒ zìjǐ lái.,wozijilai
+niyaozuoshenmecai,What will you cook? (You will do what dish?),你要做什么菜,Nǐ yào zuò shénme cài?,niyaozuoshenmecai
+wozuixihuanzhege,I like this one the most.,我最喜欢这个,Wǒ zuì xǐhuan zhège.,wozuixihuanzhege
+woyaozuonizuixihuandecai,I will cook the dish you like the most.,我要做你最喜欢的菜,Wǒ yào zuò nǐ zuì xǐhuan de cài.,woyaozuonizuixihuandecai
+zhendema,Really?,真的吗,Zhēn de ma?,zhendema
+zhegecaizhenhaokan,This dish looks really good.,这个菜真好看,Zhège cài zhēn hǎokàn.,zhegecaizhenhaokan
+nizhenbuxiangquma,You really don’t want to go?,你真不想去吗,Nǐ zhēn bù xiǎng qù ma?,nizhenbuxiangquma
+nizhenhaowan,You are really funny.,你真好玩,Nǐ zhēn hǎowán.,nizhenhaowan
+woxianggenniquchifan,I want to go eat with you.,我想跟你去吃饭,Wǒ xiǎng gēn nǐ qù chīfàn.,woxianggenniquchifan
+womenyaoqunalichifan,Where will we go to eat?,我们要去哪里吃饭,Wǒmen yào qù nǎli chīfàn?,womenyaoqunalichifan
+woxiangdainiquhenhaodefanguan,I want to take you to a very good restaurant.,我想带你去很好的饭馆,Wǒ xiǎng dài nǐ qù hěn hǎo de fànguǎn.,woxiangdainiquhenhaodefanguan
+lizheliyuanma,Is it far from here? (From here far?),离这里远吗,Lí zhèli yuǎn ma?,lizheliyuanma
+buyuan,(It’s) not far.,不远,Bù yuǎn.,buyuan
+gongyuanliyiyuanbuyuan,The park isn’t far from the hospital.,公园离医院不远,Gōngyuán lí yīyuàn bù yuǎn.,gongyuanliyiyuanbuyuan
+gongyuanliyiyuanhenyuan,The park is far from the hospital.,公园离医院很远,Gōngyuán lí yīyuàn hěn yuǎn.,gongyuanliyiyuanhenyuan
+gongyuanlizheliyuanma,Is the park far from here?,公园离这里远吗,Gōngyuán lí zhèli yuǎn ma?,gongyuanlizheliyuanma
+nihuilikaiwoma,Will you leave me?,你会离开我吗,Nǐ huì líkāi wǒ ma?,nihuilikaiwoma
+womingtianyaolikaizheli,Tomorrow I will leave here.,我明天要离开这里,Wǒ míngtiān yào líkāi zhèli.,womingtianyaolikaizheli
+yishengzaiyiyuangongzuo,Doctors work in hospitals.,医生在医院工作,Yīshēng zài yīyuàn gōngzuò.,yishengzaiyiyuangongzuo
+yishengshengqile,The doctor got angry.,医生生气了,Yīshēng shēngqì le.,yishengshengqile
+yishengzaiwomenduimian,The doctor is opposite us.,医生在我们对面,Yīshēng zài wǒmen duìmiàn.,yishengzaiwomenduimian
+waimianyouren,There is someone outside.,外面有人,Wàimiàn yǒurén.,waimianyouren
+woqukaimen,I’m going to open the door.,我去开门,Wǒ qù kāimén.,woqukaimen
+womenduimianshihenhaodechaguan,Opposite us is a very good tea house.,我们对面是很好的茶馆,Wǒmen duìmiàn shì hěn hǎo de cháguǎn.,womenduimianshihenhaodechaguan
+womenyaoquhedianchama,Shall we go have some tea?,我们要去喝点茶吗,Wǒmen yào qù hē diǎn chá ma?,womenyaoquhedianchama
+wozhenxiangqu,I really want to go.,我真想去,Wǒ zhēn xiǎng qù.,wozhenxiangqu
+keshixianzaiwomeiyoushijian,But now I don’t have time.,可是现在我没有时间,Kěshì xiànzài wǒ méiyǒu shíjiān.,keshixianzaiwomeiyoushijian
+nimingtianyoushijianma,Do you have time tomorrow?,你明天有时间吗,Nǐ míngtiān yǒu shíjiān ma?,nimingtianyoushijianma
+mingtiankeyi,Tomorrow is ok.,明天可以,Míngtiān kěyǐ.,mingtiankeyi
+womenmingtianquba,Let’s go tomorrow.,我们明天去吧,Wǒmen míngtiān qù ba.,womenmingtianquba
+womenjidianjianmian,At what time do we meet?,我们几点见面,Wǒmen jǐ diǎn jiànmiàn?,womenjidianjianmian
+womenwudianjianmianba,Let’s meet at 5.,我们五点见面吧,Wǒmen wǔ diǎn jiànmiàn ba.,womenwudianjianmianba
+woyouhongcha,I have red tea.,我有红茶,Wǒ yǒu hóngchá.,woyouhongcha
+haowoyaohehongcha,Good - I will have red tea.,好我要喝红茶,Hǎo - wǒ yào hē hóngchá.,haowoyaohehongcha
+wozoule,I’m leaving.,我走了,Wǒ zǒu le.,wozoule
+nimenrenshima,Do you know (each other)?,你们认识吗,Nǐmen rènshi ma?,nimenrenshima
+womenhaiburenshi,We still don’t know (each other).,我们还不认识,Wǒmen hái bù rènshi.,womenhaiburenshi
+wohaibugongzuo,I don’t work yet. (I still don’t work.),我还不工作,Wǒ hái bù gōngzuò.,wohaibugongzuo
+xueshengzaixuexiao,Students are at school.,学生在学校,Xuéshēng zài xuéxiào.,xueshengzaixuexiao
+woxiangquchaguan,I want to go to the tearoom.,我想去茶馆,Wǒ xiǎng qù cháguǎn.,woxiangquchaguan
+kandianying,To watch a movie.,看电影,kàn diànyǐng,kandianying
+nixiangqukanshenmedianying,What movie do you want to go watch?,你想去看什么电影,Nǐ xiǎng qù kàn shénme diànyǐng?,nixiangqukanshenmedianying
+xindedianying,A new movie.,新的电影,xīn de diànyǐng,xindedianying
+nixihuanhechama,Do you like drinking tea?,你喜欢喝茶吗,Nǐ xǐhuān hē chá ma？,nixihuanhechama
+nimenchimifanma,Do you (pl.) eat rice?,你们吃米饭吗,Nǐmen chī mǐfàn ma?,nimenchimifanma
+niyaoheshenmejiu,What alcohol will you drink?,你要喝什么酒,Nǐ yào hē shénme jiǔ?,niyaoheshenmejiu
+niyeyaolaima,Are you going to come as well?,你也要来吗,Nǐ yě yào lái ma?,niyeyaolaima
+womenwudianzaijiudianqianmianjianmianba,Let’s meet in front of the hotel at 5 o’clock.,我们五点在酒店前面见面吧,Wǒmen wǔ diǎn zài jiǔdiàn qiánmiàn jiànmiàn ba,womenwudianzaijiudianqianmianjianmianba
+womenzaijiudianqianmianjianmianba,Let’s meet in front of the hotel.,我们在酒店前面见面吧,Wǒmen zài jiǔdiàn qiánmiàn jiànmiàn ba,womenzaijiudianqianmianjianmianba
+womenzainalijianmian,Where (will) we meet?,我们在哪里见面,Wǒmen zài nǎli jiànmiàn？,womenzainalijianmian
+chaguanlijiudianbuyuan,The tearoom isn’t far from the hotel.,茶馆里酒店不远,Cháguǎn lǐ jiǔdiàn bù yuǎn.,chaguanlijiudianbuyuan
+zouluyaoshifenzhong,It takes 10 minutes by walk.,走路要十分钟,Zǒulù yào shí fēnzhōng.,zouluyaoshifenzhong
+tazaiwaimian,He is outside.,他在外面,Tā zài wàimian.,tazaiwaimian
+wohenmang,I’m busy.,我很忙,Wǒ hěn máng.,wohenmang
+womenmingtianjidiankaishi,When (how many o’clock) do we start tomorrow?,我们明天几点开始,Wǒmen míngtiān jǐ diǎn kāishǐ?,womenmingtianjidiankaishi
+womenmingtianshidiankaishi,Tomorrow we start at 10.,我们明天十点开始,Wǒmen míngtiān shí diǎn kāishǐ.,womenmingtianshidiankaishi
+wojuedeshidiantaiwanle,I think 10 o’clock is too late.,我觉得十点太晚了,Wǒ juéde shí diǎn tài wǎn le.,wojuedeshidiantaiwanle
+woyejuedeshidiantaiwanle,I also think 10 o’clock is too late.,我觉得十点太晚了,Wǒ yě juéde shí diǎn tài wǎn le.,woyejuedeshidiantaiwanle
+nihuikaichema,Can you drive?,你会开车吗,Nǐ huì kāichē ma?,nihuikaichema
+nikaichekaidezenmeyang,How (well) do you drive?,你开车开得怎么样,Nǐ kāichē kāi de zěnmeyàng?,nikaichekaidezenmeyang
+nishuozhongwenshuodezenmeyang,How (well) do you speak Chinese?,你说中文说得怎么样,Nǐ shuō Zhōngwén shuō de zěnmeyàng?,nishuozhongwenshuodezenmeyang
+wohuishuoyidianzhongwen,I can speak a little Chinese.,我会说一点中文,Wǒ huì shuō yīdiǎn Zhōngwén.,wohuishuoyidianzhongwen
+keyimeiwenti,It’s possible - no problem.,可以没问题,Kěyǐ - méi wèntí.,keyimeiwenti
+zheshizainalimaide,Where did you buy this? (Where was this bought?),这是在哪里买的,Zhè shì zài nǎli mǎi de.,zheshizainalimaide
+zheshizaizhongguomaide,“This was bought in China.”,这是在中国买的,Zhè shì zài Zhōngguó mǎi de.,zheshizaizhongguomaide
+zheshisheishuode,Who said that? (This was said by whom?),这是谁说的,Zhè shì shéi shuō de?,zheshisheishuode
+shijinglishuode,The manager said that. (It was said by the manager.),是经理说的,Shì jīnglǐ shuō de.,shijinglishuode
+jingliyijingzoule,The manager has already left.,经理已经走了,Jīnglǐ yǐjīng zǒule.,jingliyijingzoule
+wodeyingyumeiyounihao,My English isn’t as good as yours.,我的英语没有你好,Wǒ de Yīngyǔ méiyǒu nǐ hǎo.,wodeyingyumeiyounihao
+qingzuo,Please - sit.,请坐,Qǐng zuò!,qingzuo
+wodeyingyubiwodehanyuhao,My English is better than my Chinese.,我的英语比我的汉语好,Wǒ de Yīngyǔ bǐ wǒ de Hànyǔ hǎo.,wodeyingyubiwodehanyuhao
+qingshuodemanyidian,Please - speak a bit slower.,请说得慢一点,Qǐng shuō de màn yīdiǎn.,qingshuodemanyidian
+nishuoyingyushuodehenhao,You speak English well.,你说英语说得很好,Nǐ shuō Yīngyǔ shuō de hěn hǎo.,nishuoyingyushuodehenhao
+jinglishuodedongximeiyoudaoli,The things that the manager says don’t make sense.,经理说的东西没有道理,Jīnglǐ shuō de dōngxi méiyǒu dàolǐ.,jinglishuodedongximeiyoudaoli
+jinglishuodehuayoudaoli,The words that the manager says make sense.,经理说的话有道理,Jīnglǐ shuō de huà yǒu dàolǐ.,jinglishuodehuayoudaoli
+womenkebukeyizaoyidiankaishi,Can we start a bit sooner?,我们可不可以早一点开始,Wǒmen kě bù kěyǐ zǎo yīdiǎn kāishǐ?,womenkebukeyizaoyidiankaishi
+nideyingyushizainalixuede,Where did you learn English? (Your English was where learned?),你的英语是在哪里学的,Nǐ de Yīngyǔ shì zài nǎli xué de?,nideyingyushizainalixuede
+wodeyingyushizaimeiguoxuede,I learned English in America. (My English is learned in America.),我的英语是在美国学的,Wǒ de Yīngyǔ shì zài Měiguó xué de.,wodeyingyushizaimeiguoxuede
+yigongduoshaoqian,How much is it altogether?,一共多少钱,Yīgòng duōshǎo qián?,yigongduoshaoqian
+yigongsanbaikuai,Altogether three hundred.,一共三百块,Yīgòng sān bǎi kuài.,yigongsanbaikuai
+youyijianma,(Do you have) any complaints/suggestions?,有意见吗,Yǒu yìjiàn ma?,youyijianma
+wohenmanyi,I’m satisfied.,我很满意,Wǒ hěn mǎnyì.,wohenmanyi
+woduinihenmanyi,I’m satisfied with you.,我对你很满意,Wǒ duì nǐ hěn mǎnyì.,woduinihenmanyi
+woduiwodexindeshoujihenmanyi,I’m satisfied with my new phone.,我对我的新的手机很满意,Wǒ duì wǒde xīnde shǒujī hěn mǎnyì.,woduiwodexindeshoujihenmanyi
+wotongyiwoduitayebumanyi,I agree - I’m also not satisfied with him.,我同意我对他也不满意,Wǒ tóngyì - wǒ duì tā yě bù mǎnyì.,wotongyiwoduitayebumanyi
+wotongyitashuozhongwenshuodehenhao,I agree he speaks Chinese well.,我同意他说中文说得很好,Wǒ tóngyì tā shuō Zhōngwén shuō de hěn hǎo.,wotongyitashuozhongwenshuodehenhao
+wotongyiwoduitayeyouyijian,I agree - I also have complaints about him.,我同意我对他也有意见,Wǒ tóngyì wǒ duì tā yě yǒu yìjiàn.,wotongyiwoduitayeyouyijian
+woduizhezhongzuofahenyouyijian,I have a problem (complaint) with this way of doing things.,我对这种做法很有意见,Wǒ duì zhè zhǒng zuòfǎ hěn yǒu yìjiàn.,woduizhezhongzuofahenyouyijian
+woduizhezhongzuofahenmanyi,I’m satisfied with this way of doing things.,我对这种做法很满意,Wǒ duì zhè zhǒng zuòfǎ hěn mǎnyì.,woduizhezhongzuofahenmanyi
+zhezhongzuofahenyoudaoli,This way of doing things is very reasonable.,这种做法很有道理,Zhè zhǒng zuòfǎ hěn yǒu dàolǐ.,zhezhongzuofahenyoudaoli
+wotongyijinglishuodedongxiyoudaoli,I agree the things the manager said make sense.,我同意经理说的东西有道理,Wǒ tóngyì jīnglǐ shuō de dōngxi yǒu dàolǐ.,wotongyijinglishuodedongxiyoudaoli
+wogennitongyi,I agree with you.,我跟你同意,Wǒ gēn nǐ tóngyì.,wogennitongyi
+wotongyizhegehenyouyisi,I agree this is interesting.,我同意这个很有意思,Wǒ tóngyì zhège hěn yǒu yìsi.,wotongyizhegehenyouyisi
+wotongyi,I agree.,我同意,Wǒ tóngyì.,wotongyi
+zheyangzuozuiyoudaoli,It makes most sense to do it like this.,这样做最有道理,Zhèyàng zuò zuì yǒu dàolǐ.,zheyangzuozuiyoudaoli
+tagenwoyiyang,He’s like me. (He with I the same.),他跟我一样,Tā gēn wǒ yīyàng.,tagenwoyiyang
+tagenwoyiyangda,He’s my age. (He with I the same big.),他跟我一样大,Tā gēn wǒ yīyàng dà.,tagenwoyiyangda
+nidenvpengyoushishenmeyangzi,What does your girlfriend look like?,你的女朋友是什么样子,Nǐde nǚpéngyǒu shì shénme yàngzi?,nidenvpengyoushishenmeyangzi
+tahenpiaoliang,She is pretty.,她很漂亮,Tā hěn piàoliang.,tahenpiaoliang
+taduoda,How old is she?,她多大,Tā duō dà?,taduoda
+taershisui,She is 20 years old.,她二十岁,Tā èrshí suì.,taershisui
+rangworangnishengqi,Let me make you angry.,让我让你生气,Ràng wǒ ràng nǐ shēngqì.,rangworangnishengqi
+zhegerangwohenmanyi,This makes me satisfied.,这个让我很满意,Zhège ràng wǒ hěn mǎnyì.,zhegerangwohenmanyi
+bierangtashengqi,Don’t make him angry.,别让他生气,Bé ràng tā shēngqì.,bierangtashengqi
+womendouxihuannidenvpengyou,We all like your girlfriend.,我们都喜欢你的女朋友,Wǒmen dōu xǐhuān nǐde nǚpéngyǒu.,womendouxihuannidenvpengyou
+nidenvpengyourangwomendouhenmanyi,Your girlfriend makes us all very satisfied.,你的女朋友让我们都很满意,Nǐde nǚpéngyǒu ràng wǒmen dōu hěn mǎnyì.,nidenvpengyourangwomendouhenmanyi
+jiyuanbuyuan,The brothel isn’t far.,妓院不远,Jìyuàn bù yuǎn.,jiyuanbuyuan
+dajiadouxiangqujiyuanma,Does everyone want to go to a brothel?,大家都想去妓院吗,Dàjiā dōu xiǎng qù jìyuàn ma?,dajiadouxiangqujiyuanma
+womenbudouxiangqujiyuan,Not all of us want to go to a brothel.,我们不都想去妓院,Wǒmen bù dōu xiǎng qù jìyuàn.,womenbudouxiangqujiyuan
+dajiahao,Everyone - hello!,大家好,Dàjiā hǎo!,dajiahao
+jushou,Raise hands.,举手,Jǔ shǒu.,jushou
+xiangqujiyuanderenjushou,People who want to go to a brothel - raise (your) hand.,想去妓院的人举手,Xiǎng qù jìyuàn de rén jǔ shǒu.,xiangqujiyuanderenjushou
+xiangquhekafeiderenjushou,People who want to go drink coffee - raise (your) hand.,想去喝咖啡的人举手,Xiǎng qù hē kāfēi de rén jǔ shǒu.,xiangquhekafeiderenjushou
+xiangqujiyuanderenqinggenwolai,People who want to go to a brothel - please follow me.,想去妓院的人请跟我来,Xiǎng qù jìyuàn de rén qǐng gēn wǒ lái.,xiangqujiyuanderenqinggenwolai
+wodainimenqu,I’ll take you there.,我带你们去,Wǒ dài nǐmen qù.,wodainimenqu
+worenshidezhongguorenhenshao,I know very few Chinese people. (The Chinese people that I know are few.),我认识的中国人很少,Wǒ rènshi de Zhōngguórén hěn shǎo.,worenshidezhongguorenhenshao
+worenshidenanrenhenshao,I know very few men. (The men that I know are few.),我认识的男人很少,Wǒ rènshi de nánrén hěn shǎo.,worenshidenanrenhenshao
+womenhaishaoyigeren,We are still one person short.,我们还少一个人,Wǒmen hái shǎo yīge rén.,womenhaishaoyigeren
+womenhaishaojigeren,How many people are we still missing?,我们还少几个人,Wǒmen hái shǎo jǐ gè rén?,womenhaishaojigeren
+nideshoujishizainalimaide,Where did you buy your phone? (Your phone was where bought?),你的手机是在哪里买的,Nǐ de shǒujī shì zài nǎli mǎi de?,nideshoujishizainalimaide
+nimenwandezenmeyang,How was it? (You (pl.) played how?),你们玩得怎么样,Nǐmen wán de zěnme yàng?,nimenwandezenmeyang
+womenwandehenkaixin,We had a great time. (We played with an open heart.),我们玩得很开心,Wǒmen wán de hěn kāixīn.,womenwandehenkaixin
+womeizhuyitashuodehua,I didn’t pay attention to what he said.,我没注意他说的话,Wǒ méi zhùyì tā shuō de huà.,womeizhuyitashuodehua
+qingzhuyizhegehenzhongyao,Please - pay attention - this is important.,请注意，这个很重要,Qǐng zhùyì - zhège hěn zhòngyào.,qingzhuyizhegehenzhongyao
+woyejuedezhegehenzhongyao,I also think that this is important.,我也觉得这个很重要,Wǒ yě juéde zhège hěn zhòngyào.,woyejuedezhegehenzhongyao
+wozhenjuedezhegehenyouyisi,I really think this is very interesting.,我真觉得这个很有意思,Wǒ zhēn juéde zhège hěn yǒu yìsi.,wozhenjuedezhegehenyouyisi
+wozaijia,I’m home.,我在家,Wǒ zài jiā.,wozaijia
+woyaogeinidadianhua,I will call you.,我要给你打电话,Wǒ yào gěi nǐ dǎ diànhuà.,woyaogeinidadianhua
+jiejiebujiedianhua,Older sister doesn’t pick up the phone.,姐姐不接电话,Jiějiě bù jiē diànhuà.,jiejiebujiedianhua
+jiejiejieleqian,Older sister borrowed money.,姐姐借了钱,Jiějiě jiè le qián.,jiejiejieleqian
+wodeshoujikuaimeidianle,My phone is about to run out of battery.,我的手机快没电了,Wǒ de shǒujī kuài méi diànle.,wodeshoujikuaimeidianle
+wokuaidaole,I’ll be right there. (I fast arrive.),我快到了,Wǒ kuài dào le.,wokuaidaole
+yiyuanzaiwomenduimian,The hospital is opposite us.,医院在我们对面,Yīyuàn zài wǒmen duìmiàn.,yiyuanzaiwomenduimian
+womenkeyishuoyingyuma,Can we speak English?,我们可以说英语吗,Wǒmen kěyǐ shuōYīngyǔ ma?,womenkeyishuoyingyuma
+manzou,Goodbye! (Walk slowly.),慢走,Màn zǒu!,manzou
+qingzaishuoyibian,Please - say it again.,请再说一遍,Qǐng zài shuō yībiàn.,qingzaishuoyibian
+jinglishuoleshenme,What did the manager say?,经理说了什么,Jīnglǐ shuō le shénme?,jinglishuoleshenme
+jinglishuodedongxihenduo,The manager said many things. (Use name attribute.),经理说的东西很多,Jīnglǐ shuō de dōngxi hěn duō.,jinglishuodedongxihenduo
+wozhidaozheshishenme,I know what this is.,我知道这是什么,Wǒ zhīdào zhè shì shénme.,wozhidaozheshishenme
+wozhidaotashishei,I know who he is.,我知道他是谁,Wǒ zhīdào tā shì shéi.,wozhidaotashishei
+jinglihuishuoyidianzhongwen,The manager can speak a little Chinese.,经理会说一点中文,Jīnglǐ huì shuō yīdiǎn Zhōngwén.,jinglihuishuoyidianzhongwen
+wobuzhidaozheshisheishuode,I don’t know who said that.,我不知道这是谁说的,Wǒ bù zhīdào zhè shì shéi shuō de.,wobuzhidaozheshisheishuode
+zheshishenmeyisi,What does this mean?,这是什么意思,Zhè shì shénme yìsi?,zheshishenmeyisi
+nishishenmeyisi,What do you mean?,你是什么意思,Nǐ shì shénme yìsi?,nishishenmeyisi
+wobuzhidaojinglishishenmeyisi,I don’t know what the manager means.,我不知道经理是什么意思,Wǒ bù zhīdào jīnglǐ shì shénme yìsi.,wobuzhidaojinglishishenmeyisi
+wobuzhidaotashuozhongwenshuodezenmeyang,I don’t know how he speaks Chinese.,我不知道他说中文说得怎么样,Wǒ bù zhīdào tā shuō Zhōngwén shuō de zěnme yàng.,wobuzhidaotashuozhongwenshuodezenmeyang
+zhegehenyouyisi,This is interesting.,这个很有意思,Zhège hěn yǒu yìsi.,zhegehenyouyisi
+zhegezhenyouyisi,This is really interesting.,这个真有意思,Zhège zhēn yǒu yìsi.,zhegezhenyouyisi
+jinglishuodehuahenyouyisi,Words that the manager says are interesting.,经理说的话很有意思,Jīnglǐ shuō de huà hěn yǒuyìsi.,jinglishuodehuahenyouyisi
+woduizhezhongzuofayouyijian,I have a problem (complaint) with this way of doing things.,我对这种做法有意见,Wǒ duì zhè zhǒng zuòfǎ yǒu yìjiàn.,woduizhezhongzuofayouyijian
+womenyaozheyangzuo,We will do it like this.,我们要这样做,Wǒmen yào zhèyàng zuò.,womenyaozheyangzuo
+jinglihuishuozhongwenma,Can the manager speak Chinese?,经理会说中文吗,Jīnglǐ huì shuō Zhōngwén ma?,jinglihuishuozhongwenma
+womenzaoshangchizaofan,We eat breakfast in the morning.,我们早上吃早饭,Wǒmen zǎoshang chī zǎofàn.,womenzaoshangchizaofan
+womenwanshangchiwanfan,We eat dinner in the evening.,我们晚上吃完饭,Wǒmen wǎnshàng chī wánfàn.,womenwanshangchiwanfan
+wokaichekaidebuhao,I don’t drive well. (I drive not well.),我开车开的不好,Wǒ kāichē kāi de bù hǎo.,wokaichekaidebuhao
+dajiadouxiangqumaidongxima,Does everybody want to go shopping?,大家都想去买东西吗,Dàjiā dōu xiǎng qù mǎi dōngxi ma?,dajiadouxiangqumaidongxima
+xiangqumaidongxiderenjushou,People who want to go shopping - raise your hand.,想去买东西的人举手,Xǎng qù mǎi dōngxi de rén jǔ shǒu.,xiangqumaidongxiderenjushou
+xiangqumaidongxiderenqinggenwolai,People who want to go shopping - come with me.,想去买东西的人跟我来,Xiǎng qù mǎi dōngxi de rén gēn wǒ lái.,xiangqumaidongxiderenqinggenwolai
+meiyourenjiedianhua,No one is picking up the phone.,没有人接电话,Méiyǒu rén jiē diànhuà.,meiyourenjiedianhua
+xianzaitabujiedianhua,Now she doesn’t answer the phone.,现在他不接电话,Xiànzài tā bù jiē diànhuà.,xianzaitabujiedianhua
+tajieleduoshaoqian,How much money has she borrowed?,他借了多少钱,Tā jiè le duōshao qián?,tajieleduoshaoqian
+tajielesanqiankuai,She has borrowed three thousand.,她借了三千块,Tā jiè le sān qiān kuài.,tajielesanqiankuai
+zhelikeyihuanqianma,Is it possible to change money here?,这里可以换钱吗,Zhèli kěyǐ huàn qián ma?,zhelikeyihuanqianma
+nixianghuanduoshaoqian,How much money do you want to exchange?,你想换多少钱,Nǐ xiǎng huàn duōshao qián.,nixianghuanduoshaoqian
+woxianghuansanqianmeiyuan,I want to exchange 3000 dollars.,我想换三千美元,Wǒ xiǎng huàn sān qiān Měiyuán.,woxianghuansanqianmeiyuan
+wozhidaozhegemeiyoudaoli,I know this doesn’t make sense.,我知道这个没有道理,Wǒ zhīdào zhège méiyǒu dàolǐ.,wozhidaozhegemeiyoudaoli
+nijuedetayaolaima,Do you think he will come?,你觉得他要来吗,Nǐ juédé tā yào lái ma?,nijuedetayaolaima
+nideshoujishishenmeyangzi,What does your cellphone look like?,你的手机是什么样子,Nǐ de shǒujī shì shénme yàngzi?,nideshoujishishenmeyangzi
+nidexindeshoujihenpiaoliang,Your new cellphone is beautiful.,你的新的手机很漂亮,Nǐde xīnde shǒujī hěn piàoliang.,nidexindeshoujihenpiaoliang
+shizainalimaide,Where did you buy it? (Was where bought?),是在哪里买的,Shì zài nǎli mǎi de?,shizainalimaide
+dajiadouxiangqujuyuanma,Does everybody want to go to the theatre?,大家都想去剧院吗,Dàjiā dōu xiǎng qù jùyuàn ma?,dajiadouxiangqujuyuanma
+womenbudouxiangqujuyuan,Not all of us want to go to the theatre.,我们不都想去剧院,Wǒmen bù dōu xiǎng qù jùyuàn.,womenbudouxiangqujuyuan
+xiangqujuyuanderenjushou,People who want to go to the theatre - raise (your) hand.,想去剧院的人举手,Xiǎng qù jùyuàn de rén jǔ shǒu.,xiangqujuyuanderenjushou
+xiangqujuyuanderenqinggenwolai,People who want to go to the theatre - please come with me.,想去剧院的人请跟我来,Xiǎng qù jùyuàn de rén qǐng gēn wǒ lái.,xiangqujuyuanderenqinggenwolai
+nixiangqunali,Where do you want to go?,你想去哪里,Nǐ xiǎng qù nǎli?,nixiangqunali
+woxiangqujiyuan,I want to go to a brothel.,我想去妓院,Wǒ xiǎng qù jìyuàn.,woxiangqujiyuan
+renshitaderenjushou,People who know him - raise (your) hand.,认识他的人举手,Rènshi tā de rén jǔ shǒu.,renshitaderenjushou
+xiangquhuanqianderenjushou,People who want to go exchange money - raise (your) hand.,想去换钱的人举手,Xiǎng qù huànqián de rén jǔ shǒu.,xiangquhuanqianderenjushou
+nihuishuozhongwenma,Can you speak Chinese?,你会说中文吗,Nǐ huì shuō Zhōngwén ma?,nihuishuozhongwenma
+woshuozhongwenshuodehaibutaihao,I still don’t speak Chinese very well. (I speak Chinese speak de still not very well.),我说中文说得还不太好,Wǒ shuō Zhōngwén shuō de hái bù tài hǎo.,woshuozhongwenshuodehaibutaihao
+hanyuhaoxuema,Is Chinese easy (good) to learn?,汉语好学吗,Hànyǔ hàoxué ma?,hanyuhaoxuema
+wojuedehanyuhenhaoxue,I think Chinese is easy to learn.,我觉得汉语很好学,Wǒ juédehànyǔ hěn hàoxué.,wojuedehanyuhenhaoxue
+wojuedehanyuhennan,I think Chinese is difficult.,我觉得汉语很难,Wǒ juéde hànyǔ hěn nán.,wojuedehanyuhennan
+juyuanbuyuan,The theatre isn’t far.,剧院不远,Jùyuàn bù yuǎn.,juyuanbuyuan
+jiejiejieleduoshaoqian,How much money has older sister borrowed?,姐姐借了多少钱,Jiějiě jièl e duōshao qián?,jiejiejieleduoshaoqian
+womashanghuangeini,I’ll give it back to you right away. (I immediately return for you.),我马上还给你,Wǒ mǎshàng huán gěi nǐ.,womashanghuangeini
+womashangdaole,I’ll be right there.,我马上到了,Wǒ mǎshàng dào le.,womashangdaole
+jingliyijingdaolebeijing,The manager has already arrived in Beijing.,经理已经到了北京,Jīnglǐ yǐjīng dào le Běijīng.,jingliyijingdaolebeijing
+wodepengyouxianghuanhenduoqian,My friend wants to exchange a lot of money.,我的朋友想换很多钱,Wǒde péngyǒu xiǎng huàn hěn duō qián.,wodepengyouxianghuanhenduoqian
+wodepengyoujielewodechongdianqi,My friend has borrowed my charger.,我的朋友借了我的充电器,Wǒde péngyǒu jiè le wǒde chōngdiànqì.,wodepengyoujielewodechongdianqi
+womenshangwuzailoushangshangke,We have class upstairs in the morning.,我们上午在楼上上课,Wǒmen shàngwǔ zài lóushàng shàngkè.,womenshangwuzailoushangshangke
+womenxiawuzailouxiaxiaqi,We play chess downstairs in the afternoon.,我们下午在楼下下棋,Wǒmen xiàwǔ zài lóuxià xiàqí.,womenxiawuzailouxiaxiaqi
+womenxiayizhanxiache,We get off at the next stop.,我们下一站下车,Wǒmen xià yī zhàn xiàchē.,womenxiayizhanxiache
+woxiangqujuyuan,I want to go to the theatre.,我想去剧院,Wǒ xiǎng qù jùyuàn.,woxiangqujuyuan
+wotongyijinglishuodehuayoudaoli,I agree that the stuff the manager says makes sense.,我同意经理说的话有道理,Wǒ tóngyì jīnglǐ shuō de huà yǒu dàolǐ.,wotongyijinglishuodehuayoudaoli
+jinglishuodehuameiyoudaoli,The things that the manager says don’t make sense.,经理说的话没有道理,Jīnglǐ shuō de huà méiyǒu dàolǐ.,jinglishuodehuameiyoudaoli
+duibuqi,Sorry! (I can’t face you.),对不起,Duìbùqǐ.,duibuqi
+tayijingdaole,He has already arrived.,他已经到了,Tā yǐjīng dào le.,tayijingdaole
+tahaimeidao,He hasn’t arrived yet.,他还没到,Tā hái méi dào.,tahaimeidao
+dianyingyuanbuyuan,The cinema isn’t far.,电影院不远,Ddiànyǐngyuàn bù yuǎn.,dianyingyuanbuyuan
+zhegebinagezhongyao,This is more important than that.,这个比那个重要,Zhège bǐ nàge zhòngyào.,zhegebinagezhongyao
+zhegemeiyounagezhongyao,This isn’t as important as that.,这个没有那个重要,Zhège méiyǒu nàge zhòngyào.,zhegemeiyounagezhongyao
+jiejiebuzaijia,Older sister isn’t home.,姐姐不在家,Jiějiě bù zài jiā.,jiejiebuzaijia
+wodepengyoujielehenduoqian,My friend borrowed a lot of money.,我的朋友借了很多钱,Wǒde péngyǒu jiè le hěn duō qián.,wodepengyoujielehenduoqian
+wokebukeyijieyixianidechongdianqi,Can I borrow your charger?,我可不可以借一下你的充电器,Wǒ kě bù kěyǐ jiè yīxià nǐde chōngdiànqì?,wokebukeyijieyixianidechongdianqi
+zhunichenggong,Wish you success!,祝你成功,Zhù nǐ chénggōng!,zhunichenggong
+niyibanjidianshangban,What time do you usually start work?,你一般几点上班,Nǐ yībān jǐ diǎn shàngbān?,niyibanjidianshangban
+woyibanbadianbanshangban,I usually start work at 8:30.,我一般八点半上班,Wǒ yībān bā diǎn bàn shàngbān.,woyibanbadianbanshangban
+nijidianxiaban,What time do you finish work?,你几点下班,Nǐ jǐ diǎn xiàbān?,nijidianxiaban
+woxiangdainiquchifan,I want to take you out for a meal. (I want take you eat.),我想带你去吃饭,Wǒ xiǎng dài nǐ qù chīfàn.,woxiangdainiquchifan
+wosandianbanxiaban,I finish work at 3:30.,我三点半下班,Wǒ sān diǎn bàn xiàbān.,wosandianbanxiaban
+tamenshidianyikezailoushangshangke,They have class upstairs at 10:15.,他们十点一刻在楼上上课,Tāmen shí diǎn yī kè zài lóushàng shàngkè.,tamenshidianyikezailoushangshangke
+nimeitiangongzuojigexiaoshi,How many hours do you work every day? (with gongzuo),你每天工作几个小时,Nǐ měitiān gōngzuò jǐge xiǎoshí?,nimeitiangongzuojigexiaoshi
+nimeitianshangjigexiaoshideban,How many hours do you work every day? (with shangban),你每天上几个小时的班,Nǐ měitiān shàng jǐ gè xiǎoshí de bān?,nimeitianshangjigexiaoshideban
+nishenmeshihouyaoquzhongguo,When are you going to China?,你什么时候要去中国,Nǐ shénme shíhou yào qù Zhōngguó?,nishenmeshihouyaoquzhongguo
+womingnianyaoquzhongguo,I will go to China next year.,我明年要去中国,Wǒ míngnián yào qù Zhōngguó.,womingnianyaoquzhongguo
+womenshenmeshihouquchifan,When shall we go eat?,我们什么时候去吃饭,Wǒmen shénme shíhou qù chīfàn?,womenshenmeshihouquchifan
+mingtiankeyima,Is tomorrow okay?,明天可以吗,Míngtiān kěyǐ ma?,mingtiankeyima
+wojintianmeiyoushijian,I don’t have time today.,我今天没有时间,Wǒ jīntiān méiyǒu shíjiān.,wojintianmeiyoushijian
+womenmingtiancaikeyiqu,We can only go tomorrow.,我们明天才可以去,Wǒmen míngtiān cái kěyǐ qù.,womenmingtiancaikeyiqu
+woxiaodeshihouhenxihuanchishuiguo,When I was a child - I really liked eating fruits.,我小的时候很喜欢吃水果,Wǒ xiǎo de shíhou hěn xǐhuān chī shuǐguǒ.,woxiaodeshihouhenxihuanchishuiguo
+woxiaodeshihou,When I was a child...,我小的时候,Wǒ xiǎo de shíhou,woxiaodeshihou
+talaodeshihoucaifacaile,He only got rich when he was old.,他老的时候才发财了,Tā lǎo de shíhou cái fācáile.,talaodeshihoucaifacaile
+xianzaikeyiguomalu,Now it’s possible to cross the road.,现在可以过马路,Xiànzài kěyǐ guò mǎlù.,xianzaikeyiguomalu
+niquguozhongguoma,Have you ever been to China?,你去过中国吗,Nǐ qù guo Zhōngguó ma?,niquguozhongguoma
+woquguozhongguo,I have been to China.,我去过中国,Wǒ qù guo Zhōngguó.,woquguozhongguo
+wohaimeiquguozhongguo,I haven’t been to China yet.,我还没去过中国,Wǒ hái méi qù guo Zhōngguó.,wohaimeiquguozhongguo
+nichiguozhegecaima,Have you ever eaten this dish?,你吃过这个菜吗,Nǐ chī guo zhège cài ma?,nichiguozhegecaima
+chiguo,I have (eaten something).,吃过,Chī guo.,chiguo
+meichiguo,I haven’t (eaten something).,没吃过,Méi chī guo.,meichiguo
+wogeinifalehenzhongyaodexinxi,I sent you a very important message.,我给你发了很重要的信息,Wǒ gěi nǐ fā le hěn zhòngyào de xìnxī.,wogeinifalehenzhongyaodexinxi
+wogeinifadexinxihenzhongyao,The message I sent you is very important.,我给你发的信息很重要,Wǒ gěi nǐ fā de xìnxī hěn zhòngyào.,wogeinifadexinxihenzhongyao
+wofaxiantafacaile,I noticed that he got rich.,我发现他发财了,Wǒ fāxiàn tā fācái le.,wofaxiantafacaile
+tashizenmefacaide,How did he get rich?,他是怎么发财的,Tā shì zěnme fācái de?,tashizenmefacaide
+tafamingleyigexindedongxi,He invented a new thing.,他发明了一个新的东西,Tā fāmíng le yīge xīn de dōngxi.,tafamingleyigexindedongxi
+nideyangzizhenbuhao,You look really bad. (Your appearance is really bad.),你的样子真不好,Nǐ de yàngzi zhēn bù hǎo.,nideyangzizhenbuhao
+nifashengleshenmeshi,What happened to you? (You happened what matter?),你发生了什么事,Nǐ fāshēngle shénme shì?,nifashengleshenmeshi
+wozhengzaixuexihanyu,I’m learning Chinese.,我正在学习汉语,Wǒ zhèngzài xuéxí Hànyǔ.,wozhengzaixuexihanyu
+woxianzaizhengzaixuexihanyu,I’m learning Chinese now.,我现在正在学习汉语,Wǒ xiànzài zhèngzài xuéxí Hànyǔ.,woxianzaizhengzaixuexihanyu
+zhegefadongjishisheikaifade,Who developed this engine? (This engine is by whom developed?),这个发动机是谁开发的,Zhège fādòngjī shì shéi kāifā de?,zhegefadongjishisheikaifade
+shiwodetongshikaifade,It’s developed by my colleague.,是我的同事开发的,Shì wǒde tóngshì kāifā de.,shiwodetongshikaifade
+tongshitongyi,Colleagues agree.,同事同意,Tóngshì tóngyì.,tongshitongyi
+wodetongshishigetiancai,My colleague is a genius.,我的同事是个天才,Wǒde tóngshì shì ge tiāncái.,wodetongshishigetiancai
+rangwoxiangdajiajieshaowodetongshi,Let me introduce my colleague to everybody.,让我向大家介绍我的同事,Ràng wǒ xiàng dàjiā jièshào wǒde tóngshì.,rangwoxiangdajiajieshaowodetongshi
+tademingzijiaodawei,“His name is David.”,他的名字叫大卫,Tāde míngzì jiào Dàwèi.,tademingzijiaodawei
+wofashengleyiwai,Something unexpected happened to me. (I happened unexpected.),我发生了意外,Wǒ fāshēng le yìwài.,wofashengleyiwai
+shenmeyiwai,What unexpected (thing)?,什么意外,Shénme yìwài?,shenmeyiwai
+wofaxianwonvpengyouzaiguowaiyouwaiyu,I found out that my girlfriend has an affair abroad.,我发现我女朋友在国外有外遇,Wǒ fāxiàn wǒ nǚpéngyǒu zài guówài yǒu wàiyù.,wofaxianwonvpengyouzaiguowaiyouwaiyu
+woxihuanyongdiannaoxuexi,I like to study using a computer.,我喜欢用电脑学习,Wǒ xǐhuān yòng diànnǎo xuéxí.,woxihuanyongdiannaoxuexi
+womeitianyongdiannao,I use a computer every day.,我每天用电脑,Wǒ měitiān yòng diànnǎo.,womeitianyongdiannao
+womeitianyongdiannaoxuexi,I study on a computer every day.,我每天用电脑学习,Wǒ měitiān yòng diànnǎo xuéxí.,womeitianyongdiannaoxuexi
+tafamingdedongxihenyouyong,The thing(s) that he invented are very useful.,他发明的东西很有用,Tā fāmíng de dōngxi hěn yǒuyòng.,tafamingdedongxihenyouyong
+tahenyouming,He is very famous.,他很有名,Tā hěn yǒumíng.,tahenyouming
+yinweitafaminglehenyouyongdedongxi,Because he invented a very useful thing.,因为他发明了很有用的东西,Yīnwèi tā fāmíng le hěn yǒuyòng de dōngxi.,yinweitafaminglehenyouyongdedongxi
+zhexiedongxiduiwomeiyongle,These things are useless to me.,这些东西对我没用了,Zhèxiē dōngxi duì wǒ méi yòng le.,zhexiedongxiduiwomeiyongle
+buyongxie,You are welcome. (No need to thank.),不用谢,Bù yòng xiè.,buyongxie
+wobuyongzhexiedongxile,I don’t use these things anymore.,我不用这些东西了,Wǒ bù yòng zhèxiē dōngxi le.,wobuyongzhexiedongxile
+woyaogentafenshou,I’m going to break up with her.,我要跟她分手,Wǒ yào gēn tā fēnshǒu.,woyaogentafenshou
+wobuxuyaozhexiedongxile,I don’t need these things anymore.,我不需要这些东西了,Wǒ bù xūyào zhèxiē dōngxi le.,wobuxuyaozhexiedongxile
+duiniyouyongma,Is it useful for you?,对你有用吗,Duì nǐ yǒuyòng ma?,duiniyouyongma
+woyebuxuyao,I don’t need it either.,我也不需要,Wǒ yě bù xūyào.,woyebuxuyao
+haixuyaoshenmema,Do you need anything else?,还需要什么吗,Hái xūyào shénme ma?,haixuyaoshenmema
+buxuyaole,No. (Not need anymore.),不需要了,Bù xūyào le.,buxuyaole
+woshenmedouyou,I have everything.,我什么都有,Wǒ shénme dōu yǒu.,woshenmedouyou
+woshenmedoubuxuyao,I don’t need anything.,我什么都不需要,Wǒ shénme dōu bù xūyào.,woshenmedoubuxuyao
+yinweiwoshenmedouyou,Because I have everything.,因为我什么都有,Yīnwèi wǒ shénme dōu yǒu.,yinweiwoshenmedouyou
+tashuoleshenme,What did he say?,他说了什么,Tā shuōl e shénme?,tashuoleshenme
+wozhelisheidouburenshi,I don’t know anyone here.,我这里谁都不认识,Wǒ zhèli shéi dōu bù rènshi.,wozhelisheidouburenshi
+wonalidoubuxiangqu,I don’t want to go anywhere.,我哪里都不想去,Wǒ nǎli dōu bù xiǎng qù.,wonalidoubuxiangqu
+wowufenzhongjiudaole,I’ll be there in five minutes.,我五分钟就到了,Wǒ wǔ fēnzhōng jiù dào le.,wowufenzhongjiudaole
+nixihuanjiumaiba,Buy it if you like it.,你喜欢就买吧,Nǐ xǐhuān jiù mǎi ba.,nixihuanjiumaiba
+nibuxiangqujiubiequ,Don’t go if you don’t want to go.,你不想去就别去,Nǐ bù xiǎng qù jiù bié qù.,nibuxiangqujiubiequ
+woyouyigewentijiushi,I have a question and that is…,我有一个问题就是,Wǒ yǒu yīge wèntí - jiùshì..,woyouyigewentijiushi
+wobuzhidao,I don’t know…,我不知道,Wǒ bù zhīdào...,wobuzhidao
+zhegehanyuzenmeshuo,How to say this in Chinese.,这个汉语怎么说,Zhège hànyǔ zěnme shuō?,zhegehanyuzenmeshuo
+niyaojixuxuexi,You need to (should) keep learning.,你要继续学习,Nǐ yào jìxù xuéxí.,niyaojixuxuexi
+woyibanbadianshangban,I usually go to work at eight.,我一般八点上班,Wǒ yībān bā diǎn shàngbān.,woyibanbadianshangban
+tamenshidianyikezailoushangshangke,They have a class upstairs at 10:15.,他们十点一刻在楼上上课,Tāmen shí diǎn yīkè zài lóushàng shàngkè.,tamenshidianyikezailoushangshangke
+meiguohenmei,America is beautiful.,美国很美,Měiguó hěn měi.,meiguohenmei
+woyigongyousanjiagongsi,I have three companies in total.,我一共有三家公司,Wǒ yīgòng yǒu sānjiā gōngsī.,woyigongyousanjiagongsi
+nijintianyoushijianma,Do you have time today?,你今天有时间吗,Nǐ jīntiān yǒu shíjiān ma?,nijintianyoushijianma
+tafamingleshenmedongxi,What did he invent?,他发明了什么东西,Tā fāmíng le shénme dōngxi?,tafamingleshenmedongxi
+tafaminglehenyouyongdedongxi,He invented a very useful thing.,他发明了很有用的东西,Tā fāmíng le hěn yǒuyòng de dōngxi.,tafaminglehenyouyongdedongxi
+nihaixuyaozhexiedongxima,Do you still need these things?,你还需要这些东西吗,Nǐ hái xūyào zhèxiē dōngxi ma?,nihaixuyaozhexiedongxima
+zhegedongxiduiwohenyouyong,This thing is very useful to me.,这个东西对我很有用,Zhège dōngxi duì wǒ hěn yǒuyòng.,zhegedongxiduiwohenyouyong
+wogeitamendadianhua,I’m calling them.,我给他们打电话,Wǒ gěi tāmen dǎ diànhuà.,wogeitamendadianhua
+meiyourenjiedianhua,No one is answering the phone.,没有人接电话,Méiyǒu rén jiē diànhuà.,meiyourenjiedianhua
+woqujichangjieren,I go to the airport to pick someone up.,我去机场接人,Wǒ qù jīchǎng jiē rén.,woqujichangjieren
+zaijichanghuibuhuiyourenjiewomen,Will someone pick us up at the airport?,在机场会不会有人接我们,Zài jīchǎng huì-bu-hui yǒu rén jiē wǒmen?,zaijichanghuibuhuiyourenjiewomen
+zaijichanghuiyourenjiewomen,Someone will pick us up at the airport.,在机场会有人接我们,Zài jīchǎng huì yǒu rén jiē wǒmen.,zaijichanghuiyourenjiewomen
+yiyuanlizhelihenyuan,The hospital is very close to here.,医院离这里很近,Yīyuàn lí zhèli hěn jìn.,yiyuanlizhelihenyuan
+buyaojiejinzuijinderen,Don’t get close to the nearest person.,不要接近最近的人,Bùyào jiējìn zuìjìn de rén.,buyaojiejinzuijinderen
+tamendeyijianhenjiejin,Their opinions are very close.,他们的意见很接近,Tāmen de yìjiàn hěn jiējìn.,tamendeyijianhenjiejin
+wobunengjieshoutajiejinwo,I can’t accept him approaching me.,我不能接受他接近我,Wǒ bùnéng jiēshòu tā jiējìn wǒ.,wobunengjieshoutajiejinwo
+nikeyizhijiewenwo,You can ask me directly.,你可以直接问我,Nǐ kěyǐ zhíjiē wèn wǒ.,nikeyizhijiewenwo
+youwentijiuzhijiewenwo,Ask me directly if you have any questions.,有问题就直接问我,Yǒu wèntí jiù zhíjiē wèn wǒ.,youwentijiuzhijiewenwo
+qingjin,Come in!,请进,Qǐng jìn!,qingjin
+youwentijiuzhijiegaosuwo,Tell me directly if you have any questions.,有问题就直接告诉我,Yǒu wèntí jiù zhíjiē gàosù wǒ.,youwentijiuzhijiegaosuwo
+biegaosuta,Don’t tell him.,别告诉他,Bié gàosù tā.,biegaosuta
+nikebukeyizhijiegaosuwo,Can you tell me directly?,你可不可以直接告诉我,Nǐ kě-bu-kěyǐ zhíjiē gàosù wǒ?,nikebukeyizhijiegaosuwo
+wobunengjieshoutashuodehua,I can’t accept what he said.,我不能接受他说的话,Wǒ bùnéng jiēshòu tā shuō de huà.,wobunengjieshoutashuodehua
+nizuihaozhijiegentashuo,You best tell him directly.,你最好直接跟他说,Nǐ zuìhǎo zhíjiē gēn tā shuō.,nizuihaozhijiegentashuo
+wobunengjieshoutazheyangzuo,I can’t accept him doing it like this.,我不能接受他这样做,Wǒ bùnéng jiēshòu tā zhèyàng zuò.,wobunengjieshoutazheyangzuo
+wobunengjieshoutabujiedianhua,I can’t accept him not answering the phone.,我不能接受他不接电话,Wǒ bùnéng jiēshòu tā bù jiē diànhuà.,wobunengjieshoutabujiedianhua
+balianjiefageiwo,Send me the link.,把链接发给我,Bǎ liànjiē fā gěi wǒ.,balianjiefageiwo
+zhijiebalianjiefageiwo,Send me the link directly.,直接把链接发给我,Zhíjiē bǎ liànjiē fā gěi wǒ.,zhijiebalianjiefageiwo
+nifadelianjiebudui,The link you sent is wrong.,你发的链接不对,Nǐ fā de liànjiē bù duì.,nifadelianjiebudui
+ninengbunengzaifageiwo,Can you send (it) to me again?,你能不能再发给我,Nǐ bùnéng zài fā gěi wǒ?,ninengbunengzaifageiwo
+zheliwangluolianjiebuhao,The internet connection here is bad.,这里网络连接不好,Zhèli wǎngluò liánjiē bù hǎo.,zheliwangluolianjiebuhao
+nalidewangluolianjiehaoyidian,The internet connection there is better.,那里的网络连接好一点,Nàli de wǎngluò liánjiē hǎo yīdiǎn.,nalidewangluolianjiehaoyidian
+woyibanzaiwangshangmaidongxi,I usually shop online.,我一般在网上买东西,Wǒ yībān zài wǎng shang mǎi dōngxi.,woyibanzaiwangshangmaidongxi
+womenshizaiwangshangrenshide,We met online.,我们是在网上认识的,Wǒmen shì zài wǎng shang rènshi de.,womenshizaiwangshangrenshide
+shudianzaiyaodianduimian,The bookstore is opposite the pharmacy.,书店在药店对面,Shūdiàn zài yàodiàn duìmiàn.,shudianzaiyaodianduimian
+zuijindeyaodianyuanma,Is the nearest pharmacy far?,最近的药店远吗,Zuìjìn de yàodiàn yuǎn ma?,zuijindeyaodianyuanma
+womenshifenzhongjiudaole,We will arrive in ten minutes.,我们十分钟就到了,Wǒmen shí fēnzhōng jiù dàole.,womenshifenzhongjiudaole
+womenxianzaikeyiquma,Can we go now?,我们现在可以去吗,Wǒmen xiànzài kěyǐ qù ma?,womenxianzaikeyiquma
+zouba,Let’s go.,走吧,Zǒu ba!,zouba
+wozhudejiudianbutaihao,The hotel I stay in is not very good.,我住的酒店不太好,Wǒ zhù de jiǔdiàn bù tài hǎo.,wozhudejiudianbutaihao
+nizhudedifanghenpiaoliang,The place you live in is beautiful.,你住的地方很漂亮,Nǐ zhù de dìfang hěn piàoliang.,nizhudedifanghenpiaoliang
+nideshoujiliyoushenmeditu,What maps do you have on your phone?,你的手机里有什么地图,Nǐde shǒujī li yǒu shénme dìtú?,nideshoujiliyoushenmeditu
+ditushangmeiyouditiezhan,There are no subway stations on the map.,地图上没有地铁站,Dìtú shang méiyǒu dìtiě zhàn.,ditushangmeiyouditiezhan
+womenzenmequ,How do we get there?,我们怎么去,Wǒmen zěnme qù?,womenzenmequ
+womenzuoditiequba,Let’s take the subway.,我们坐地铁去吧,Wǒmen zuò dìtiě qù ba!,womenzuoditiequba
+qingbajiudiandizhifageiwo,Please send me the hotel address.,请把酒店的地址发给我,Qng bǎ jiǔdiàn dìzhǐ fā gěi wǒ.,qingbajiudiandizhifageiwo
+zhegedifangtaixiaole,This place is too small.,这个地方太小了,Zhège dìfang tài xiǎo le.,zhegedifangtaixiaole
+womenqubiededifangba,Let’s go to another place.,我们去别的地方吧,Wǒmen qù biéde dìfang ba!,womenqubiededifangba
+worenweiwomendefangxiangbudui,I think our direction is wrong.,我认为我们的方向不对,Wǒ rènwéi wǒmen de fāngxiàng bù duì.,worenweiwomendefangxiangbudui
+zheshizuizhongyaodefangmian,This is the most important aspect.,这是最重要的一方面,Zhè shì zuì zhòngyào de fāngmiàn.,zheshizuizhongyaodefangmian
+womenyaozhongshizheyifangmian,We need to pay attention to this aspect.,我们要重视这一方面,Wǒmen yào zhòngshì zhè yī fāngmiàn.,womenyaozhongshizheyifangmian
+nimingtianfangbianma,Are you available tomorrow?,你明天方便吗,Nǐ míngtiān fāngbiàn ma?,nimingtianfangbianma
+zuofeijidaobeijingyaobagexiaoshi,It takes eight hours to fly to Beijing.,坐飞机到北京要八个小时,Zuò fēijī dào Běijīng yào bāge xiǎoshí.,zuofeijidaobeijingyaobagexiaoshi
+jizhanghenjinzhang,The pilot was nervous.,机长很紧张,Jīzhǎng hěn jǐnzhāng.,jizhanghenjinzhang
+yinweifeijishangdekafeijihuaile,Because the coffee machine on the plane broke.,因为飞机上的咖啡机坏了,Yīnwèi fēijī shang de kāfēijī huài le.,yinweifeijishangdekafeijihuaile
+feijishangdekafeijihuaile,The coffee machine on the plane broke.,飞机上的咖啡机坏了,Fēijī shang de kāfēijī huài le.,feijishangdekafeijihuaile
+suoyijizhanghenjinzhang,So the pilot was nervous.,所以机长很紧张,Suǒyǐ jīzhǎng hěn jǐnzhāng.,suoyijizhanghenjinzhang
+fenshouyaojifenzhong,How long does a breakup take?,分手要几分钟,Fēnshǒu yào jǐ fēnzhōng?,fenshouyaojifenzhong
+fenshouzhiyaojifenzhong,A breakup only takes a few minutes.,分手只要几分钟,Fēnshǒu zhǐ yào jǐ fēnzhōng.,fenshouzhiyaojifenzhong
+fenxifenshoudeyuanyin,Analyze the reasons for a breakup.,分析分手的原因,Fēnxī fēnshǒu de yuányīn.,fenxifenshoudeyuanyin
+fenxifenshoudeyuanyinhenzhongyao,Analyzing the reasons for a breakup is important.,分析分手的原因很重要,Fēnxī fēnshǒu de yuányīn hěn zhòngyào.,fenxifenshoudeyuanyinhenzhongyao
+buyaofenxidetaiguofen,Don’t analyze too much.,不要分析得太过分,Bùyào fēnxī de tài guòfèn.,buyaofenxidetaiguofen
+nitaiguofenle,You are too much. (You are going too far.),你太过分了,Nǐ tài guòfèn le.,nitaiguofenle
+zheyangshuotaiguofenle,Saying (it) like this is too much.,这样说太过分了,Zhèyàng shuō tài guòfèn le.,zheyangshuotaiguofenle
+jingliyaofenxiwentideyibufen,The manager is gonna analyze part of the problem.,经理要分析问题的一部分,Jīnglǐ yào fēnxī wèntí de yī bùfèn.,jingliyaofenxiwentideyibufen
+worenweizheyibufenbuzhongyao,I think this part is not important.,我认为这一部分不重要,Wǒ rènwéi zhè yī bùfèn bù zhòngyào.,worenweizheyibufenbuzhongyao
+woxianggennifenxiangzheyibufen,I want to share this part with you.,我想跟你分享这一部分,Wǒ xiǎng gēn nǐ fēnxiǎng zhè yī bùfèn.,woxianggennifenxiangzheyibufen
+tafenxiangdedongxihenyouyisi,What he shared was very interesting.,他分享的东西很有意思,Tā fēnxiǎng de dōngxi hěn yǒuyìsi.,tafenxiangdedongxihenyouyisi
+tagenwomenfenxiangletamenfenshoudeyuanyin,He shared the reasons for their breakup with us.,他跟我们分享了他们分手的原因,Tā gēn wǒmen fēnxiǎng le tāmen fēnshǒu de yuányīn.,tagenwomenfenxiangletamenfenshoudeyuanyin
+worenweitafenxidetaiguofen,I think he analyzes too much.,我认为他分析得太过分,Wǒ rènwéi tā fēnxī de tài guòfèn.,worenweitafenxidetaiguofen
+zhefengxinshisheixiede,Who wrote this letter?,这封信是谁写的,Zhè fēng xìn shì shéi xiě de?,zhefengxinshisheixiede
+wobuxiangxinni,I don’t believe you.,我不相信你,Wǒ bù xiāngxìn nǐ.,wobuxiangxinni
+woxiangxinni,I believe you.,我相信你,Wǒ xiāngxìn nǐ.,woxiangxinni
+wobuxiangxintafaleduanxin,I don’t believe he sent a text message.,我不相信他发了短信,Wǒ bù xiāngxìn tā fā le duǎnxìn.,wobuxiangxintafaleduanxin
+shisheifadeduanxin,Who sent the text message?,是谁发的短信,Shì shéi fā de duǎnxìn?,shisheifadeduanxin
+wobuxiangxinshitafadeduanxin,I don’t believe he sent the text message.,我不相信是他发的短信,Wǒ bù xiāngxìn shì tā fā de duǎnxìn.,wobuxiangxinshitafadeduanxin
+woxiangxinzhegexinxi,I believe this information/message.,我相信这个信息,Wǒ xiāngxìn zhège xìnxī.,woxiangxinzhegexinxi
+woxiangxinzhegexinxishitafade,I believe he sent this message.,我相信这个信息是他发的,Wǒ xiāngxìn zhège xìnxī shì tā fā de.,woxiangxinzhegexinxishitafade
+woxiangxinxinxidezheyibufen,I believe this part of the message.,我相信信息的这一部分,Wǒ xiāngxìn xìnxī de zhè yī bùfèn.,woxiangxinxinxidezheyibufen
+ninenglaima,Can you come?,你能来吗,Nǐ néng lái ma?,ninennglaima
+manmanlai,Let it come slowly. (Slowly come.),慢慢来,Mànman lái.,manmanlai
+tongshiyinggaifenxizhegexinxi,Colleagues should analyse this information.,同事应该分析这个信息,Tóngshì yīnggāi fēnxī zhège xìnxī.,tongshiyinggaifenxizhegexinxi
+xinghaozheliyouxinhao,Luckily there is a signal here.,幸好这里有信号,Xìnghǎo zhèli yǒu xìnhào.,xinghaozheliyouxinhao
+zhelixinhaobuhao,The signal is bad here.,这里信号不好,Zhèli xìnhào bù hǎo.,zhelixinhaobuhao
+wotingbudaonideshengyin,I can't hear you (your voice).,我听不到你的声音,Wǒ tīng-budao nǐde shēngyīn.,wotingbudaonideshengyin
+woquzhaoxinhaohaoyidiandedifang,I'm going to find a place with a slightly better signal.,我去找信号好一点的地方,Wǒ qù zhǎo xìnhào hǎo yīdiǎn de dìfang.,woquzhaoxinhaohaoyidiandedifang
+zheyangyekeyi,It's also possible like this.,这样也可以,Zhèyàng yě kěyǐ.,zheyangyekeyi
+zaizhongguozuoshengyihennan,It's hard to do business in China.,在中国做生意很难,Zài Zhōngguó zuò shēngyì hěn nán.,zaizhongguozuoshengyihennan
+yishengtingshengyideshengyin,Doctors listen to the sound of business.,医生听生意的声音,Yīshēng tīng shēngyì de shēngyīn.,yishengtingshengyideshengyin
+zuoshengyideshengyinhenhaoting,The sounds of doing business are nice (to hear).,做生意的声音很好听,Zuò shēngyì de shēngyīn hěn hǎotīng.,zuoshengyideshengyihenhaoting
+yishengbuyinggaizuoshengyi,Doctors shouldn't do business.,医生不应该做生意,Yīshēng bù yīnggāi zuò shēngyì.,yishengbuyinggaizuoshengyi
+zhejiagongsideshengyihenhao,The business of this company is good.,这家公司的生意很好,Zhè jiā gōngsī de shēngyì hěn hǎo.,zhejiagongsideshengyihenhao
+yinweitamenshengchandechanpinhenhao,Because the product they produce is good.,因为他们生产的产品很好,Yīnwèi tāmen shēngchǎn de chǎnpǐn hěn hǎo.,yinweitamenshengchandechanpinhenao
+zhegechanpinshisheikaifade,Who developed this product?,这个产品是谁开发的,Zhège chǎnpǐn shì shéi kāifā de?,zhegechanpinshisheikaifade
+zhegechanpinshiwodetongshikaifade,This product was developed by my colleague.,这个产品是我的同事开发的,Zhège chǎnpǐn shì wǒde tóngshì kāifā de.,zhegechanpinshiwodetongshikaifade
+zhegechanpinduiwomendegongsifeichangzhongyao,This product is very important for our company.,这个产品对我们的公司很重要,Zhège chǎnpǐn duì wǒmen de gōngsī hěn zhòngyào.,zhegechanpinduixiwomendegongsihenzhongyao
+xinhaohaoma,Signal. Number.,信号。号码。,Xìnhào. Hàomǎ.,xinhaohaoma
+zheshiwodedianhuahaoma,This is my phone number.,这是我的电话号码,Zhè shì wǒ de diànhuà hàomǎ.,zheshiwodedianhuahaoma
+suiyisuishi,At your own pace. Anytime.,随意。随时。,Suíyì. Suíshí.,suiyisuishi
+youshisuishigenwolianxi,If you need (have) anything - get in touch with me anytime.,有事随时跟我联系,Yǒushì suíshí gēn wǒ liánxì.,youshisuishigenwolianxi
+zheshigeinide,This is for you.,这是给你的,Zhè shì gěi nǐ de.,zheshigeinide
+zhuyianquan,Pay attention to safety.,注意安全,Zhùyì ānquán.,zhuyianquan
+jintianershidu,It's 20 degrees today.,今天二十度,Jīntiān èrshí dù.,jintianershidu
+niyinggaizheyangzuo,You should do it like this.,你应该这样做,Nǐ yīnggāi zhèyàng zuò.,niyinggaizheyangzuo
+wozuijinguodehenqingsong,I've been taking it easy lately.,我最近过得很轻松,Wǒ zuìjìn guò de hěn qīngsōng.,wozuijinguodehenqingsong
+qingkuangshishenmeyangzi,What does the situation look like?,情况是什么样子,Qíngkuàng shì shénme yàngzi?,qingkuangshishenmeyangzi
+woqingchule,I've got it clear.,我清楚了,Wǒ qīngchǔ le.,woqingchule
+zhegewentiwohaibutaiqingchu,This problem is still not clear to me.,这个问题我还不太清楚,Zhège wèntí wǒ hái bù tài qīngchu.,zhegewentiwohaibutaiqingchu
+quanshijiedoubuanquanle,The whole world is unsafe.,全世界都不安全了,Quán shìjiè dōu bù ānquán le.,quanshijiedoubuanquanle
+zheshishichangshangzuihaodechanpin,This is the best product on the market.,这是市场上最好的产品,Zhè shì shìchǎng shàng zuì hǎo de chǎnpǐn.,zheshishichangshangzuihaodechanpin
+zhegezhishichengdudewenti,It's just a matter of degree.,这个只是程度的问题,Zhège zhǐ shì chéngdù de wèntí.,zhegezhishichengdudewenti
+chengrenchengrenzijidezeren,Adults acknowledge their responsibilities.,成人承认自己的责任,Chéngrén chéngrèn zìjǐ de zérèn.,chengrenchengrenzijidezeren
+zhanyouzhanzaizhantai,Friend from war stands on the platform.,战友站在站台,Zhànyǒu zhàn zài zhàntái.,zhanyouzhanzaizhantai
+baohuyonghudezhanghu,Protect the user's accounts.,保护用户的账户,Bǎohù yònghù de zhànghù.,baohuyonghudezhanghu
+tazhangdehenmei,She's very beautiful. (She grew beautifully.),她长得很美,Tā zhǎng dé hěn měi.,tazhangdehenmei
+zhongguotongzhishijie,China rules the world.,中国统治世界,Zhōngguó tǒngzhì shíjiè.,zhongguotongzhishijie
+tongzhitongzhimenzhongguotongzhishijie,Inform comrades that China rules the world.,通知同志们中国统治世界,Tōngzhī tóngzhìmen Zhōngguó tǒngzhì shíjiè.,tongzhitongzhimenzhongguotongzhishijie
+wodeairenshiairen,My lover is a dwarf.,我的爱人是矮人,Wǒde àirén shì ǎirén.,wodeairenshiairen
+bazhexiedongxirengdiao,Throw these things away.,把这些东西扔掉,Bǎ zhèxiē dōngxī rēngdiào.,bazhexiedongxirengdiao
+worenhedifangdoukeyiqu,I can go anywhere.,我任何地方都可以去,Wǒ rènhé dìfāng dōu kěyǐ qù.,worenhedifangdoukeyiqu
+fangxinzhelikeyifangpi,Don't worry - you can fart here.,放心这里可以放屁,Fàngxīn - zhèli kěyǐ fàngpì.,fangxinzhelikeyifangpi
+nidefayinhenbiaozhun,Your pronunciation is standard (as it should be).,你的发音很标准,Nǐde fǎyīn hěn biāozhǔn.,nidefayinhenbiaozhun
+bizui,Shut up!,闭嘴,Bì zuǐ!,bizui
+laoshibuchouyanle,The teacher doesn't smoke anymore.,老师不抽烟了,Lǎoshī bù chōuyān le.,laoshibuchouyanle
+womenjidianchufa,What time do we leave?,我们几点出发,Wǒmen jǐdiǎn chūfā?,womenjidianchufa
+biedanxinyiqiedouhuihaoqilaide,Don't worry - everything will be fine.,别担心，一切都会好起来的,Bié dānxīn - yīqiè dōu huì hǎoqǐlái de.,biedanxinyiqiedouhuihaoqilaide
+zheshizuiyouxiaodexuexifangfa,This is the most effective way to learn.,这是最有效的学习方法,Zhè shì zuì yǒuxiào de xuéxí fāngfǎ.,zheshizuiyouxiaodexuexifangfa
+nixiuxihaolema,Have you rested (well)?,你休息好了吗,Nǐ xiūxihǎo le ma?,nixiuxihaolema
+niyaoxuannayige,Which one do you want to choose?,你要选哪一个,Nǐ yào xuǎn nǎ yīge?,niyaoxuannayige
+woxuanzeliuxia,I choose to stay.,我选择留下,Wǒ xuǎnzé liúxià.,woxuanzeliuxia
+yilupingan,Have a safe trip!,一路平安,Yīlù píng'ān!,yilupingan
+pangzizaipangbian,The fat man is next to (me).,胖子在旁边,Pàngzǐ zài pángbiān.,pangzizaipangbian
+woshanghailehenduoshanghairen,I've hurt a lot of Shanghai people.,我伤害了很多上海人,Wǒ shānghài le hěnduō Shànghǎirén.,woshanghailehenduoshanghairen
+wohaibuquedingwomingtianyaoquerenyixia,I'm not sure yet - I'll confirm it tomorrow.,我还不确定，我明天要确认一下,Wǒ hái bù quèdìng - wǒ míngtiān yào quèrèn yīxia.,wohaibuquedingwomingtianyaoquerenyixia
+woquexinzheshizhunquede,I'm sure this is accurate.,我确信这是准确的,Wǒ quèxìn zhè shì zhǔnquè de.,woquexinzheshizhunquede
+woyiquedingjiuhuiqueren,I'll confirm it as soon as I'm sure.,我一确定就会确认,Wǒ yī quèdìng jiù huì quèrèn.,woyiquedingjiuhuiqueren
+zhegechazhenhaohe,This tea is really delicious.,这个茶真好喝,Zhège chá zhēn hǎo hē.,zhegechazhenhaohe
+xianzaizhucejiukeyimianfeishiyongqitian,Sign up now and try for free for 7 days.,现在注册就可以免费试用七天。,Xiànzài zhùcè jiù kěyǐ miǎnfèi shìyòng qītiān.,xianzaizhucejiukeyimianfeishiyongqitian
+tazongshichidao,He is always late.,他总是迟到,Tā zǒng shì chí dào.,tazongshichidao
+menhuizidongdakai,The door will open automatically.,门会自动打开,Mén huì zìdòng dǎkāi.,menhuizidongdakai
+taminglingwolikelikaizhegefangjian,He ordered me to leave the room immediately.,他命令我立刻离开这个房间,Tā mìnglìng wǒ lìkè líkāi zhège fángjiān.,taminglingwolikelikaizhegefangjian
+zhegechengshifazhandehenkuai,This city is developing very fast.,这个城市发展的很快,Zhège chéngshì fāzhǎn de hěn kuài.,zhegechengshifazhandehenkuai
+meirennengzuzhiwo,No one can stop me.,没人能阻止我,Méi rén néng zǔzhǐ wǒ.,meirennengzuzhiwo
+gongsidingqizuzhihuodong,The company organizes activities regularly.,公司定期组织活动,Gōngsī dìngqī zǔzhī huódòng.,gongsidingqizuzhihuodong
+huochekuaidaole,The train is coming soon.,火车快到了,Huǒchē kuài dào le.,huochekuaidaole
+biehushihushi,Don't ignore the nurse.,别忽视护士,Bié hūshì hùshì.,biehushihushi
+meigerendouyouzijidefangshi,Everyone has his own way.,每个人都有自己的方式,Měigèe rén dōu yǒu zìjǐ de fāngshì.,meigerendouyouzijidefangshi
+talaibulaiduiwomeiyoufenbie,It makes no difference to me whether he comes or not.,他来不来对我没有分别,Tā lái bu lái duì wǒ méiyǒu fènbié.,talaibulaiduiwomeiyoufenbie
+qingfenkaibaozhuang,Please pack separately.,请分开包装,Qǐng fēnkāi bāozhuāng.,qingfenkaibaozhuang
+fuwuyuandefuwuqihuaile,The waiter's server is broken.,服务员的服务器坏了,Fúwùyuán de fúwùqì huài le.,fuwuyuandefuwuqihuaile
+hushizhaohuzhao,The nurse is looking for his passport.,护士找护照,Hùshì zhǎo hùzhào.,hushizhaohuzhao
+tabeifaxiankanhuangpian,He was caught watching porn.,他被发现看黄片,Tā bèi fàxiàn kàn huángpiàn.,tabeifaxiankanhuangpian
+tuixiurentuijianzaihuocheshangchihuotui,The retiree recommended eating ham on the train.,退休人推荐在火车上吃火腿,Tuìxiūrén tuījiàn zài huǒchē shang chī huǒtuǐ.,tuixiurentuijianzaihuocheshangchihuotui
+weilebaochijiankangwomeitianyouyong,I swim every day to stay healthy.,为了保持健康我每天游泳,Wèile bǎochí jiànkāng - wǒ měitiān yóuyǒng.,weilebaochijiankangwomeitianyouyong
+zhenzhengdezhichishishenmeyangzi,What does real support look like?,真正的支持是什么样子,Zhēnzhèng de zhīchí shì shénme yàngzi?,zhenzhengdezhichishishenmeyangzi
+woyongyuanhuizhichini,I will always support you.,我永远会支持你,Wǒ yǒngyuǎn huì zhīchí nǐ.,woyongyuanhuizhichini
+zhegexitongkeyijinxingzhinengfenxi,This system can perform intelligent analysis.,这个系统可以进行智能分析,Zhège xìtǒng kěyǐ jìnxíng zhìnéng fēnxī.,zhegexitongkeyijinxingzhinengfenxi
+renshengjiushiyichangyouxi,Life is a game.,人生就是一场游戏,Rénshēng jiùshì yī chǎng yóuxì.,renshengjiushiyichangyouxi
+zhegeyouxihenyouqu,This game is fun.,这个游戏很有趣,Zhège yóuxì hěn yǒuqù.,zhegeyouxihenyouqu
+cailifangletaiduoyou,Too much oil is put in the dish.,菜里放了太多油,Cài li fàng le tài duō yóu.,cailifangletaiduoyou
+woyiqianmeiyouqian,I didn't have money before.,我以前没有钱,Wǒ yǐqián méiyǒu qián.,woyiqianmeiyouqian
+womenkeyiyiqiqu,We can go together.,我们可以一起去,Wǒmen kěyǐ yīqǐ qù.,womenkeyiyiqiqu
+wodemeimeimeitiandouhenmei,My sister is beautiful every day.,我的妹妹每天都很美,Wǒ de mèimei měitiān dōu hěn měi.,wodemeimeimeitiandouhenmei
+fandianyijingkemanle,The restaurant is full.,饭店已经客满了,Fàndiàn yǐjīng kèmǎn le.,fandianyijingkemanle
+zhuanzhuyuhuxi,Focus on breathing.,专注于呼吸,Zhuānzhù yú hūxī.,zhuanzhuyuhuxi
+tazaizhuanxinxiezuoye,He is concentrating on his homework.,他在专心写作业,Tā zài zhuānxīn xiě zuòyè.,tazaizhuanxinxiezuoye
+baochilianghaodexinlizhuangtaihenzhongyao,It is important to maintain a good mental state.,保持良好的心理状态很重要,Bǎochí liánghǎo de xīnlǐ zhuàngtài hěn zhòngyào.,baochilianghaodexinlizhuangtaihenzhongyao
+tadejiankangzhuangkuangzuijinhaoduole,His health has improved a lot recently.,他的健康状况最近好多了,Tāde jiànkāng zhuàngkuàng zuìjìn hǎo duō le.,tadejiankangzhuangkuangzuijinhaoduole
+tadechuanyifenggefeichangdute,His dressing style is very unique.,他的穿衣风格非常独特,Tāde chuānyī fēnggé fēicháng dútè.,tadechuanyifenggefeichangdute
+tayongshishizhengminglezijideqingbai,He proved his innocence with facts.,他用事实证明了自己的清白,Tā yòng shìshí zhèngmíng le zìjǐ de qīngbái.,tayongshishizhengminglezijideqingbai
+taduizhengzhibuganxingqu,He is not interested in politics.,他对政治不感兴趣,Tā duì zhèngzhì bù gǎn xìngqù.,taduizhengzhibuganxingqu
+tazhongyuzuodaolezijidemubiao,He finally achieved his goal.,他终于做到了自己的目标,Tā zhōngyú zuòdào le zìjǐ de mùbiāo.,tazhongyuzuodaolezijidemubiao
+taweijianglaizuozhunbei,He prepares for the future.,他为将来做准备。,Tā wèi jiānglái zuò zhǔnbèi.,taweijianglaizuozhunbei
+zhengfurangyiqiebiandezhengchang,The government is making everything normal.,政府让一切变得正常。,Zhèngfǔ ràng yīqiè biàn de zhèngcháng.,zhengfurangyiqiebiandezhengchang
+takaishiyishidaozhejianshideyiyi,He began to realize the significance of this matter.,他开始意识到这件事的意义。,Tā kāishǐ yìshidao zhè jiàn shì de yìyì.,takaishiyishidaozhejianshideyiyi
+zhegeyingxionglaiziyingguo,This hero is from England.,这个英雄来自英国。,Zhège yīngxióng láizì Yīngguó.,zhegeyingxionglaiziyingguo
+tingyinyuekeyijianqingyali,Listening to music can relieve stress.,听音乐可以减轻压力。,Tīng yīnyuè kěyǐ jiǎnqīng yālì.,tingyinyuekeyijianqingyali
+yayizijideganqingduixinlijiankangyouhai,Suppressing your emotions is bad for your mental health.,压抑自己的感情对心理健康有害。,Yāyì zìjǐ de gǎnqíng duì xīnlǐ jiànkāng yǒuhài.,yayizijideganqingduixinlijiankangyouhai
+weilechenggongtameitiannulixuexi,To succeed - he studies hard every day.,为了成功，他每天努力学习。,Wèile chénggōng - tā měitiān nǔlì xuéxí.,weilechenggongtameitiannulixuexi
+dabufenrendouxihuankandianying,Most people like to watch movies.,大部分人都喜欢看电影。,Dàbùfèn rén dōu xǐhuān kàn diànyǐng.,dabufenrendouxihuankandianying
+weilechengweituanduidechengyuannixuyaotongguomianshi,To become a member of the team - you need to pass the interview.,为了成为团队的成员，你需要通过面试。,Wèile chéngwéi tuánduì de chéngyuán - nǐ xūyào tōngguò miànshì.,weilechengweituanduidechengyuannixuyaotongguomianshi
+womeitiandezuoxishijianchabuduo,I have similar daily schedule every day.,我每天的作息时间差不多。,Wǒ měitiān de zuòxí shíjiān chā bù duō.,womeitiandezuoxishijianchabuduo
+wojuedingchangshiyizhongxindexuexifangfa,I decided to try a new learning method.,我决定尝试一种新的学习方法。,Wǒ juédìng chángshì yī zhǒng xīnde xuéxí fāngfǎ.,wojuedingchangshiyizhongxindexuexifangfa
+nijidianxiaban,When do you get off work?,你几点下班？,Nǐ jǐ diǎn xiàbān?,nijidianxiaban
+tamenshidianyikezailoushangshangke,They have a class upstairs at 11:15.,他们十一点一刻在楼上上课。,Tāmen shíyī diǎn yī kè zài lóu shàng shàngkè.,tamenshiyidiandiyikezailoushangshangke
+tadeyuanwangshihuanyoushijie,His wish is to travel around the world.,他的愿望是环游世界。,Tāde yuànwàng shì huányóu shìjiè.,tadeyuanwangshihuanyoushijie
+niyuanyiquyiyuanma,Are you willing to go to the hospital?,你愿意去医院吗？,Nǐ yuànyì qù yīyuàn ma?,niyuanyiquyiyuanma
+woyuanlaibuyuanyiyuanliangni,Originally I wasn't willing to forgive you.,我原来不愿意原谅你。,Wǒ yuánlái bu yuànyì yuánliàng nǐ.,woyuanlaibuyuanyiyuanliangni
+xuexixindeyuyanxuyaoshijianhenaixin,Learning a new language needs time and patience.,学习新的语言需要时间和耐心。,Xuéxí xīn de yǔyán xūyào shíjiān hé nàixīn.,xuexixindeyuyanxuyaoshijianhenaixin
+tahenkuaijiushiyinglexindehuanjing,He quickly adapted to the new environment.,他很快就适应了新的环境。,Tā hěn kuài jiù shìyìngle xīn de huánjìng.,tahenkuaijiushiyinglexindehuanjing
+yifuzangle,The clothes got dirty.,衣服脏了。,Yīfu zāng le.,yifuzangle
+womeitianzaoshangdouhuikanxinwen,I watch the news every morning.,我每天早上都会看新闻。,Wǒ měitiān zǎoshang dūhuì kàn xīnwén.,womeitianzaoshangdouhuikanxinwen
+tamenweileziyoufadonglegeming,They launched a revolution for freedom.,他们为了自由发动了革命。,Tāmen wèile zìyóu fādòngle gémìng.,tamenweileziyoufadonglegeming
+wohenxianmutadeshenghuofangshi,I envy his lifestyle.,我很羡慕他的生活方式。,Wǒ hěn xiànmù tāde shēnghuó fāngshì.,wohenxianmutadeshenghuofangshi
+wozaiwangshangkandaoleyigeyouqudeguanggao,I saw an interesting advertisement on the Internet.,我在网上看到了一个有趣的广告。,Wǒ zài wǎngshang kàndao le yīge yǒuqù de guǎnggào.,wozaiwangshangkandaoleyigeyouqudeguanggao
+tazhongyuguqiyongqishuochulezhenxiang,He finally plucked up the courage to tell the truth.,他终于鼓起勇气说出了真相。,Tā zhōngyú gǔqǐ yǒngqì shuōchū le zhēnxiàng.,tazhongyuguqiyongqishuochulezhenxiang
+wojingchanggenjinglitanjingji,I often talk about economics with my manager.,我经常跟经理谈经济,Wǒ jīngcháng gēn jīnglǐ tán jīngjì.,wojingchanggenjinglitanjingji
+tamenshizaidaxuelilianaide,They fell in love in college.,他们是在大学里恋爱的,Tāmen shì zài dàxué li liàn'ài de.,tamenshizaidaxuelilianaide
+zuoheshideyundongdailaihenduolequ,Doing the right exercise brings a lot of fun.,做合适的运动带来很多乐趣,Zuò héshì de yùndòng dàilái hěnduō lèqù.,zuoheshideyundongdailaihenduolequ
+nilaizhelidemudishishenme,What is your purpose here?,你来这里的目的是什么,Nǐ lái zhèli de mùdì shì shénme?,nilaizhelidemudishishenme
+xuexicailiaoyibanhenwuliao,Study materials are generally boring.,学习材料一般很无聊,Xuéxí cáiliào yībān hěn wúliáo.,xuexicailiaoyibanhenwuliao
+tazaixiudiannao,He is repairing his computer.,他在修电脑,Tā zài xiū diànnǎo.,tazaixiudiannao
+woxuyaoxiuliwodeshouji,I need to repair my phone.,我需要修理我的手机,Wǒ xūyào xiūlǐ wǒ de shǒujī.,woxuyaoxiuliwodeshouji
+qingzaishuoyibian,Please say it again.,请再说一遍,Qǐng zài shuō yībiàn.,qingzaishuoyibian
+zhegejiubadeyinliaohentebie,The drinks in this bar are special.,这个酒吧的饮料很特别,Zhège jiǔbā de yǐnliào hěn tèbié.,zhegejiubadeyinliaohentebie
+buxiaoxindexingweikenenghuizaochengshanghai,Careless behavior may cause harm.,不小心的行为可能会造成伤害,Bù xiǎoxīn de xíngwéi kěnéng huì zàochéng shānghài.,buxiaoxindexingweikenenghuizaochengshanghai
+tameiyourenhezeren,He has no responsibility.,他没有任何责任,Tā méiyǒu rènhé zérèn.,tameiyourenhezeren
+weileyanchangshengmingwozuoyundong,I do exercise to prolong my life.,为了延长生命我做运动,Wèile yáncháng shēngmìng wǒ zuò yùndòng.,weileyanchangshengmingwozuoyundong
+wangqianyizhizou,Keep going straight ahead.,往前一直走,Wǎng qián yīzhí zǒu.,wangqianyizhizou
+qingdengyihui,Please wait a moment.,请等一会,Qǐng děng yīhuì.,qingdengyihui
+jieguochaochulewomendeyuliao,The result exceeded our expectations.,结果超出了我们的预料,Jiéguǒ chāochūl e wǒmen de yùliào.,jieguochaochulewomendeyuliao
+tatiqianyugaolebisaidejieguo,He announced the result of the game in advance.,他提前预告了比赛的结果,Tā tíqián yùgào le bǐsài de jiéguǒ.,tatiqianyugaolebisaidejieguo
+seqingmingxingmeiyouxinqing,The porn star is not in the mood.,色情明星没有心情,Sèqíng míngxīng méiyǒu xīnqíng.,seqingmingxingmeiyouxinqing
+wogangganggeitalewodemingpian,I just gave him my business card.,我刚刚给他了我的名片,Wǒ gānggāng gěi tā le wǒ de míngpiàn.,wogangganggeitalewodemingpian
+zhegeyaodexiaoguofeichanghao,This medicine works very well.,这个药的效果非常好,Zhège yào de xiàoguǒ fēicháng hǎo.,zhegeyaodexiaoguofeichanghao
+xiangshoumeiyike,Enjoy every moment.,享受每一刻,Xiǎngshòu měi yī kè.,xiangshoumeiyike
+ninengxiangxiangjianglaideshijiema,Can you imagine the world in the future?,你能想象将来的世界吗,Nǐ néng xiǎngxiàng jiānglái de shìjiè ma?,ninengxiangxiangjianglaideshijiema
+zhegewenjianxiazaitaimanle,This file is downloading too slowly.,这个文件下载太慢了,Zhège wénjiàn xiàzài tài màn le.,zhegewenjianxiazaitaimanle
+danaoxuyaoxiuxicainenggenggaoxiaodegongzuo,The brain needs rest to work more efficiently.,大脑需要休息才能更高效地工作,Dànǎo xūyào xiūxi cái néng gèng gāoxiào de gōngzuò.,danaoxuyaoxiuxicainenggenggaoxiaodegongzuo
+womenxuyaokongzhishengchanchengben,We need to control production costs.,我们需要控制生产成本,Wǒmen xūyào kòngzhì shēngchǎn chéngběn.,womenxuyaokongzhishengchanchengben
+haizixihuanmofangdarendexingwei,Children like to imitate adults' behavior.,孩子喜欢模仿大人的行为,Háizi xǐhuān mófǎng dàrén de xíngwéi.,haizixihuanmofangdarendexingwei
+qingtingzhishuohua,Please stop talking.,请停止说话,Qǐng tíngzhǐ shuōhuà.,qingtingzhishuohua
+tuixiuderentuijiantuihuo,Retired people recommend returning the goods.,退休的人推荐退货,Tuìxiū de rén tuījiàn tuìhuò.,tuixiuderentuijiantuihuo
+zhegeyuhenxian,This fish is very fresh.,这个鱼很鲜,Zhège yú hěn xiān.,zhegeyuhenxian
+chaoshiliyougezhonggeyangdeyongpin,There are all kinds of goods in the supermarket.,超市里有各种各样的用品,Chāoshì li yǒu gèzhǒng gèyàng de yòngpǐn.,chaoshiliyougezhonggeyangdeyongpin
+taxiwangnenggoutongguokaoshi,He hopes to pass the exam.,他希望能够通过考试,Tā xīwàng nénggòu tōngguò kǎoshì.,taxiwangnenggoutongguokaoshi
+taneixinchongmanlekuaile,His heart is full of joy.,他内心充满了快乐,Tā nèixīn chōngmǎn le kuàilè.,taneixinchongmanlekuaile
+jiudianyoukongfangjianma,Are there any rooms available in the hotel?,酒店有空房间吗,Jiǔdiàn yǒu kōng fángjiān ma?,jiudianyoukongfangjianma
+takefulehenduoyuyanzhangai,He has overcome many language barriers.,他克服了很多语言障碍,Tā kèfú le hěnduō yǔyán zhàng'ài.,takefulehenduoyuyanzhangai
+woxianggeinikankanwodelvxingzhaopian,I want to show you my travel photos.,我想给你看看我的旅行照片,Wǒ xiǎng gěi nǐ kànkan wǒ de lǚxíng zhàopiàn.,woxianggeinikankanwodelvxingzhaopian
+zhangfuguanlizhanghu,The husband manages the accounts.,丈夫管理账户,Zhàngfu guǎnlǐ zhànghù.,zhangfuguanlizhanghu
+tazhongyumianduilexianshi,He finally faced reality.,他终于面对了现实,Tā zhōngyú miànduì le xiànshí.,tazhongyumianduilexianshi
+bingrenbixuanshichiyao,The patient must take medicine on time.,病人必须按时吃药,Bìngrén bìxū ànshí chī yào.,bingrenbixuanshichiyao
+xiangjiaohenxiang,The banana smells good.,香蕉很香,Xiāngjiāo hěn xiāng.,xiangjiaohenxiang
+biebadizhiwangdiaole,Don't forget the address.,别把地址忘掉了,Bié bǎ dìzhǐ wàngdiào le.,biebadizhiwangdiaole
+meiyoubiyaodanxin,There is no need to worry.,没有必要担心,Méiyǒu bìyào dānxīn.,meiyoubiyaodanxin
+zuijintadexingweiyouyidianqiguai,His behavior has been a little strange recently.,最近他的行为有一点奇怪,Zuìjìn tāde xíngwéi yǒu yīdiǎn qíguài.,zuijintadexingweiyouyidianqiguai
+tayizhiqidaishoudaotadehuifu,He has been looking forward to receiving his reply.,他一直期待收到他的回复,Tā yīzhí qīdài shōudào tā de huífù.,tayizhiqidaishoudaotadehuifu
+woyibanbadianqilai,I usually get up at eight o'clock.,我一般八点起来,Wǒ yībān bādiǎn qǐlái.,woyibanbadianqilai
+fadongqiyiburongyi,It is not easy to start an uprising.,发动起义不容易,Fādòng qǐyì bù róngyì.,fadongqiyiburongyi
+taqudeleshengli,He won (obtained victory).,他取得了胜利,Tā qǔdé le shènglì.,taqudeleshengli
+hennanyongyuyanlaixingrongnazhongganjue,It is difficult to describe the feeling in words.,很难用语言来形容那种感觉,Hěn nán yòng yǔyán lái xíngróng nàzhǒng gǎnjué.,hennanyongyuyanlaixingrongnazhongganjue
+tazhongyuqudeleshengli,He finally won (obtained victory).,他终于取得了胜利,Tā zhōngyú qǔdé le shènglì.,tazhongyuqudeleshengli
+gongrenzaigongchanggongzuo,Workers work in the factory.,工人在工厂工作,Gōngrén zài gōngchǎng gōngzuò.,gongrenzaigongchanggongzuo
+guangchangshangyoutaiduoguanggaopai,There are too many billboards in the square.,广场上有太多广告牌,Guǎngchǎng shang yǒu tài duō guǎnggàopái.,guangchangshangyoutaiduoguanggaopai
+womenbunengzaidenglebixumashangxingdong,We can't wait any longer - we must act immediately.,我们不能再等了，必须马上行动,Wǒmen bù néng zài děng le - bìxū mǎshàng xíngdòng.,womenbunengzaidenglebixumashangxingdong
+nishenmeshihouyoushijian,When do you have time?,你什么时候有时间,Nǐ shénme shíhòu yǒu shíjiān?,nishenmeshihouyoushijian
+womingtiancaiyoushijian,I don't have time till tomorrow.,我明天才有时间,Wǒ míngtiāncái yǒu shíjiān.,womingtiancaiyoushijian
+tashitiancaitadecainenghenduo,He is a genius - he has many talents.,他是天才，他的才能很多,Tā shì tiāncái - tāde cáinéng hěn duō.,tashitiancaitadecainenghenduo
+wohaimeiyouquguozhongguo,I haven't been to China yet.,我还没有去过中国,Wǒ hái méiyǒu qù guo Zhōngguó.,wohaimeiyouquguozhongguo
+xianzaimeiyoubanfa,There is no way now.,现在没有办法,Xiànzài méiyǒu bànfǎ.,xianzaimeiyoubanfa
+womenbixubawozhegejihui,We must seize this opportunity.,我们必须把握这个机会,Wǒmen bìxū bǎwò zhège jīhuì.,womenbixubawozhegejihui
+woyijingzailushang,I am already on the way.,我已经在路上,Wǒ yǐjīng zài lù shang.,woyijingzailushang
+nizheyangshuotaimeiyoulimaole,It is very rude for you to speak like that.,你这样说太没有礼貌了,Nǐ zhèyàng shuō tài méiyǒu lǐmào le.,nizheyangshuotaimeiyoulimaole
+laoshishirenleilinghundegongchengshi,Teachers are engineers of human souls.,老师是人类灵魂的工程师,Lǎoshī shì rénlèi línghún de gōngchéngshī.,laoshishirenleilinghundegongchengshi
+qingtingongxiangguandewenjian,Please provide relevant documents.,请提供相关的文件,Qǐng tígōng xiāngguān de wénjiàn.,qingtingongxiangguandewenjian
+wojuedenidexiangfahenyouchuangyi,I think your idea is very creative.,我觉得你的想法很有创意,Wǒ juéde nǐde xiǎngfǎ hěn yǒu chuàngyì.,wojuedenidexiangfahenyouchuangyi
+niyinggaijieshouzhegetiaozhan,You should accept this challenge.,你应该接受这个挑战,Nǐ yīnggāi jiēshòu zhège tiǎozhàn.,niyinggaijieshouzhegetiaozhan
+zhongguowenhuajinglilehenduobianhua,Chinese culture has undergone many changes.,中国文化经历了很多变化,Zhōngguó wénhuà jīnglì le hěnduō biànhuà.,zhongguowenhuajinglilehenduobianhua
+jiuhourongyimilu,It is easy to get lost after drinking.,酒后容易迷路,Jiǔ hòu róngyì mílù.,jiuhourongyimilu
+zhegexuexineirongfeichangshihewo,This learning content is very suitable for me.,这个学习内容非常适合我,Zhège xuéxí nèiróng fēicháng shìhé wǒ.,zhegexuexineirongfeichangshihewo
+xianzaiwojuedehenshangxin,I feel very sad now.,现在我觉得很伤心,Xiànzài wǒ juéde hěn shāngxīn.,xianzaiwojuedehenshangxin
+bieshangxinyiqiedouhuihaoqilaide,Don't be sad - everything will be fine.,别伤心，一切都会好起来的,Bié shāngxīn - yīqiè dōu huì hǎo qǐlái de.,bieshangxinyiqiedouhuihaoqilaide
+tadegushigeiwoliuxialehenshendeyinxiang,His story left a deep impression on me.,他的故事给我留下了很深的印象,Tā de gùshì gěi wǒ liúxià le hěn shēn de yìnxiàng.,tadegushigeiwoliuxialehenshendeyinxiang
+wobushiguyide,I didn't mean it.,我不是故意的,Wǒ bùshì gùyì de.,wobushiguyide
+guyuanbeijiegule,The employee was fired.,雇员被解雇了,Gùyuán bèi jiěgùle.,guyuanbeijiegule
+gugedeguyuanbeijiegule,The Google employee was fired.,谷歌的雇员被解雇了,Gǔgē de gùyuán bèi jiěgù le.,gugedeguyuanbeijiegule
+rangwoxiangyixiang,Let me think about it.,让我想一想,Ràng wǒ xiǎng yī xiǎng.,rangwoxiangyixiang
+womenxuyaojianliyigeyouxiaodeguanlitixi,We need to establish an effective management system.,我们需要建立一个有效的管理体系,Wǒmen xūyào jiànlì yīge yǒuxiào de guǎnlǐ tǐxì.,womenxuyaojianliyigeyouxiaodeguanlitixi
+womenbixuzhaochuduishouderuodian,We must find out the weaknesses of our opponents.,我们必须找出对手的弱点,Wǒmen bìxū zhǎochū duìshǒu de ruòdiǎn.,womenbixuzhaochuduishouderuodian
+chuleyingyutahaihuishuohanyu,Except for English - he can also speak Chinese.,除了英语，他还会说汉语,Chúle Yīngyǔ - tā hái huì shuō Hànyǔ.,chuleyingyutahaihuishuohanyu
+congzaoshangdaowanshangtayizhizaigongzuo,He has been working from morning to night.,从早上到晚上他一直在工作,Cóng zǎoshang dào wǎnshàng tā yīzhí zài gōngzuò.,congzaoshangdaowanshangtayizhizaigongzuo
+womendasuanwanshangchuquchifan,We plan to go out for dinner (this) evening.,我们打算晚上出去吃饭,Wǒmen dǎsuàn wǎnshàng chūqù chīfàn.,womendasuanwanshangchuquchifan
+womenzhengzaizhidinggongzuojihua,We are formulating a work plan.,我们正在制定工作计划,Wǒmen zhèngzài zhìdìng gōngzuò jìhuà.,womenzhengzaizhidinggongzuojihua
+qingbuyaowenwosirenwenti,Please don't ask me personal questions.,请不要问我私人问题,Qǐng bùyào wèn wǒ sīrén wèntí.,qingbuyaowenwosirenwenti
+tadesixianghenkaifang,He is very open-minded.,他的思想很开放,Tā de sīxiǎng hěn kāifàng.,tadesixianghenkaifang
+tasuiranhennianqingdanshiyijingyouhenduojingyan,Although he is very young - he already has a lot of experience.,他虽然很年轻，但是已经有很多经验,Tā suīrán hěn niánqīng - dànshì yǐjīng yǒu hěn duō jīngyàn.,tasuiranhennianqingdanshiyijingyouhenduojingyan
+qingjinkuaihuifuwodeyoujian,Please reply to my email as soon as possible.,请尽快回复我的邮件,Qǐng jǐnkuài huífù wǒde yóujiàn.,qingjinkuaihuifuwodeyoujian
+womenbuyinggaiqingyipingpanbieren,We shouldn't judge others lightly.,我们不应该轻易评判别人,Wǒmen bù yīnggāi qīngyì píngpàn biérén.,womenbuyinggaiqingyipingpanbieren
+gongsimianlinjingjiweiji,The company faces economic crisis.,公司面临经济危机,Gōngsī miànlín jīngjì wēijī.,gongsimianlinjingjiweiji
+jishufazhangaibianwomendeshenghuofangshi,Technology development has changed our way of life.,技术发展改变了我们的生活方式,Jìshù fāzhǎn gǎibiàn wǒmen de shēnghuó fāngshì.,jishufazhangaibianwomendeshenghuofangshi
+tayijingwanchenglesuoyourenwu,He has completed all the tasks.,他已经完成了所有任务,Tā yǐjīng wánchéng le suǒyǒu rènwù.,tayijingwanchenglesuoyourenwu
+tashigeyouqiantudenianqingren,He is a promising young man.,他是个有前途的年轻人,Tā shì ge yǒu qiántú de niánqīng rén.,tashigeyouqiantudenianqingren
+woyuanlaiyiweizhegehenjiandan,I originally thought this was simple.,我原来以为这个很简单,Wǒ yuánlái yǐwéi zhège hěn jiǎndān.,woyuanlaiyiweizhegehenjiandan
+womenzhongwuchiwufan,Let's have lunch.,我们中午吃午饭,Wǒmen zhōngwǔ chī wǔfàn.,womenzhongwuchiwufan
+tanulilehenjiuziranhuiyoushouhuo,He will naturally have gains after working hard for a long time.,他努力了很久自然会有收获,Tā nǔlì le hěnjiǔ - zìrán huì yǒu shōuhuò.,tanulilehenjiuziranhuiyoushouhuo
+tacongxiaojiulianwushu,He has practiced martial arts since he was a child.,他从小就练武术,Tā cóngxiǎo jiù liàn wǔshù.,tacongxiaojiulianwushu
+tajintiankanqilaitebieshuai,He looks very handsome today.,他今天看起来特别帅,Tā jīntiān kànqǐlái tèbié shuài.,tajintiankanqilaitebieshuai
+womenshiyigetuanjiedetuandui,We are a united team.,我们是一个团结的团队,Wǒmen shì yīge tuánjié de tuánduì.,womenshiyigetuanjiedetuandui
+tayidinghaimeijueding,He must have not decided yet.,他一定还没决定,Tā yīdìng hái méi juédìng.,tayidinghaimeijueding
+zhegejuedingrangrennanyijieshou,This decision is hard to accept for people.,这个决定让人难以接受,Zhège juédìng ràng rén nányǐ jiēshòu.,zhegejuedingrangrennanyijieshou
+nideshentikanqilaihaoduole,Your body looks much better.,你的身体看起来好多了,Nǐde shēntǐ kànqǐlái hǎo duōle.,nideshentikanqilaihaoduole
+tadexiaohuarangwomendouxiaole,His joke made us laugh.,他的笑话让我们都笑了,Tāde xiàohuà ràng wǒmen dōu xiào le.,tadexiaohuarangwomendouxiaole
+wobuxiangxianruzhezhongfuzadeguanxi,I don't want to get caught up in this complicated relationship.,我不想陷入这种复杂的关系,Wǒ bùxiǎng xiànrù zhèzhǒng fùzá de guānxì.,wobuxiangxianruzhezhongfuzadeguanxi
+womenxuyaotigaogongzuoxiaolv,We need to improve our productivity.,我们需要提高工作效率,Wǒmen xūyào tígāo gōngzuò xiàolǜ.,womenxuyaotigaogongzuoxiaolv
+buyaoshiquxiwang,Don't lose hope.,不要失去希望,Bùyào shīqù xīwàng.,buyaoshiquxiwang
+taweiaiqingfuchulehenduo,He gave a lot for love.,他为爱情付出了很多,Tā wèi àiqíng fùchū le hěn duō.,taweiaiqingfuchulehenduo
+yeshenlejiedaobiandeanjingxialai,It's late at night and the streets are quiet.,夜深了街道变得安静下来,Yè shēn le jiēdào biàn de ānjìng xiàlai.,yeshenlejiedaobiandeanjingxialai
+zhegedifangtaiweixianle,This place is too dangerous.,这个地方太危险了,Zhège dìfang tài wēixiǎn le.,zhegedifangtaiweixianle
+tashigexiaorenzongshizuohuaishi,He is a villain - (he) always does bad things.,他是个小人，总是做坏事,Tā shì ge xiǎorén - zǒngshì zuò huàishì.,tashigexiaorenzongshizuohuaishi
+zenmekeyigennilianxi,How can I contact you?,怎么可以跟你联系,Zěnme kěyǐ gēn nǐ liánxì,zenmekeyigennilianxi
+dadianhuafadianyoudoukeyi,Call or email are both fine.,打电话、发电邮都可以,dǎ diànhuà - fā diànyóu dōu kěyǐ,dadianhuafadianyoudoukeyi
+zheshiwodemingpian,This is my business card.,这是我的名片,zhè shì wǒ de míngpiàn,zheshiwodemingpian
+youshigenwolianxi,Contact me if you have anything.,有事跟我联系,yǒushì gēn wǒ liánxì,youshigenwolianxi
+difangfangfafangbian,Place - method - convenience.,地方、方法、方便,dìfāng - fāngfǎ - fāngbiàn,difangfangfafangbian
+nijidianfangbian,What time is convenient for you?,你几点方便？,nǐ jǐ diǎn fāngbiàn?,nijidianfangbian
+woxiawuzuifangbian,It is most convenient for me in the afternoon.,我下午最方便,Wǒ xiàwǔ zuì fāngbiàn,woxiawuzuifangbian
+zhegedifangyoudianxiao,This place is a bit small.,这个地方有点小,zhège dìfāng yǒudiǎn xiǎo,zhegedifangyoudianxiao
+womenquzhaobiededifangba,Let's go somewhere else.,我们去找别的地方吧,wǒmen qù zhǎo bié dì dìfāng ba,womenquzhaobiededifangba
+womenquzhaoxinhaohaoyidiandedifangba,Let's go somewhere with better signal.,我们去找信号好一点的地方吧,wǒmen qù zhǎo xìnhào hǎo yīdiǎn dì dìfāng ba,womenquzhaoxinhaohaoyidiandedifangba
+woduizhegexuexifangfahenmanyi,I am very satisfied with this learning method.,我对这个学习方法很满意,wǒ duì zhège xuéxí fāngfǎ hěn mǎnyì,woduizhegexuexifangfahenmanyi
+wojuedezhegefangfahenyouxiao,I think this method is very effective.,我觉得这个方法很有效,wǒ juédé zhège fāngfǎ hěn yǒuxiào,wojuedezhegefangfahenyouxiao
+woyaobazhegefangfatuijiangeiwodepengyou,I want to recommend this method to my friends.,我要把这个方法推荐给我的朋友,wǒ yào bǎ zhège fāngfǎ tuījiàn gěi wǒ de péngyǒu,woyaobazhegefangfatuijiangeiwodepengyou
+nijuedezhegfangfazenmeyang,What do you think of this method?,你觉得这个方法怎么样？,nǐ juédé zhège fāngfǎ zěnme yàng?,nijuedezhegfangfazenmeyang
+womenhuangedifangba,Let's go to another place.,我们换个地方吧,Wǒmen huàn ge dìfang ba!,womenhuangedifangba
+tadehuayoujigedifangwobutaiqingchu,There are a few things he said that I am not clear about.,他的话有几个地方我不太清楚,tā dehuà yǒu jǐ gè dìfāng wǒ bù tài qīngchǔ,tadehuayoujigedifangwobutaiqingchu
+niqingchulema,Is it clear to you? (Are you clear?),你清楚了吗？,Nǐ qīngchǔ le ma?,niqingchulema
+xianzaiwoqingchule,Now it's clear to me. (Now I'm clear.),现在我清楚了,Xiànzài wǒ qīngchǔ le.,xianzaiwoqingchule
+haoxiangditushangmeiyouzhegedifang,It seems that this place does not exist on the map.,好像地图上没有这个地方,Hǎoxiàng dìtú shàng méiyǒu zhège dìfang.,haoxiangditushangmeiyouzhegedifang
+bangongshimeiyouren,There is no one in the office.,办公室没有人,Bàngōngshì méiyǒu rén.,bangongshimeiyouren
+womenzenmeban,What should we do?,我们怎么办？,wǒmen zěnme bàn?,womenzenmeban
+bazhegefangzaizheli,Put this here.,把这个放在这里,Bǎ zhège fàng zài zhèlǐ,bazhegefangzaizheli
+tamenhuifangshenmedianying,What movie will they play?,他们会放什么电影？,tāmen huì fàng shénme diànyǐng?,tamenhuifangshenmedianying
+xuexiaomingtiankaishifangjiale,The school starts the holiday tomorrow.,学校明天开始放假了,Xuéxiào míngtiān kāishǐ fàngjià le.,xuexiaomingtiankaishifangjiale
+fangfangxinfangpifangjiafangqi,Put - Take (it) easy - Fart - Have a holiday - Give up,放，放心，放屁，放假，放弃,fàng - fàngxīn - fàngpì - fàngjià - fàngqì,fangfangxinfangpifangjiafangqi
+wobuhuifangqiwodemengxiang,I will not give up my dream.,我不会放弃我的梦想,wǒ bù huì fàngqì wǒ de mèngxiǎng,wobuhuifangqiwodemengxiang
+nizhemezaojiufangqilema,Have you given up so early?,你这么早就放弃了吗？,nǐ zhème zǎo jiù fàngqìle ma?,nizhemezaojiufangqilema
+gongyuanzaoshangliudiankaifang,The park opens at 6 am.,公园早上六点开放,Gōngyuán zǎoshang liù diǎn kāifàng,gongyuanzaoshangliudiankaifang
+chengrenchengweichenggongchengjiu,Adult - become - succeed - achieve.,成人、成为、成功、成就,chéngrén - chéngwéi - chénggōng - chéngjiù,chengrenchengweichenggongchengjiu
+tamengxiangyouyitianchengweizhenzhengdechengren,He dreams of becoming a real adult one day.,他梦想有一天成为真正的成人,tā mèngxiǎng yǒu yītiān chéngwéi zhēnzhèng de chéngrén,tamengxiangyouyitianchengweizhenzhengdechengren
+chengweichengrenbushishijiandewenti,Becoming an adult is not a matter of time.,成为成人不是时间的问题,chéngwéi chéngrén bùshì shíjiān de wèntí,chengweichengrenbushishijiandewenti
+chengweichengrenshitaidudewenti,Becoming an adult is a matter of attitude.,成为成人是态度的问题,chéngwéi chéngrén shì tàidù de wèntí,chengweichengrenshitaidudewenti
+wodetaidubianle,My attitude has changed.,我的态度变了,wǒ de tàidù biànle,wodetaidubianle
+woduiqiandetaidubianle,My attitude towards money has changed.,我对钱的态度变了,wǒ duì qián de tàidù biànle,woduiqiandetaidubianle
+kaifazhegefadongjishitazuidadechengjiu,Developing this engine is his greatest achievement.,开发这个发动机是他最大的成就,kāifā zhège fādòngjī shì tā zuìdà de chéngjiù,kaifazhegefadongjishitazuidadechengjiu
+nizuidadechengjiushishenme,What is your greatest achievement?,你最大的成就是什么？,nǐ zuìdà de chéngjiù shì shénme?,nizuidadechengjiushishenme
+wozuidadechengjiushikaifazhegechanpin,My greatest achievement is developing this product.,我最大的成就是开发这个产品,Wǒ zuìdà de chéngjiù shì kāifā zhège chǎn pǐn,wozuidadechengjiushikaifazhegechanpin
+guohaorizishiwodezuidachengjiu,Living a good life is my greatest achievement.,过好日子是我的最大成就,guò hǎo rìzǐ shì wǒ de zuìdà chéngjiù,guohaorizishiwodezuidachengjiu
+womenyiqiguolehenduokuailederizi,We have had many happy days together.,我们一起过了很多快乐的日子,wǒmen yīqǐguòle hěnduō kuàilè de rìzǐ,womenyiqiguolehenduokuailederizi
+chengweitatuanduidechengyuanzhennan,It is really hard to become a member of his team.,成为他团队的成员真难,chéngwéi tā tuánduì de chéngyuán zhēn nán,chengweitatuanduidechengyuanzhennan
+chengweichengrenchenggongchengyuan,Become - an adult - a success - a member.,成为，成人、成功、成员,chéngwéi - chéngrén - chénggōng - chéngyuán,chengweichengrenchenggongchengyuan
+taduiwohenhao,He is very good to me.,他对我很好,tā duì wǒ hěn hǎo,taduiwohenhao
+woxiangba500meiyuanhuanchengrmb,I want to change 500 US dollars into RMB.,我想把500美元换成人民币,wǒ xiǎng bǎ 500 měiyuán huàn chéng rénmínbì,woxiangba500meiyuanhuanchengrmb
+bazhezhangzhaopianhuanchengxindeba,Change this photo to a new one.,把这张照片换成新的吧,bǎ zhè zhāng zhàopiàn huàn chéng xīn de ba,bazhezhangzhaopianhuanchengxindeba
+shuibianchenglebing,The water turned into ice.,水变成了冰,shuǐ biàn chéngle bīng,shuibianchenglebing
+tabianchenglehuairen,He became a bad guy.,他变成了坏人,tā biàn chéngle huàirén,tabianchenglehuairen
+tadejuedingrangtabianchengleyigehuairen,His decisions made him a bad guy.,他的决定让他变成了一个坏人,tā de juédìng ràng tā biàn chéngle yīgè huàirén,tadejuedingrangtabianchengleyigehuairen
+tashengqideshihouhuibianchenglingyigeren,He becomes another person when he is angry.,他生气的时候会变成另一个人,tā shēngqì de shíhòu huì biàn chéng lìng yīgè rén,tashengqideshihouhuibianchenglingyigeren
+suirantahenchenggongdanshitabukuaile,Although he is successful - he is not happy.,虽然他很成功，但是他不快乐,suīrán tā hěn chénggōng - dànshì tā bù kuàilè,suirantahenchenggongdanshitabukuaile
+suirantianqibuhaowomenyeyaoqu,Although the weather is bad - we will still go.,虽然天气不好，我们也要去,suīrán tiānqì bù hǎo - wǒmen yě yào qù,suirantianqibuhaowomenyeyaoqu
+suirantahenqiguaiwohaishixiangxinta,Although he is strange - I still believe in him.,虽然他很奇怪，我还是相信他,suīrán tā hěn qíguài - wǒ háishì xiāngxìn tā,suirantahenqiguaiwohaishixiangxinta
+suiranhenwanlewohaishiyaojixugongzuo,Although it is late - I still will continue working.,虽然很晚了，我还是要继续工作,suīrán hěn wǎnle - wǒ háishì yào jìxù gōngzuò,suiranhenwanlewohaishiyaojixugongzuo
+guanguanlizhuguanbuguan,Manage - manage - supervisor - no matter.,管、管理、主管、不管,guǎn - guǎnlǐ - zhǔguǎn - bùguǎn,guanguanlizhuguanbuguan
+buguantianqizenmeyangwomenyeyaoqu,No matter what the weather is - we are gonna go anyway.,不管天气怎么样，我们也要去,bùguǎn tiānqì zěnme yàng - wǒmen yě yào qù,buguantianqizenmeyangwomenyeyaoqu
+buguanzhuguanshuoshenmewohaishiyaozheyangzuo,No matter what the supervisor says - I will do it like this.,不管主管说什么，我也要这样做,bùguǎn zhǔguǎn shuō shénme - wǒ yě yào zhèyàng zuò,buguanzhuguanshuoshenmewohaishiyaozheyangzuo
+shijianguanliduixueshenghenzhongyao,Time management is important for students.,时间管理对学生很重要,shíjiān guǎnlǐ duì xuéshēng hěn zhòngyào,shijianguanliduixueshenghenzhongyao
+shijianguanliduixueshenglaishuohenzhongyao,Time management is important for students,时间管理对学生来说很重要,shíjiān guǎnlǐ duì xuéshēng lái shuō hěn zhòngyào,shijianguanliduixueshenglaishuohenzhongyao
+taguanliyijiadagongsi,She manages a big company.,他管理一家大公司,Tā guǎnlǐ yījiā dà gōngsī.,taguanliyijiadagongsi
+bielijinglitashuodehuameiyoudaoli,Ignore the manager - what he says doesn't make sense.,别理经理，他说的话没有道理,Bié lǐ jīnglǐ - tā shuō de huà méiyǒu dàolǐ.,bielijinglitashuodehuameiyoudaoli
+bielitamenzounidelujiuhao,Ignore them - just go your way.,别理他们，走你的路就好,Bié lǐ tāmen - zǒu nǐde lù jiù hǎo.,bielitamenzounidelujiuhao
+niyoumeiyoutuijiandesucai,Do you have any vegetarian dishes to recommend?,你有没有推荐的素菜？,Nǐ yǒu-meiyou tuījiàn de sùcài?,niyoumeiyoutuijiandesucai
+nishizainalichushengde,Where were you born?,你是在哪里出生的？,Nǐ shì zài nǎlǐ chūshēng de?,nishizainalichushengde
+woshizaibeijingchushengde,I was born in Beijing,我是在北京出生的,Wǒ shì zài Běijīng chūshēng de.,woshizaibeijingchushengde
+gongchangliyouhenduodaxingjiqi,There are many large machines in the factory.,工厂里有很多大型机器,Gōngchǎng li yǒu hěnduō dàxíng jīqì.,gongchangliyouhenduodaxingjiqi
+xianzaihenduogongzuodouyoujiqilaiwancheng,Now many jobs are done by machines.,现在很多工作都由机器来完成,Xiànzài hěnduō gōngzuò dōu yóu jīqì lái wánchéng.,xianzaihenduogongzuodouyoujiqilaiwancheng
+wobuchixiawoduihaixianguomin,I don't eat shrimps - I am allergic to seafood.,我不吃虾，我对海鲜过敏,Wǒ bù chī xiā - wǒ duì hǎixiān guòmǐn.,wobuchixiawoduihaixianguomin
+zheyikewogandaofeichangxingfu,I feel very happy at this moment.,这一刻我感到非常幸福,Zhè yīkè wǒ gǎndào fēicháng xìngfú.,zheyikewogandaofeichangxingfu
+xiangshounidejiaqi,Enjoy your vacation!,享受你的假期,Xiǎngshòu nǐ de jiàqī!,xiangshounidejiaqi
+womeitianzaoshanglianzhongwen,I practice Chinese every morning.,我每天早上练中文,Wǒ měitiān zǎoshang liàn Zhōngwén.,womeitianzaoshanglianzhongwen
+nitingdaojintiandexinwenlema,Have you heard the news today?,你听到今天的新闻了吗？,Nǐ tīngdao jīntiān de xīnwén le ma?,nitingdaojintiandexinwenlema
+tajiaohaizimenhenyounaixin,He is very patient in teaching the children.,他教孩子们很有耐心,Tā jiào háizimen hěn yǒu nàixīn.,tajiaohaizimenhenyounaixin
+tahetajiejieyiqiqulebeijing,She went to Beijing with her older sister.,他和他姐姐一起去了北京,Tā hé tā jiějiě yīqǐ qù le Běijīng.,tahetajiejieyiqiqulebeijing
+zhiyaonulijiunengkefurenhewenti,As long as you work hard - you can overcome any problem.,只要努力，就能克服任何问题,Zhǐyào nǔlì - jiù néng kèfú rènhé wèntí.,zhiyaonulijiunengkefurenhewenti
+tanulikefulexinlizhangai,He worked hard to overcome the psychological barriers.,他努力克服了心理障碍,Tā nǔlì kèfú le xīnlǐ zhàng'ài.,tanulikefulexinlizhangai
+womenzhijianmeiyourenhezhangai,There are no barriers between us,我们之间没有任何障碍,Wǒmen zhī jiān méiyǒu rènhé zhàng'ài.,womenzhijianmeiyourenhezhangai
+zhegedizhishibushixiecuole,Is this address written wrong?,这个地址是不是写错了？,Zhège dìzhǐ shì-bushi xiě cuò le?,zhegedizhishibushixiecuole
+wodedizhibianle,My address has changed.,我的地址变了,Wǒde dìzhǐ biàn le.,wodedizhibianle
+womenshijianhenjin,We are in a hurry. (Our time is pressed.),我们时间很紧,Wǒmen shíjiān hěn jǐn.,womenshijianhenjin
+shiyingxindehuanjingduizhezhongrenhennan,It is difficult for such a person to adapt to a new environment.,适应新的环境对这种人很难,Shìyìng xīnde huánjìng duì zhè zhǒng rén hěn nán.,shiyingxindehuanjingduizhezhongrenhennan
+zhegedifangdehuanjinghenhao,The environment in this place is very good.,这个地方的环境很好,Zhège dìfang de huánjìng hěn hǎo.,zhegedifangdehuanjinghenhao
+tazhongyuhuifulezhengchangdezhuangtai,He finally returned to his normal state.,他终于恢复了正常的状态,Tā zhōngyú huīfù le zhèngcháng de zhuàngtài.,tazhongyuhuifulezhengchangdezhuangtai
+tamenzhijiandeganqingyuelaiyueshenle,The relationship between them gets deeper and deeper.,他们之间的感情越来越深了,Tāmen zhī jiān de gǎnqíng yuè lái yuè shēn le.,tamenzhijiandeganqingyuelaiyueshenle
+woxiaodeshihoujiukaishixueyouyongle,I started learning to swim when I was a child.,我小的时候就开始学游泳了,Wǒ xiǎo de shíhou jiù kāishǐ xué yóuyǒng le.,woxiaodeshihoujiukaishixueyouyongle
+youxieshiqinghennanwangdiao,Some things are hard to forget.,有些事情很难忘掉,Yǒu xiē shìqíng hěn nán wàngdiào.,youxieshiqinghennanwangdiao
+womenfenkaijiezhang,We pay separately.,我们分开结账,Wǒmen fēnkāi jiézhàng.,womenfenkaijiezhang
+difangfangxiangfangmianfangbian,Place - direction - aspect - convenience.,地方，方向，方面，方便,Dìfang - fāngxiàng - fāngmiàn - fāngbiàn,difangfangxiangfangmianfangbian
+wohenshengqi,I'm angry.,我很生气,Wǒ hěn shēngqì.,wohenshengqi
+wobulitale,I ignore him.,我不理他了,Wǒ bù lǐ tā le.,wobulitale
+kaishijixujieshu,Begin - continue - end.,开始 继续 结束,kāishǐ - jìxù - jiéshù,kaishijixujieshu
+keyiwanyidiankaishima,Can we start later?,可以晚一点开始吗,Kěyǐ wǎn yīdiǎn kāishǐ ma?,keyiwanyidiankaishima
+womenmingtianjixu,We'll continue tomorrow.,我们明天继续,Wǒmen míngtiān jìxù.,womenmingtianjixu
+nijieshulema,Are you finished?,你结束了吗,Nǐ jiéshù le ma?,nijieshulema
+huiyizhongyujieshule,The meeting's finally over.,会议终于结束了,Huìyì zhōngyú jiéshù le.,huiyizhongyujieshule
+womensandiankaishiwudianjieshu,We start at three and finish at five.,我们三点开始五点结束,Wǒmen sān diǎn kāishǐ - wǔ diǎn jiéshù.,womensandiankaishiwudianjieshu
+womenwufenzhongjiujieshule,We finish in five minutes.,我们五分钟就结束了,Wǒmen wǔ fēnzhōng jiù jiéshù le.,womenwufenzhongjiujieshule
+jieshujiezhangjieguojiehun,The end - pay the bill - the result - the marriage.,结束，结账，结果，结婚,jiéshù - jiézhàng - jiéguǒ - jiéhūn,jieshujieguojiehun
+wogeijinglishuolejieguone,I told the manager. What's the result?,我给经理说了，结果呢,Wǒ gěi jīnglǐ shuō le - jiéguǒ ne?,wogeijinglishuolejieguone
+jieguozenmeyang,How did it go?,结果怎么样,Jiéguǒ zěnme yàng?,jieguozenmeyang
+woduijieguohenmanyi,I'm happy with the result.,我对结果很满意,Wǒ duì jiéguǒ hěn mǎnyì.,woduijieguohenmanyi
+nijiehunlema,Are you married?,你结婚了吗,Nǐ jiéhūn le ma?,nijiehunlema
+wojiehunyijingshinianle,I've been married for ten years.,我结婚已经十年了,Wǒ jiéhūn yǐjīng shí nián le.,wojiehunyijingshinianle
+womenxiuxiyixiaranhoujixugongzuo,We'll take a break and then continue working.,我们休息一下然后继续工作,Wǒmen xiūxi yīxià ránhòu jìxù gōngzuò.,womenxiuxiyixiaranhoujixugongzuo
+tazaiyijiagongsizuorenshiguanli,He works in a company as a human resources manager.,他在一家公司做人事管理,Tā zài yījiā gōngsī zuò rénshì guǎnlǐ.,tazaiyijiagongsizuorenshiguanli
+jinglidaoliguanlichuliheli,Manager-reason-management-handling-reasonable,经理-道理-管理-处理-合理,jīnglǐ - dàolǐ - guǎnlǐ - chǔlǐ - hélǐ,jinglidaoliguanlichuliheli
+tashigezhidexinlaideren,He is a trustworthy person.,他是个值得信赖的人,Tā shìgè zhíde xìnlài de rén.,tashigezhidexinlaideren
+zhegewentiwomenhuijinkuaichuli,We will deal with this issue as soon as possible.,这个问题我们会尽快处理,Zhège wèntí wǒmen huì jǐnkuài chǔlǐ.,zhegewentiwomenhuijinkuaichuli
+tadehuahenheli,What he said is very reasonable.,他的话很合理,Tāde huà hěn hélǐ.,tadehuahenheli
+difangdituditiedizhi,Place-map-subway-address,地方-地图-地铁-地址,dìfāng-dìtú-dìtiě-dìzhǐ,difangdituditiedizhi
+fenfenkaifenshoufenzhongfenxi,Divided-separated-breakup-minutes-analysis,分-分开-分手-分钟-分析,fēn-fēnkāi-fēnshǒu-fēnzhōng-fēnxī,fenfenkaifenshoufenzhongfenxi
+tongshitongzhitongxuetongyi,Colleague-comrade-classmate-agree,同事-同志-同学-同意,tóngshì - tóngzhì - tóngxué - tóngyì,tongshitongzhitongxuetongyi
+tamendeguanxibuhaosuoyitamenlihunle,Their relationship was not good - so they divorced.,他们的关系不好，所以他们离婚了,Tāmen de guānxì bù hǎo - suǒyǐ tāmen líhūn le.,tamendeguanxibuhaosuoyitamenlihunle
+jiehunlihun,Married-divorced,结婚-离婚,jiéhūn-líhūn,jiehunlihun
+tagenwomenfenxiangletamenlihundeyuanyin,He shared with us the reason for their divorce.,他跟我们分享了他们离婚的原因,Tā gēn wǒmen fēnxiǎng le tāmen líhūn de yuányīn.,tagenwomenfenxiangletamenlihundeyuanyin
+womenlihunyijingsannianle,It has been three years since we divorced.,我们离婚已经三年了,Wǒmen líhūn yǐjīng sān nián le.,womenlihunyijingsannianle
+dianhuadiannaodianyingdianshi,Phone-computer-movie-TV,电话-电脑-电影-电视,diànhuà-diànnǎo-diànyǐng-diànshì,dianhuadiannaodianyingdianshi
+yongdiannaoxuexifeichangfangbian,It is very convenient to study with a computer.,用电脑学习非常方便,Yòng diànnǎo xuéxí fēicháng fāngbiàn.,yongdiannaoxuexifeichangfangbian
+nisuishikeyigeiwodadianhua,You can call me anytime.,你随时可以给我打电话,Nǐ suíshí kěyǐ gěi wǒ dǎ diànhuà.,nisuishikeyigeiwodadianhua
+zheshiwozuixihuandedianyingzhiyi,This is one of my favorite movies.,这是我最喜欢的电影之一,Zhè shì wǒ zuì xǐhuān de diànyǐng zhī yī.,zheshiwozuixihuandedianyingzhiyi
+woqingke,I'll treat you.,我请客,Wǒ qǐngkè.,woqingke
+zhegebaichayaosanbaikuai,This white tea costs three hundred yuan.,这个白茶要三百块,Zhège báichá yào sānbǎi kuài.,zhegebaichayaosanbaikuai
+baibai,White-hundred,白-百,bái-bǎi,baibai
+zheshiyibuzuihaodezhongguodianyingzhiyi,This is one of the best Chinese movies.,这是一部最好的中国电影之一,Zhè shì yī bù zuì hǎo de Zhōngguó diànyǐng zhī yī.,zheshiyibuzuihaodezhongguodianyingzhiyi
+zhebudianyingshisheipaide,Who made this movie?,这部电影是谁拍的,Zhèbù diànyǐng shì shéi pāi de?,zhebudianyingshisheipaide
+zhebudianyingshinayinianpaide,What year was this movie made?,这部电影是哪一年拍的,Zhèbù diànyǐng shì nǎ yī nián pāi de?,zhebudianyingshinayinianpaide
+zhebudianyingwokanguohenduoci,I have seen this movie many times.,这部电影我看过很多次,Zhèbù diànyǐng wǒ kànguò hěnduō cì.,zhebudianyingwokanguohenduoci
+zhegedifangwolaiguohenduoci,I have been to this place many times.,这个地方我来过很多次,Zhège dìfang wǒ lái guo hěnduō cì.,zhegedifangwolaiguohenduoci
+youqianxucainengjianlimeimanrensheng,Only with humility can one build a happy life.,有谦虚才能建立美满人生,Yǒu qiānxū cáinéng jiànlì měimǎn rénshēng.,youqianxucainengjianlimeimanrensheng
+nagedifangzhidequma,Is that place worth going to?,那个地方值得去吗,Nàge dìfang zhíde qù ma?,nagedifangzhidequma
+nabudianyingzhidekanma,Is that movie worth watching?,那部电影值得看吗,Nà bù diànyǐng zhíde kàn ma?,nabudianyingzhidekanma
+niquguozhongguojici,How many times have you been to China?,你去过中国几次,Nǐ qù guo Zhōngguó jǐ cì?,niquguozhongguojici
+wozhiquguozhongguoyici,I have only been to China once.,我只去过中国一次,Wǒ zhǐ qùguò Zhōngguó yīcì.,wozhiquguozhongguoyici
+xiacizailai,Come again next time.,下次再来,Xià cì zài lái!,xiacizailai
+xiaciwomenyiqiquba,Let's go together next time.,下次我们一起去吧,Xià cì wǒmen yīqǐ qù ba!,xiaciwomenyiqiquba
+womenshangcikandedianyinggandonglewo,The movie we watched last time moved me.,我们上次看的电影感动了我,Wǒmen shàng cì kàn de diànyǐng gǎndòng le wǒ.,womenshangcikandedianyinggandonglewo
+nishangcishuodehuagandonglewo,What you said last time moved me.,你上次说的话感动了我,Nǐ shàng cì shuō de huà gǎndòng le wǒ.,nishangcishuodehuagandonglewo
+xianzaijihumeiyourenkandianshile,Almost no one watches TV now.,现在几乎没有人看电视了,Xiànzài jīhū méiyǒu rén kàn diànshì le.,xianzaijihumeiyourenkandianshile
+xianzaidianshiyijingguoshile,TV is outdated now.,现在电视已经过时了,Xiànzài diànshì yǐjīng guòshí le.,xianzaidianshiyijingguoshile
+jiagejiazhizhide,Price - Value - Be worth,价格-价值-值得,Jiàgé - jiàzhí - zhíde,jiagejiazhizhide
+jiagetaigaole,The price is too high.,价格太高了,Jiàgé tài gāo le.,jiagetaigaole
+wojuedingdengdazhezaimai,I decided to wait for a discount and then buy.,我决定等打折再买,Wǒ juédìng děng dǎzhé zài mǎi.,wojuedingdengdazhezaimai
+zhegewangzhandeneironghenyoujiazhi,The content of this website is valuable.,这个网站的内容很有价值,Zhège wǎngzhàn de nèiróng hěn yǒu jiàzhí.,zhegewangzhandeneironghenyoujiazhi
+zhegechanpinsuiranjiagehengaodanshihenyoujiazhi,"Although this product is expensive, it is valuable.",这个产品虽然价格很高但是很有价值,Zhège chǎnpǐn suīrán jiàgé hěn gāo dànshì hěn yǒu jiàzhí.,zhegechanpinsuiranjiagehengaodanshihenyoujiazhi
+shijiantaijinlewoyoudianjinzhang,Time is tight and I am a little nervous.,时间太紧了-我有点紧张,Shíjiān tài jǐn le wǒ yǒudiǎn jǐnzhāng.,shijiantaijinlewoyoudianjinzhang
+huazhegeqianfeichangzhide,It is worth spending this money.,花这个钱非常值得,Huā zhège qián fēicháng zhíde.,huazhegeqianfeichangzhide
+shuliangliliangzhiliangzhongliangshangliang,Amount - Strength - Quality - Weight - To discuss,数量-力量-质量-重量-商量,Shùliàng - lìliàng - zhìliàng - zhòngliàng - shāngliáng,shuliangliliangzhiliangzhongliangshangliang
+xueshengdeshuliangyuelaiyueduo,The number of students is increasing.,学生的数量越来越多,Xuéshēng de shùliàng yuè lái yuè duō.,xueshengdeshuliangyuelaiyueduo
+wochibaole,I am full.,我吃饱了,Wǒ chī bǎo le.,wochibaole
+nimendewangluoyoushenmemima,What is the password for your network?,你们的网络有什么密码,Nǐmen de wǎngluò yǒu shénme mìmǎ?,nimendewangluoyoushenmemima
+xuexixuyaoanjingdehuanjing,Studying requires a quiet environment.,学习需要安静的环境,Xuéxí xūyào ānjìng de huánjìng.,xuexixuyaoanjingdehuanjing
+wodexinglidiule,My luggage is lost.,我的行李丢了,Wǒ de xíngli diūl e.,wodexinglidiule
+nidexinglishishenmeyangzi,What does your luggage look like?,你的行李是什么样子,Nǐ de xíngli shì shénme yàngzǐ.,nidexinglishishenmeyangzi
+xinglilimianshiliwu,There are gifts in the luggage.,行李里面是礼物,Xíngli lǐmiàn shì lǐwù.,xinglilimianshiliwu
+wohaimeijuedingsongtashenmeliwu,I haven't decided what gift to give him yet.,我还没决定送他什么礼物,Wǒ hái méi juédìng sòng tā shénme lǐwù.,wohaimeijuedingsongtashenmeliwu
+xuezhongwenderenyuelaiyueduo,More and more people are learning Chinese.,学中文的人越来越多,Xué Zhōngwén de rén yuè lái yuè duō.,xuezhongwenderenyuelaiyueduo
+shoujidezhiliangyuelaiyuehao,The quality of mobile phones is getting better and better.,手机的质量越来越好,Shǒujī de zhìliàng yuèláiyuè hǎo.,shoujidezhiliangyuelaiyuehao
+woyoushigennishangliang,I have something to discuss with you.,我有事跟你商量,Wǒ yǒu shì gēn nǐ shāngliàng.,woyoushigennishangliang
+womenbixushangliangmingtiandeanpai,We must discuss tomorrow's arrangements.,我们必须商量明天的安排,Wǒmen bìxū shāngliàng míngtiān de ānpái.,womenbixushangliangmingtiandeanpai
+woduimingtiandeanpaiyouyijian,I have an opinion on tomorrow's arrangements.,我对明天的安排有意见,Wǒ duì míngtiān de ānpái yǒu yìjiàn.,woduimingtiandeanpaiyouyijian
+womenkeyishangliangyixiama,Can we discuss it?,我们可以商量一下吗,Wǒmen kěyǐ shāngliàng yīxià ma.,womenkeyishangliangyixiama
+womenkebukeyishangliangxiageyuedejihua,Can we discuss the plan for next month?,我们可不可以商量下个月的计划,Wǒmen kě-bu-kěyǐ shāngliàng xiàge yuè de jìhuà.,womenkebukeyishangliangxiageyuedejihua
+haiyouyixiedifangwobutaiqingchu,There are still some places I am not clear about.,还有一些地方我不太清楚,Hái yǒu yīxiē dìfang wǒ bù tài qīngchu.,haiyouyixiedifangwobutaiqingchu
+jihuajisuankuaiji,Plan - To Count - Accountant.,计划-计算-会计,Jìhuà-jìsuàn-kuàijì,jihuajisuankuaiji
+kuaijiduixiageyuedejihuayouyijian,The accountant has an opinion on the plan for next month.,会计对下个月的计划有意见,Kuàijì duì xiàge yuè de jìhuà yǒu yìjiàn.,kuaijiduixiageyuedejihuayouyijian
+zhongyaozhongshi,Important - Regard as important,重要重视,zhòngyào - zhòngshì.,zhongyaozhongshi
+tianqibianle,The weather has changed.,天气变了,Tiānqì biàn le.,tianqibianle
+womenbixugaibianwomendejihua,We have to change our plans.,我们必须改变我们的计划,Wǒmen bìxū gǎibiàn wǒmende jìhuà.,womenbixugaibianwomendejihua
+kuaijishuowomenbixugaibianwomendejihua,The accountant said we have to change our plans.,会计说我们必须改变我们的计划,Kuàijì shuō wǒmen bìxū gǎibiàn wǒmende jìhuà.,kuaijishuowomenbixugaibianwomendejihua
+niyinggaigaibiannidetaidu,You should change your attitude.,你应该改变你的态度,Nǐ yīnggāi gǎibiàn nǐde tàidu.,niyinggaigaibiannidetaidu
+niyinggaigaibianniduirendetaidu,You should change your attitude towards people.,你应该改变你对人的态度,Nǐ yīnggāi gǎibiàn nǐ duì rén de tàidu.,niyinggaigaibianniduirendetaidu
+duwendusuduchangdugaodutaidu,Degrees-temperature-speed-length-height-attitude,度-温度-速度-长度-高度-态度,dù-wēndù-sùdù-chángdù-gāodù-tàidù,duwendusuduchangdugaodutaidu
+jintianwenduduoshaodu,What is the temperature today?,今天温度多少度,Jīntiān wēndù duōshǎo dù?,jintianwenduduoshaodu
+wangluodesudutaimanle,The Internet speed is too slow.,网络的速度太慢了,Wǎngluò de sùdù tài màn le.,wangluodesudutaimanle
+womenbixujiakuaiwangluosudu,We must speed up the Internet speed.,我们必须加快网络速度,Wǒmen bìxū jiākuài wǎngluò sùdù.,womenbixujiakuaiwangluosudu
+qingliangyixiazhuozidechangdu,Please measure the length of the table.,请量一下桌子的长度,Qǐng liàng yixia zhuōzi de chángdù.,qingliangyixiazhuozidechangdu
+bazhegefangzaizhuozishang,Put this on the table.,把这个放在桌子上,Bǎ zhège fàng zài zhuōzi shang.,bazhegefangzaizhuozishang
+taduiyinjingchangdudetaidubianle,Her attitude towards penis length has changed.,她对阴茎长度的态度变了,Tā duì yīnjīng chángdù de tàidu biàn le.,taduiyinjingchangdudetaidubianle
+tagenyigeheirenshanglechuang,She had sex with a black man.,她跟一个黑人上了床,Tā gēn yīge hēirén shàng le chuáng.,tagenyigeheirenshanglechuang
+ranhoutaduiyinjingchangdudetaidubianle,Then her attitude towards penis length has changed.,然后她对阴茎长度的态度变了,Ránhòu tā duì yīnjīng chángdù de tàidu biàn le.,ranhoutaduiyinjingchangdudetaidubianle
+zhegechanpindechangdurangtahenmanyi,She is very satisfied with the length of this product.,这个产品的长度让她很满意,Zhège chǎnpǐn de chángdù ràng tā hěn mǎnyì.,zhegechanpindechangdurangtahenmanyi
+tafaxianchangduhenzhongyao,She finds length important.,她发现长度很重要,Tā fāxiàn chángdù hěn zhòngyào.,tafaxianchangduhenzhongyao
+wobuqingchutamenweishenmelihunle,I don't know why they divorced.,我不清楚他们为什么离婚了,Wǒ bù qīngchu tāmen wèishéme líhūn le.,wobuqingchutamenweishenmelihunle
+womenbixushangliangchanpindezhiliang,We have to discuss the quality of the product.,我们必须商量产品的质量,Wǒmen bìxū shāngliàng chǎnpǐn de zhìliàng.,womenbixushangliangchanpindezhiliang
+danzhebushizuizhongyaodefangmian,But this is not the most important aspect.,但这不是最重要的方面,Dàn zhè bùshì zuì zhòngyào de fāngmiàn.,danzhebushizuizhongyaodefangmian
+niyibanjidianqichuang,What time do you usually get up?,你一般几点起床,Nǐ yībān jǐdiǎn qǐchuáng?,niyibanjidianqichuang
+duibuqiyiqiqichuang,Sorry - Together - Get up,对不起 - 一起 - 起床,duìbùqǐ - yīqǐ - qǐchuáng,duibuqiyiqiqichuang
+duibuqiwomenbunengyiqiqichuang,Sorry - we can't get up together.,对不起，我们不能一起起床,"Duìbùqǐ, wǒmen bùnéng yīqǐ qǐchuáng.",duibuqiwomenbunengyiqiqichuang
+wofaxianhenzaoqichuangduishentihenhao,I find getting up early is good for the body.,我发现很早起床对身体很好,Wǒ fāxiàn hěn zǎo qǐchuáng duì shēntǐ hěn hǎo.,wofaxianhenzaoqichuangduishentihenhao
+qichuangqifeiqilaixiangqilai,Get up - Take off - Get up - Remember,起床 - 起飞 - 起来 - 想起来,qǐchuáng - qǐfēi - qǐlái - xiǎng qǐlái,qichuangqifeiqilaixiangqilai
+woxianzaixiangbuqilaifeijijidianqifei,I can't remember what time the plane takes off.,我现在想不起来自飞机几点起飞,Wǒ xiànzài xiǎng-bu-qilai fēijī jǐdiǎn qǐfēi.,woxianzaixiangbuqilaifeijijidianqifei
+woxianzaixiangqilaileyaogeitadadianhua,Now I remember that I need to call him.,我现在想起来了要给他打电话,Wǒ xiànzài xiǎng-qilai le yào gěi tā dǎ diànhuà.,woxianzaixiangqilaileyaogeitadadianhua
+woxiangbuqilaitademingzile,I can't remember his name.,我想不起来他的名字了,Wǒ xiǎng-buqilai tāde míngzì le.,woxiangbuqilaitademingzile
+zhegegongzuoqimayaosangeren,This job requires at least three people.,这个工作起码要三个人,Zhège gōngzuò qǐmǎ yào sānge rén.,zhegegongzuoqimayaosangeren
+woxiangbuqilaitadedianhuahaoma,I can't remember his phone number.,我想不起来他的电话号码,Wǒ xiǎng-buqilai tāde diànhuà hàomǎ.,woxiangbuqilaitadedianhuahaoma
+nizuixihuanchangshenmege,What's your favorite song?,你最喜欢唱什么歌,Nǐ zuì xǐhuān chàng shénme gē?,nizuixihuanchangshenmege
+gegechangchangzaichangchengshangchangge,My brother often sings on the Great Wall.,哥哥常常在长城上唱歌,Gēgē chángcháng zài Chángchéng shang chànggē.,gegechangchangzaichangchengshangchangge
+zhegecaikanqilaihenhaochi,This dish looks delicious.,这个菜看起来很好吃,Zhège cài kànqilai hěn hàochī.,zhegecaikanqilaihenhaochi
+tadeaihaoshichangge,His hobby is singing.,他的爱好是唱歌,Tā de àihào shì chànggē.,tadeaihaoshichangge
+tingdaoyinyuetajiuchangqilaile,He started singing when he heard the music.,听到音乐他就唱起来了,Tīngdao yīnyuè tā jiù chàng-qilai le.,tingdaoyinyuetajiuchangqilaile
+zhegeyinyuetingqilaihenhaoting,This music sounds very nice.,这个音乐听起来很好听,Zhège yīnyuè tīng-qilai hěn hǎotīng.,zhegeyinyuetingqilaihenhaoting
+womenyihuijiukaihuile,We will have a meeting in a little while.,我们一会就开会了,Wǒmen yīhuì jiù kāihuì le.,womenyihuijiukaihuile
+wanhuishanghuiyouhenduoren,There will be many people at the party.,晚会上会有很多人,Wǎnhuì shang huì yǒu hěnduō rén.,wanhuishanghuiyouhenduoren
+wanhuishanghuiyouhenduohuishuozhongwenderen,There will be many people who can speak Chinese at the party.,晚会上会有很多会说中文的人,Wǎnhuì shang huì yǒu hěnduō huì shuō Zhōngwén de rén.,wanhuishanghuiyouhenduohuishuozhongwenderen
+womenkaihuikailebantian,We had a meeting for half a day.,我们开会开了半天,Wǒmen kāihuì kāi le bàntiān.,womenkaihuikailebantian
+womenmingtianyougexiaojuhui,We have a small party tomorrow.,我们明天有一个小聚会,Wǒmen míngtiān yǒu yīge xiǎo jùhuì.,womenmingtianyougexiaojuhui
+nihuicanjiama,Will you attend?,你会参加吗,Nǐ huì cānjiā ma?,nihuicanjiama
+waimianshishenmeshengyin,What’s that sound outside?,外面是什么声音,Wàimiàn shì shénme shēngyīn?,waimianshishenmeshengyin
+tingqilaishiyinyuehui,Sounds like a concert.,听起来是音乐会,Tīng qǐlái shì yīnyuèhuì.,tingqilaishiyinyuehui
+nizhibuzhidaoshishenmeyuedui,Do you know what band it is?,你知不知道是什么乐队,Nǐ zhī bù zhīdào shì shénme yuèduì?,nizhibuzhidaoshishenmeyuedui
+woduizhezhongyinyuegenbenbuganxingqu,I’m not interested in this kind of music at all.,我对这种音乐根本不感兴趣,Wǒ duì zhè zhǒng yīnyuè gēnběn bù gǎn xìngqù.,woduizhezhongyinyuegenbenbuganxingqu
+shoujifeijikafeijijiqijiqiren,Phone – airplane – coffee machine – robot,手机 -飞机 - 咖啡机 - 机器人,Shǒujī - fēijī - kāfēijī - jīqìrén,shoujifeijikafeijijiqijiqiren
+yiwaiwaiguoguowaiwaimianwaiyu,Accident – foreign – abroad – outside – foreign language,意外 - 外国 - 国外 - 外面 - 外语,Yìwài - wàiguó - guówài - wàimiàn - wàiyǔ,yiwaiwaiguoguowaiwaimianwaiyu
+woxiangxinzhegeduanxinshitafade,I think this message was sent by him.,我想信这个短信是他发的,Wǒ xiǎng xìn zhège duǎnxìn shì tā fā de.,woxiangxinzhegeduanxinshitafade
+wogenbenbuzhidao,I have no idea.,我根本不知道,Wǒ gēnběn bù zhīdào.,wogenbenbuzhidao
+niduishenmeyinyueganxingqu,What kind of music are you interested in?,你对什么音乐感兴趣,Nǐ duì shénme yīnyuè gǎn xìngqù?,niduishenmeyinyueganxingqu
+woxihuantingdianziyinyue,I like listening to electronic music.,我喜欢听电子音乐,Wǒ xǐhuan tīng diànzǐ yīnyuè.,woxihuantingdianziyinyue
+nitiaowutiaodezenmeyang,How well do you dance?,你跳舞跳得怎么样,Nǐ tiàowǔ tiào de zěnmeyàng?,nitiaowutiaodezenmeyang
+tiaowuduihenduorenlaishuoshigetiaozhan,Dancing is a challenge for many people.,跳舞对很多人来说是个挑战,Tiàowǔ duì hěn duō rén lái shuō shì ge tiǎozhàn.,tiaowuduihenduorenlaishuoshigetiaozhan
+wotiaowutiaodehenhaokan,I dance really well.,我跳舞跳得很好看,Wǒ tiàowǔ tiào de hěn hǎokàn.,wotiaowutiaodehenhaokan
+tiaowutiaozhan,Dance – challenge,跳舞 - 挑战,Tiàowǔ - tiǎozhàn,tiaowutiaozhan
+zijiziyou,Oneself – freedom,自己 - 自由,Zìjǐ - zìyóu,zijiziyou
+nixuyaobuzaiyibierendekanfa,You need to stop caring about others’ opinions.,你需要不在意别人的看法,Nǐ xūyào bù zàiyì biérén de kànfǎ.,nixuyaobuzaiyibierendekanfa
+xiangzenmedongjiuzenmedong,Move however you want.,想怎么动就怎么动,Xiǎng zěnme dòng jiù zěnme dòng.,xiangzenmedongjiuzenmedong
+kanfashuofazuofabanfafangfa,Opinion – way of saying – way of doing – method – approach,看法 - 说法 - 做法 - 办法 - 方法,Kànfǎ - shuōfǎ - zuòfǎ - bànfǎ - fāngfǎ,kanfashuofazuofabanfafangfa
+naliyouhenduopiaoliangdedongxi,There are many beautiful things.,那里有很多漂亮的东西,Nǎli yǒu hěn duō piàoliang de dōngxi.,naliyouhenduopiaoliangdedongxi
+womenguoqukankanba,Let’s go check it out.,我们过去看看吧,Wǒmen guòqù kànkan ba.,womenguoqukankanba
+fafacaifaxianfamingfasheng,Send – get rich – discover – invent – happen,发 - 发财 - 发现 - 发明 - 发生,Fā - fācái - fāxiàn - fāmíng - fāshēng,fafacaifaxianfamingfasheng
+nishengqima,Are you angry?,你生气吗,Nǐ shēngqì ma?,nishengqima
+tazhengzaikaifayigexinfadongji,He’s developing a new engine.,他正在开发一个新的动机,Tā zhèngzài kāifā yí ge xīn de dòngjī.,tazhengzaikaifayigexinfadongji
+youyisiyouyongyouming,interesting - useful - famous,有意思 - 有用 - 有名,yǒu yìsi - yǒu yòng - yǒu míng,youyisiyouyongyouming
+woshenmedoubuxuyaoyinweiwoshenmedouyou,I don't need anything because I have everything.,我什么都不需要因为我什么都有,Wǒ shénmedōu bù xūyào yīnwèi wǒ shénmedōu yǒu.,woshenmedoubuxuyaoyinweiwoshenmedouyou
+niduizhegewentiyoushenmekanfa,What do you think about this?,你对这个问题有什么看法,Nǐ duì zhège wèntí yǒu shénme kànfǎ?,niduizhegewentiyoushenmekanfa
+wodekanfagenniyiyang,My opinion is the same as yours.,我的看法跟你一样,Wǒ de kànfǎ gēn nǐ yīyàng.,wodekanfagenniyiyang
+hanyumeiyouzhegeshuofa,There is no such expression in Chinese.,汉语没有这个说法,Hànyǔ méiyǒu zhège shuōfǎ.,hanyumeiyouzhegeshuofa
+yingyuzenmeshuo,How do you say it in English?,英语怎么说,Yīngyǔ zěnme shuō?,yingyuzenmeshuo
+rangwowenyixiaai,Let me ask quickly.,让我问一下哎,Ràng wǒ wèn yixia AI.,rangwowenyixiaai
+wobutaitongyizhegezuofa,I don’t quite agree with this way of doing it.,我不太同意这个做法,Wǒ bù tài tóngyì zhège zuòfǎ.,wobutaitongyizhegezuofa
+woduizhegezuofayouyijian,I have some objections to this way of doing it.,我对这个做法有意见,Wǒ duì zhège zuòfǎ yǒu yìjiàn.,woduizhegezuofayouyijian
+womennengbunenghuangezuofa,Can we change the way we do it?,我们能不能换个做法,Wǒmen néng bù néng huàn ge zuòfǎ?,womennengbunenghuangezuofa
+banfafangfa,Method - method.,办法方法,"Bànfǎ, fāngfǎ.",banfafangfa
+zheshigefeichanghaodexuexifangfa,This is a very good way to learn.,这是个非常好的学习方法,Zhè shì ge fēicháng hǎo de xuéxí fāngfǎ.,zheshigefeichanghaodexuexifangfa
+buyongxie,You’re welcome. (No need to thank.),不用谢,Bú yòng xiè.,buyongxie
+banbangongshibanfa,To  handle - office - method.,办-办公室-办法,"Bàn, bàngōngshì, bànfǎ.",banbangongshibanfa
+womenzenmeban,What should we do?,我们怎么办,Wǒmen zěnme bàn?,womenzenmeban
+xianzaimeiyoubanfa,There’s no way for now.,现在没有办法,Xiànzài méiyǒu bànfǎ.,xianzaimeiyoubanfa
+bangongshijidiankaimen,What time does the office open?,办公室几点开门,Bàngōngshì jǐ diǎn kāimén?,bangongshijidiankaimen
+bangongshishidiancaikaimen,The office doesn’t open until ten o’clock.,办公室十点才开门,Bàngōngshì shí diǎn cái kāimén.,bangongshishidiancaikaimen
+woshidianmeiyoushijian,I don’t have time at ten.,我十点没有时间,Wǒ shí diǎn méiyǒu shíjiān.,woshidianmeiyoushijian
+meiguanxiwomenxiawulaijiuhao,"It’s okay, we can come in the afternoon.",没关系我们下午来就好,"Méi guānxi, wǒmen xiàwǔ lái jiù hǎo.",meiguanxiwomenxiawulaijiuhao
+wojuedezhegefangfazuiyouxiao,I think this method is the most effective.,我觉得这个方法最有效,Wǒ juéde zhège fāngfǎ zuì yǒuxiào.,wojuedezhegefangfazuiyouxiao
+womenxuyaogengyouxiaodefangfa,We need a more effective method.,我们需要更有效的方法,Wǒmen xūyào gèng yǒuxiào de fāngfǎ.,womenxuyaogengyouxiaodefangfa
+wogengxihuannage,I prefer that one.,我更喜欢那个,Wǒ gèng xǐhuan nà ge.,wogengxihuannage
+womeixiangdaozhegedifanghuizhemepiaoliang,We didn’t expect this place to be so beautiful.,我们想到这个地方会这么漂亮,Wǒmen xiǎngdào zhège dìfang huì zhème piàoliang.,womeixiangdaozhegedifanghuizhemepiaoliang
+rangwodainiquyigegengpiaoliangdedifang,Let me take you to an even more beautiful place.,让我带你去一个更漂亮的地方,Ràng wǒ dài nǐ qù yí ge gèng piàoliang de dìfang.,rangwodainiquyigegengpiaoliangdedifang
+lizhelihenjin,It’s very close to here.,离这里很近,Lí zhèli hěn jìn.,lizhelihenjin
+zheshigehenyouyisidexiangfa,This is a very interesting idea.,这是个很有意思的想法,Zhè shì ge hěn yǒuyìsi de xiǎngfǎ.,zheshigehenyouyisidexiangfa
+youyisiyouqu,Interesting - interesting/fun.,有意思-有趣,"Yǒuyìsi, yǒuqù.",youyisiyouqu
+zheshigehenyouqudexiangfa,This is a very fun idea.,这是个很有趣的想法,Zhè shì ge hěn yǒuqù de xiǎngfǎ.,zheshigehenyouqudexiangfa
+zhuyizhuyi,Attention - Idea.,注意-主意,"Zhùyì, zhǔyi.",zhuyizhuyi
+qingzhuyizheshigehaozhuyi,"Please pay attention, this is a good idea.",请注意这是个好主意,"Qǐng zhùyì, zhè shì ge hǎo zhǔyì.",qingzhuyizheshigehaozhuyi
+yiyuanlizhelihenjin,The hospital is very close to here.,医院离这里很近,Yīyuàn lí zhèli hěn jìn.,yiyuanlizhelihenjin
+wotuijiantuichidaomingtian,I recommend postponing it until tomorrow.,我推荐推迟到明天,Wǒ tuījiàn tuīchí dào míngtiān.,wotuijiantuichidaomingtian
+nizuihaozhijiegaosuta,You'd better tell him directly.,你最好直接告诉他,Nǐ zuì hǎo zhíjiē gàosù tā.,nizuihaozhijiegaosuta
+zhegehenmafan,This is annoying.,这个很麻烦,Zhège hěn máfan.,zhegehenmafan
+zheshigemafan,This is a trouble.,这是个麻烦,Zhè shì ge máfan.,zheshigemafan
+mafanni,Please (asking for a favour).,麻烦你,Máfan nǐ.,mafanni
+mafannile,Thank you (for a favour).,麻烦你了,Máfan nǐ le.,mafannile
