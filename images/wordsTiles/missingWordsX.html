@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chineseffect File Check</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; }
+        #results > div { margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px; }
+        h2 { margin-top: 0; color: #333; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 5px; }
+        button { padding: 10px 15px; font-size: 1em; cursor: pointer; }
+        .error { color: red; font-weight: bold; }
+        .loading { font-style: italic; color: #555; }
+        .count { font-weight: bold; }
+        code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <h1>Chineseffect File Integrity Check</h1>
+    <p>
+        This tool checks for missing words, visual files (.webp), and audio files (.mp3) based on the
+        CSV files. Since this page is hosted within <code>chineseffect.com/chfx/</code>, it can fetch the CSVs directly.
+    </p>
+    <p>
+        <strong>Important:</strong> This script still needs URLs that provide lists of the actual files present in the image and audio directories.
+        Update the <code>imageListUrl</code> and <code>audioListUrl</code> variables below to point to either:
+        <ol>
+            <li>A server-side script (e.g., <code>list_images.php</code>) that outputs the filenames, one per line.</li>
+            <li>A static text file (e.g., <code>imageList.txt</code>) containing the filenames, one per line.</li>
+        </ol>
+    </p>
+    <button id="runButton">Run Check</button>
+    <div id="status" class="loading" style="margin-top: 15px; display: none;"></div>
+    <div id="results" style="margin-top: 20px;"></div>
+
+    <script>
+        // --- Configuration ---
+        // Relative URLs should work since the HTML is in /chfx/
+        const wordsCsvUrl = 'words.csv'; // Assuming located in the same /chfx/ directory
+        const sentencesCsvUrl = 'sentencesDecomposed.csv'; // Assuming located in the same /chfx/ directory
+
+        // *** ACTION REQUIRED: Update these URLs ***
+        // Point these to your script endpoint or static list file within the domain.
+        // Examples: 'list_images.php', 'generated_lists/imageList.txt', etc.
+        const imageListUrl = 'imageList.txt'; // URL providing list of files in /images/wordsTiles/
+        const audioListUrl = 'audioList.txt'; // URL providing list of files in /audio/random/
+        // --- End Configuration ---
+
+        const runButton = document.getElementById('runButton');
+        const resultsDiv = document.getElementById('results');
+        const statusDiv = document.getElementById('status');
+
+        runButton.addEventListener('click', runChecks);
+
+        // Simple CSV parser
+        function parseCsv(csvText) {
+            const lines = csvText.trim().replace(/\r\n/g, '\n').split('\n'); // Handle Windows/Unix line endings
+            if (lines.length === 0) return { headers: [], data: [] };
+
+            // Robust header parsing (handle potential quotes)
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            const data = lines.slice(1).map(line => {
+                 // Basic handling for quoted fields containing commas - needs improvement for complex CSVs
+                 const values = [];
+                 let currentVal = '';
+                 let inQuotes = false;
+                 for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    if (char === '"') {
+                        inQuotes = !inQuotes;
+                    } else if (char === ',' && !inQuotes) {
+                        values.push(currentVal.trim().replace(/^"|"$/g, ''));
+                        currentVal = '';
+                    } else {
+                        currentVal += char;
+                    }
+                 }
+                 values.push(currentVal.trim().replace(/^"|"$/g, '')); // Add last value
+
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = values[index] || '';
+                });
+                return row;
+            }).filter(row => Object.values(row).some(val => val && val.trim() !== '')); // Filter out empty/whitespace-only rows
+            return { headers, data };
+        }
+
+        // Function to fetch text data (using relative URLs now)
+        async function fetchData(url, type = 'resource') {
+            statusDiv.innerHTML = `Workspaceing ${type} from <code>${url}</code>...`;
+            try {
+                const response = await fetch(url); // Relative URL works due to same-origin hosting
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status} for ${url}`);
+                }
+                return await response.text();
+            } catch (error) {
+                console.error(`Error fetching ${url}:`, error);
+                throw new Error(`Failed to fetch ${type} from <code>${url}</code>. Check the URL and network connection. ${error.message}`);
+            }
+        }
+
+        // Function to parse simple list files (one item per line)
+        function parseList(listText) {
+             // Trim whitespace from each line and filter out empty lines
+             return new Set(listText.trim().split('\n').map(item => item.trim()).filter(item => item));
+        }
+
+        // Main checking function
+        async function runChecks() {
+            runButton.disabled = true;
+            resultsDiv.innerHTML = '';
+            statusDiv.style.display = 'block';
+            statusDiv.className = 'loading';
+            statusDiv.textContent = 'Starting checks...';
+
+            try {
+                // 1. Fetch Data (CSVs and File Lists)
+                const [wordsCsvText, sentencesCsvText, imageListText, audioListText] = await Promise.all([
+                    fetchData(wordsCsvUrl, 'words.csv'),
+                    fetchData(sentencesCsvUrl, 'sentencesDecomposed.csv'),
+                    fetchData(imageListUrl, 'Image File List'),
+                    fetchData(audioListUrl, 'Audio File List')
+                ]).catch(error => {
+                    // Catch errors from Promise.all immediately
+                    throw error;
+                });
+
+                statusDiv.textContent = 'Parsing CSV data...';
+                const { data: wordsData } = parseCsv(wordsCsvText);
+                const { headers: sentencesHeaders, data: sentencesData } = parseCsv(sentencesCsvText);
+
+                statusDiv.textContent = 'Parsing file lists...';
+                const existingImageFiles = parseList(imageListText); // Should contain names like 'word.webp'
+                const existingAudioFiles = parseList(audioListText); // Should contain names like 'audio.mp3'
+
+                statusDiv.textContent = 'Performing comparisons...';
+
+                // --- Data Processing ---
+
+                // Get unique words from words.csv (nameOfSite) and map nameOfSite -> audioSource
+                const wordsNameOfSiteSet = new Set();
+                const wordsAudioSourceMap = new Map(); // Map nameOfSite -> audioSource
+                wordsData.forEach(row => {
+                    const nameOfSite = row.nameOfSite?.trim(); // Use optional chaining and trim
+                    if (nameOfSite) {
+                        wordsNameOfSiteSet.add(nameOfSite);
+                        const audioSource = row.audioSource?.trim();
+                        // Store first non-empty audioSource encountered for a word
+                        if (audioSource && !wordsAudioSourceMap.has(nameOfSite)) {
+                            wordsAudioSourceMap.set(nameOfSite, audioSource);
+                        }
+                    }
+                });
+
+                // Get unique words from sentencesDecomposed.csv (word1, word2, ... wordX columns)
+                const sentencesWordColumns = sentencesHeaders.filter(h => h.startsWith('word') && !isNaN(parseInt(h.substring(4)))); // Future-proof: find 'word' followed by a number
+                const sentencesWordsSet = new Set();
+                sentencesData.forEach(row => {
+                    sentencesWordColumns.forEach(col => {
+                        const word = row[col]?.trim();
+                        if (word) {
+                            sentencesWordsSet.add(word);
+                        }
+                    });
+                });
+
+                // --- Comparisons ---
+
+                // List 1: MISSING FROM WORDS.CSV
+                const missingFromWordsCsv = [];
+                sentencesWordsSet.forEach(word => {
+                    // Ensure the word is not empty before checking presence
+                    if (word && !wordsNameOfSiteSet.has(word)) {
+                        missingFromWordsCsv.push(word);
+                    }
+                });
+
+                // List 2: MISSING VISUAL FILES
+                const missingVisualFiles = [];
+                wordsNameOfSiteSet.forEach(word => {
+                    const expectedImageFile = `${word}.webp`;
+                    // Check if the exact expected filename exists in the set from the image list
+                    if (!existingImageFiles.has(expectedImageFile)) {
+                        missingVisualFiles.push(word); // Report the word that's missing the image
+                    }
+                });
+
+                // List 3: MISSING MP3 FILES
+                const missingAudioFiles = [];
+                wordsAudioSourceMap.forEach((audioSource, nameOfSite) => {
+                    // audioSource should be the exact filename (e.g., 'sound1.mp3') based on CSV content.
+                    // Ensure audioSource is not empty before checking.
+                    if (audioSource) {
+                         // Check if the exact audioSource filename exists in the set from the audio list
+                        if (!existingAudioFiles.has(audioSource)) {
+                            missingAudioFiles.push(`Word: "${nameOfSite}", Missing Audio File: "${audioSource}"`);
+                        }
+                    }
+                     // Optional: If you wanted to report words that *should* have audio but list none in CSV:
+                     // else {
+                     //    missingAudioFiles.push(`Word: "${nameOfSite}", Audio Source listed as empty in words.csv`);
+                     // }
+                });
+
+
+                statusDiv.textContent = 'Generating results...';
+
+                // --- Display Results ---
+                displayResults('MISSING FROM WORDS.CSV', missingFromWordsCsv, `Words found in <code>${sentencesCsvUrl}</code> but not in <code>${wordsCsvUrl}</code> (<code>nameOfSite</code> column).`);
+                displayResults('MISSING VISUAL FILES', missingVisualFiles, `Words in <code>${wordsCsvUrl}</code> (<code>nameOfSite</code> column) without a corresponding <code>.webp</code> file found in the list from <code>${imageListUrl}</code>.`);
+                displayResults('MISSING MP3', missingAudioFiles, `Audio source files listed in <code>${wordsCsvUrl}</code> (<code>audioSource</code> column) that were not found in the list from <code>${audioListUrl}</code>.`);
+
+                statusDiv.textContent = 'Checks complete.';
+                statusDiv.className = ''; // Clear loading styles
+
+            } catch (error) {
+                console.error('Error during check:', error);
+                // Display the error message using innerHTML to render the <code> tags if present
+                statusDiv.innerHTML = `<span class="error">Error: ${error.message}</span>`;
+                statusDiv.className = 'error';
+            } finally {
+                runButton.disabled = false; // Re-enable button regardless of success or failure
+            }
+        }
+
+        function displayResults(title, items, description) {
+            const section = document.createElement('div');
+            const heading = document.createElement('h2');
+            heading.innerHTML = `${title} <span class="count">(${items.length} found)</span>`;
+            section.appendChild(heading);
+
+            const descPara = document.createElement('p');
+            descPara.innerHTML = description; // Use innerHTML to render <code> tags
+            section.appendChild(descPara);
+
+            if (items.length > 0) {
+                const list = document.createElement('ul');
+                items.sort(); // Sort items alphabetically for easier reading
+                items.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = item;
+                    list.appendChild(listItem);
+                });
+                section.appendChild(list);
+            } else {
+                const noItemsPara = document.createElement('p');
+                noItemsPara.textContent = 'None found.';
+                section.appendChild(noItemsPara);
+            }
+            resultsDiv.appendChild(section);
+        }
+
+    </script>
+
+</body>
+</html>
