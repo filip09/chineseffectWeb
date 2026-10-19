@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Word Generator</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #0C273C, black);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #inputContainer {
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #00AB47;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #structuredText {
+            position: absolute;
+            bottom: 20%;
+            color: #00AB47;
+            cursor: pointer;
+        }
+        #sentenceContainer {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        #navigation {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .nav-icon {
+            width: 50px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="inputContainer">
+        <p>Enter your current stage of The Journey for words tailored to your level. Leave blank for total randomness.</p>
+        <input type="number" id="stageInput" placeholder="Enter your stage...">
+    </div>
+    <button onclick="generateRandomWord()">RANDOM WORD</button>
+    <p id="structuredText" onclick="location.href='https://chineseffect.com/journey/'">Random is great. Structured is better.</p>
+    <div id="sentenceContainer"></div>
+    
+    <div id="navigation">
+        <img src="https://chineseffect.com/images/arrowLeft.png" class="nav-icon" id="prevWord">
+        <img src="https://chineseffect.com/images/guide.png" class="nav-icon" onclick="location.href='https://chineseffect.com/chfx/randomWord.html'">
+        <img src="https://chineseffect.com/images/arrowRight.png" class="nav-icon" id="nextWord">
+    </div>
+
+    <script>
+        let previousWord = null;
+        function generateRandomWord() {
+            const stage = document.getElementById('stageInput').value || "random";
+            fetch(`https://chineseffect.com/chfx/words.csv`)
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split('\n').map(row => row.split('\t'));
+                    let filteredWords = rows.filter(row => row[6] && row[6] !== 'stage');
+                    if (stage !== "random") {
+                        const stageNum = parseInt(stage);
+                        filteredWords = filteredWords.filter(row => {
+                            const wordStage = parseInt(row[6]);
+                            return wordStage >= (stageNum - 30) && wordStage <= (stageNum + 10);
+                        });
+                    }
+                    const randomWord = filteredWords[Math.floor(Math.random() * filteredWords.length)];
+                    if (randomWord) {
+                        previousWord = randomWord[0];
+                        document.getElementById("sentenceContainer").innerText = "Loading sentences...";
+                        fetch(`https://chineseffect.com/chfx/speechRecognition.csv`)
+                            .then(response => response.text())
+                            .then(data => {
+                                const sentences = data.split('\n').map(row => row.split('\t'));
+                                const matchedSentences = sentences.filter(row => row[0] === randomWord[0]);
+                                if (matchedSentences.length > 0) {
+                                    const sentenceHtml = matchedSentences.map(sentence => `<p>${sentence[2]} (${sentence[3]})</p>`).join('');
+                                    document.getElementById("sentenceContainer").innerHTML = sentenceHtml;
+                                } else {
+                                    document.getElementById("sentenceContainer").innerText = "No sentences found.";
+                                }
+                            });
+                        window.location.href = `https://chineseffect.com/chfx/words.html?page=${randomWord[0]}`;
+                    }
+                });
+        }
+        document.getElementById("prevWord").addEventListener("click", () => {
+            if (previousWord) {
+                window.location.href = `https://chineseffect.com/chfx/words.html?page=${previousWord}`;
+            }
+        });
+        document.getElementById("nextWord").addEventListener("click", () => {
+            window.location.href = `https://chineseffect.com/chfx/randomWord.html`;
+        });
+    </script>
+</body>
+</html>
