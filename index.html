@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-HHS3WLV6EH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HHS3WLV6EH');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chineseffect</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: #0a0a12;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  /* ── Splash UI ── */
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 24px;
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.4s ease;
+  }
+  .wrap.fade-out { opacity: 0; pointer-events: none; }
+
+  .char {
+    font-size: 72px;
+    line-height: 1;
+    color: #fff;
+    animation: charPulse 2.8s ease-in-out infinite;
+  }
+  @keyframes charPulse {
+    0%, 100% { opacity: 0.7;  text-shadow: 0 0 0px rgba(255,255,255,0); }
+    50%       { opacity: 1;    text-shadow: 0 0 28px rgba(255,255,255,0.35); }
+  }
+
+  .wordmark {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    color: rgba(255,255,255,0.9);
+  }
+  .wordmark b { font-weight: 700; }
+
+  .message {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.5);
+    max-width: 270px;
+  }
+  .message strong {
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .bar-track {
+    width: 180px;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    width: 0%;
+    background: rgba(255,255,255,0.65);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .status {
+    font-size: 11px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+    min-height: 1.5em;
+  }
+
+  /* ── Hidden iframe that loads the real page in the background ── */
+  #mainFrame {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  #mainFrame.reveal {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── Cookie Banner ── */
+  #cookieBanner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10, 10, 18, 0.92);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    transform: translateY(100%);
+    animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+  }
+  @keyframes slideUp {
+    to { transform: translateY(0); }
+  }
+
+  #cookieBanner.dismissed {
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.55, 0, 1, 0.45);
+    pointer-events: none;
+  }
+  #cookieBanner.gone {
+    display: none;
+  }
+
+  .cookie-text {
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.42);
+    max-width: 560px;
+    flex: 1;
+  }
+  .cookie-text strong {
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+  }
+  .cookie-text em {
+    font-style: normal;
+    color: rgba(255,255,255,0.28);
+  }
+
+  .cookie-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .btn-cookie {
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s, background 0.2s;
+  }
+  .btn-cookie:hover { opacity: 0.8; }
+
+  .btn-accept {
+    background: rgba(255,255,255,0.9);
+    color: #0a0a12;
+    font-weight: 600;
+  }
+  .btn-decline {
+    background: transparent;
+    color: rgba(255,255,255,0.25);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-weight: 400;
+  }
+  .btn-decline:hover {
+    color: rgba(255,255,255,0.45);
+    border-color: rgba(255,255,255,0.15);
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- Splash UI — visible immediately -->
+<div class="wrap" id="splash">
+  <div class="char">&#x6587;</div>
+  <div class="wordmark">chines<b>effect</b></div>
+  <div class="message">
+    <strong>Chineseffect</strong> is a sophisticated learning system.<br>
+    Please hold while it loads for you.
+  </div>
+  <div class="bar-track"><div class="bar-fill" id="bar"></div></div>
+  <div class="status" id="status">Initialising&hellip;</div>
+</div>
+
+<!-- Main page loads silently here in the background -->
+<iframe id="mainFrame" src="/chfx/chfxNavigation2026.html"></iframe>
+
+<!-- Cookie Banner -->
+<div id="cookieBanner">
+  <div class="cookie-text">
+    <strong>The cookies thing.</strong> Yes, this site uses cookies.
+    They are needed so the app works properly.
+    Please agree to them so we can start having fun together.
+  </div>
+  <div class="cookie-actions">
+    <button class="btn-cookie btn-decline" id="btnDecline">Decline &amp; leave</button>
+    <button class="btn-cookie btn-accept" id="btnAccept">Fine. Agreed.</button>
+  </div>
+</div>
+
+<script>
+  const splash        = document.getElementById('splash');
+  const frame         = document.getElementById('mainFrame');
+  const bar           = document.getElementById('bar');
+  const status        = document.getElementById('status');
+  const cookieBanner  = document.getElementById('cookieBanner');
+  const btnAccept     = document.getElementById('btnAccept');
+  const btnDecline    = document.getElementById('btnDecline');
+
+  let frameReady  = false; // true when chfxReady() has been called
+  let cookiesOk   = localStorage.getItem('chfx_cookies_ok') === '1'; // persisted consent
+  let done        = false;
+
+  // If already consented, hide the banner immediately (no animation needed)
+  if (cookiesOk) {
+    cookieBanner.classList.add('gone');
+  }
+
+  // Progress bar advances while the real page loads in the background
+  const stages = [
+    { pct: 18,  delay: 300,   label: 'Connecting\u2026' },
+    { pct: 42,  delay: 1400,  label: 'Fetching journey data\u2026' },
+    { pct: 65,  delay: 3500,  label: 'Loading your progress\u2026' },
+    { pct: 80,  delay: 7000,  label: 'Almost there\u2026' },
+    { pct: 91,  delay: 12000, label: 'Finishing up\u2026' },
+  ];
+  stages.forEach(({ pct, delay, label }) => {
+    setTimeout(() => {
+      if (done) return;
+      bar.style.width = pct + '%';
+      status.textContent = label;
+    }, delay);
+  });
+
+  // Reveal the app — only if BOTH the frame is ready AND cookies are accepted
+  function maybeReveal() {
+    if (done || !frameReady || !cookiesOk) return;
+    done = true;
+
+    bar.style.width = '100%';
+    status.textContent = 'Ready!';
+
+    setTimeout(() => {
+      splash.classList.add('fade-out');
+      frame.classList.add('reveal');
+    }, 300);
+  }
+
+  // Called by the main page (inside the iframe) when it's fully ready
+  window.chfxReady = function () {
+    frameReady = true;
+    // If we're still waiting on the user, nudge them
+    if (!cookiesOk && !done) {
+      bar.style.width = '100%';
+      status.textContent = 'Please agree to the cookies below.';
+    }
+    maybeReveal();
+  };
+
+  // Hard fallback — mark frame as ready after 22 s regardless
+  setTimeout(() => {
+    frameReady = true;
+    if (!cookiesOk && !done) {
+      bar.style.width = '100%';
+      status.textContent = 'Please agree to the cookies below.';
+    }
+    maybeReveal();
+  }, 22000);
+
+  // Cookie banner interactions
+  btnAccept.addEventListener('click', () => {
+    cookiesOk = true;
+    localStorage.setItem('chfx_cookies_ok', '1');
+    cookieBanner.classList.add('dismissed');
+    cookieBanner.addEventListener('transitionend', () => cookieBanner.classList.add('gone'), { once: true });
+    maybeReveal();
+  });
+
+  btnDecline.addEventListener('click', () => {
+    cookieBanner.classList.add('dismissed');
+    cookieBanner.addEventListener('transitionend', () => cookieBanner.classList.add('gone'), { once: true });
+    setTimeout(() => {
+      window.close();
+      document.body.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;color:rgba(255,255,255,0.25);background:#0a0a12;font-size:13px;letter-spacing:0.05em;">tab closed (or it refused — browsers are like that)</div>';
+    }, 450);
+  });
+</script>
+
+</body>
+</html>
