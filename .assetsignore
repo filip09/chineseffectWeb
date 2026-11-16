@@ -1,0 +1,8 @@
+.git
+.gitignore
+.htaccess
+.htaccessX
+.user.ini
+cgi-bin
+tmp
+*.php
