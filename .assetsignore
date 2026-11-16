@@ -6,3 +6,7 @@
 cgi-bin
 tmp
 *.php
+SS
+__MACOSX
+*.aif
+*.aiff
